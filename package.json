@@ -1,0 +1,23 @@
+{
+	"name": "toh",
+	"version": "0.0.1",
+	"main": "app.js",
+	"dependencies": {
+		"body-parser": "*",
+		"cookie-parser": "*",
+		"ejs": "*",
+		"express": "*",
+		"express-session": "*",
+		"mysql": "*",
+		"bookshelf": "*",
+		"knex": "*",
+		"passport": "*",
+		"passport-local": "*",
+		"bcrypt-nodejs": "*",
+		"moment":"*",
+		"connect-multiparty":"*",
+		"promise": "*",
+		"nodemailer":"*",
+		"nodemailer-smtp-transport":"*"
+	}
+}
