@@ -1,0 +1,65 @@
+<div class="loggedInContainer">
+    <header ng-include="'/content/login_access/header.html'"></header>
+  <section class="subPageWrapper">
+  
+    <div class="subPageInnerWrapper">
+      <h1>My ads</h1>
+      
+      <!-- User ads retrieved from database-->
+      <table width="80%" border="0" cellpadding="5px" class="adsTable">
+        <colgroup>
+          <col style="width:40%">
+            <col style="width:30%">
+            <col style="width:30%">
+        </colgroup>
+        
+        <!-- a tbody is created dynamically for each object a user creates. Data is retreived from database and displayed in span tags accordingly-->
+        <tbody ng-repeat="ad in ads">
+          <tr>
+            <th>
+            <span id="adCategory" ng-if="ad.adType == 'letting'">For Searching</span>
+            <span id="adCategory" ng-if="ad.adType == 'renting'">For Renting</span>
+            </th><!-- category For rent or Searching -->
+            <th><span id="adID">Ad ID #{{ad.id}}</span></th><!-- ad identification number -->
+            <th></th>
+          </tr>
+          <tr>
+            <td><span id="city">{{ad.adData.state}}</span><br><!-- City -->
+            <span id="type">{{ad.adData.accommodationType}}</span><br><!-- object type (e.g apartment, student room, etc.) -->
+            <span id="size">{{ad.adData.minSize}}</span> Sqm<br><!-- object size -->
+            <span id="price">{{ad.adData.price}}</span> SEK/month<!-- Price per month -->
+            </td>
+            <td><img src="imgs/objects/dummy1.jpg" width="150" alt="Apartment placeholder"><img src="imgs/objects/dummy1.jpg" width="150" alt="Apartment placeholder"></td><!-- Should retreive and display picture(s) of object from database -->
+            <td>
+            <form name="deleteAdForm"><!-- where to send user when button is clicked (to be developed) action="deleteAd.html"-->
+            <button name="deleteAdBtn" id="deleteAdBtn" type="submit" value="Delete" class="adTableBtn" ng-click="delete_ad(ad.adData.id);">Delete</button> <!-- Remove ad -->
+            </form>
+            <br><br>
+            <form name="editAdForm"><!-- redirected to the edit page where data should be retreived from database. If ad is a Searching type, then redirect to editFindAd.html. If type is Rent out, then redirect to editRentOutAd.html -->
+              <button name="editAdBtn" id="editAdBtn" type="submit" value="Edit" class="adTableBtn" ng-click="edit_ad(ad.adType,ad.adData.id);">Edit</button></td><!-- Edit ad -->
+            </form>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="adBtnsWrapper">
+        <h3>Create new ad</h3>
+        <form action="#find_home" id="createSearchAdLink" class="fltlft">
+          <button type="submit" name="searchBtn" tabindex="1" class="fixedWidthBtn">Find</button>
+        </form>
+        <form action="#rent_home" id="createRentOutAdLink">
+          <button type="submit" name="rentBtn" tabindex="2" class="fixedWidthBtn">Rent out</button>
+        </form>
+<!--
+        <form name="find_home" class="fltlft">
+          <button type="submit" name="searchBtn" tabindex="1" class="fixedWidthBtn" ng-click="find_home();">Find</button>
+        </form>
+        <form name="rent_home">
+          <button type="submit" name="rentBtn" tabindex="2" class="fixedWidthBtn" ng-click="rent_home();">Rent out</button>
+        </form>-->
+      </div>
+
+    </div><!-- end .subPageInnerWrapper -->
+    
+  </section><!-- end .subPageWrapper -->
+</div><!-- end .regContainer -->

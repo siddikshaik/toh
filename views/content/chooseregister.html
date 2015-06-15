@@ -1,0 +1,45 @@
+<!-- This page gives user the option to register as a private user or register as a corporate user -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Register as private or corporate? | Tak Över Huvudet</title>
+<link href="../css/boilerplate.css" rel="stylesheet" type="text/css">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script src="../js/respond.min.js" type="text/javascript"></script>
+<script src="../js/prefixfree.min.js" type="text/javascript"></script>
+
+<script src="/js/jquery-1.11.2.js"></script>
+
+<script src="/js/takoverhuvudet.js" type="text/javascript"></script>
+
+
+</head>
+
+<body>
+
+<div class="regContainer">
+  <header>
+     <nav>
+     	<ul>
+        	<a href="../index.html" title="Back to home"><li>Home</li></a> <!-- Link back to index page -->
+        </ul>
+     </nav>
+  </header><!-- end .header -->
+  <section class="subPageWrapper">
+  	<div class="subPageInnerWrapper">
+      <div class="regOptionBtnWrapper">
+        <h1>Choose private or corporate</h1>
+        
+        <!-- Buttons works just like ordinary links with inline redirect script -->
+        <button type="button" class="formBtn" value="Private" tabindex="1" onClick="window.location.href='register.html';">Private</button>
+        <button type="button" class="formBtn" value="Corporate" tabindex="2" onClick="window.location.href='registerBusiness.html';">Corporate</button>
+        
+      </div>
+    </div><!-- end .subPageInnerWrapper -->
+  </section><!-- end .subPageWrapper -->
+</div><!-- end .regContainer -->
+
+</body>
+</html>

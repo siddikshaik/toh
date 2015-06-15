@@ -1,0 +1,26 @@
+{
+"fields" :["state","municipality"],
+"values":{
+    "norrbotten":["arjeplog", "arvidsjaur", "boden", "gallivare", "haparanda", "jokkmokk", "kalix", "kiruna", "lulea", "pajala", "pitea", "alvsbyn", "overkalix", "overtornea"],
+    "vasterbotten":["bjurholm", "dorotea", "lycksele", "mala", "nordmaling", "norsjo", "robertsfors", "skelleftea", "sorsele", "storuman", "umea", "vilhelmina", "vindeln", "vannas", "asele"],
+    "jamtland":["bergs", "bracke", "harjedalen", "krokom", "ragunda", "stromsund", "are", "ostersund"],
+    "vasternorrland":["harnosand", "kramfors", "solleftea", "sundsvall", "timra", "ange", "ornskoldsvik"],
+    "gavleborg":["bollnas", "gavle", "hofors", "hudiksvall", "ljusdal", "nordanstig", "ockelbo", "ovanaker", "sandviken", "soderhamn"],
+    "dalarna":["avesta", "borlange", "falu", "gagnef", "hedemora", "leksand", "ludvika", "malung-salen", "mora", "orsa", "rattvik", "smedjebacken", "sater", "vansbro", "alvdalen"],
+    "varmland":["arvika", "eda", "filipstad", "forshaga", "grum", "hagfors", "hammaro", "karlstad", "kil", "kristinehamn", "munkfors", "storfors", "sunne", "saffle", "torsby", "arjang"],
+    "orebro":["askersund", "degerfors", "hallsberg", "hallefors", "karlskoga", "kumla", "laxa", "lekeberg", "lindesberg", "ljusnarsberg", "nora", "orebro"],
+    "vastmanland":["arboga", "fagersta", "hallstahammar", "kungsor", "koping", "norberg", "sala", "skinnskatteberg", "surahammar", "vasteras"],
+    "uppsala":["enkoping", "heby", "haobo", "knivsta", "tierp", "uppsala", "alvkarleby", "osthammar"],
+    "stockholm":["botkyrka", "danderyd", "ekero", "haninge", "huddinge", "jarfalla", "lidingo", "nacka", "norrtalje", "nykvarn", "nynashamn", "salem", "sigtuna", "sollentuna", "solna", "stockholm", "sundbyberg", "sodertalje", "tyreso", "taby", "upplands-bro", "upplands-vasby", "vallentuna", "vaxholm", "varmdo", "osteraker"],
+    "sodermanland":["eskilstuna", "flen", "gnesta", "katrineholm", "nykoping", "oxelosund", "strangnas", "trosa", "vingaker"],
+    "ostergotland":["boxholm", "finspang", "kinda", "linkoping", "mjolby", "motala", "norrkoping", "soderkoping", "vadstena", "valdemarsvik", "ydre", "atvidaberg", "odeshog"],
+    "vastra_gotaland": ["ale", "alingsas", "bengtsfors", "bollebygd", "boras", "dals-ed", "essunga", "falkoping", "fargelanda", "grastorp", "gullspang", "goteborg", "gotene", "herrljunga", "hjo", "harryda", "karlsborg", "kungalv", "lerum", "lidkoping", "lilla-edet", "lysekil", "mariestad", "mark", "mellerud", "munkedal", "molndal", "orust", "partille", "skara", "skovde", "sotenas", "stenungsund", "stromstad", "svenljunga", "tanum", "tibro", "tidaholm", "tjorn", "tranemo", "trollhattan", "toreboda", "uddevalla", "ulricehamn", "vara", "vargarda", "vanersborg", "amal", "ockero"],
+    "jonkoping": ["aneby", "eksjo", "gislaved", "gnosjo", "habo", "jonkoping", "mullsjo", "nassjo", "savsjo", "tranas", "vaggeryd", "vetlanda", "varnamo"],
+    "halland": ["falkenberg", "halmstad", "hylte", "kungsbacka", "laholm", "varberg"],
+    "kronoberg": ["alvesta", "lessebo", "ljungby", "markaryd", "tingsryd", "uppvidinge", "vaxjo", "almhult"],
+    "skane": ["bjuv", "bromolla", "burlov", "bastad", "eslov", "helsingborg", "hassleholm", "hoganas", "horby", "hoor", "klippan", "kristianstad", "kavlinge", "landskrona", "lomma", "lund", "malmo", "osby", "perstorp", "simrishamn", "sjobo", "skurup", "staffanstorp", "svalov", "svedala", "tomelilla", "trelleborg", "vellinge", "ystad", "astorp", "angelholm", "orkelljunga", "ostra-goinge"],
+    "blekinge": ["karlshamn", "karlskrona", "olofstrom", "ronneby", "solvesborg"],
+    "kalmar": ["borgholm", "emmaboda", "hultsfred", "hogsby", "kalmar", "monsteras", "morbylanga", "nybro", "oskarshamn", "torsas", "vimmerby", "vastervik"],
+    "gotland": ["gotland"]
+   }
+}

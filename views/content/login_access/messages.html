@@ -1,0 +1,534 @@
+<!-- This page is where all messages to the user will be displayed. Data from the database should be retreived and displayed. -->
+<!-- The tables that will display information about the proposal must be created dynamically. There are 4 types of proposal tables, all depending on who the receiver/logged in user is and who the other part is (private or corporation). 1: Private person landlord, 2: Private person searcher, 3: Corporation landlord, and 4: Corporation searcher. So when there is a match between two ads, the right tables must be created. The tables are of course only visible if there is a match/message to the logged in user. 
+
+There is also a fifth table that the landlord receives if the searcher accepts the offer, containing the searchers contact information. This one also created dynamically and upon searchers acceptance of an offer. As soon the searcher accepts, this table message should be delivered to the landlord. 
+
+Cells with $value is where data from database is to be insertet 
+
+When a user clicks Accept on a message, that message should still be left in the message stack and visible to the user. But one of the buttons should change text to saying Delete, so that the user can delete a message whenever they want. When they delete a message, then it should be completely removed from the site. Same thing should happen if a user clicks Deny, the message is still there but with one Delete button. -->
+
+<div class="loggedInContainer">
+    <header ng-include="'/content/login_access/header.html'"></header>
+  <section class="subPageWrapper">
+  
+  	<div class="subPageInnerWrapper">
+      <h1>My messages</h1>
+      
+      <!-- This table is to be filled with data from database. It is shown for the landlord and the searcher is a private person. -->
+      <table width="100%" border="0" class="toLandlordTable">
+      <tbody>
+        <caption>
+          <p>You have received a proposal to ad <span id="adID">#0001<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
+        </caption>
+        <tr>
+          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
+          <td width="35%" colspan="2">Name</td>
+          <td width="4%">&nbsp;</td>
+          <td width="20%">Type of accommodation</td>
+          <td width="20%">Rooms</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">$name + $familyname</td>
+          <td>&nbsp;</td>
+          <td>$accType</td>
+          <td>$rooms</td>
+        </tr>
+        <tr>
+      
+          <td width="9%">Gender</td>
+          <td width="9%">Age</td>
+          <td>&nbsp;</td>
+          <td>State</td>
+          <td>Municipality</td>
+        </tr>
+        <tr>
+      
+          <td>$gender</td>
+          <td>$age</td>
+          <td>&nbsp;</td>
+          <td>$state</td>
+          <td>$municipality</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">Occupation</td>
+          <td>&nbsp;</td>
+          <td>Area</td>
+          <td>Contract</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">$occupation</td>
+          <td>&nbsp;</td>
+          <td>$area</td>
+          <td>$contract</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">Allergic?</td>
+          <td>&nbsp;</td>
+          <td>Maximum price (SEK)</td>
+          <td>Minimum size</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">$haveAllergy</td>
+          <td>&nbsp;</td>
+          <td>$maxPrice per $period</td>
+          <td>$minSize</td>
+        </tr>
+        <tr>
+          <td colspan="2">Against what?</td>
+          <td>&nbsp;</td>
+          <td>Access date</td>
+          <td>For how long</td>
+        </tr>
+        <tr>
+          <td colspan="2">$allergy</td>
+          <td>&nbsp;</td>
+          <td>$date</td>
+          <td>$timeRent</td>
+        </tr>
+        <tr>
+          <td colspan="3">Who is this?</td>
+          <td>&nbsp;</td>
+          <td>Balcony/terrace</td>
+          <td>Floor</td>
+        </tr>
+        <tr>
+          <td colspan="3" rowspan="5">$personalDetails</td>
+          <td>&nbsp;</td>
+          <td>$balcony</td>
+          <td>$floor</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Furnished</td>
+          <td>Elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>$furnished</td>
+          <td>$elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><form action="acceptProposal.html" name="acceptForm">
+          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
+              </form></td>
+          <td><form action="denyProposal.html" name="denyForm">
+          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
+              </form></td>
+        </tr>
+  </tbody>
+</table>
+
+<!-- This table is to be filled with data from database. It is shown for the Searcher and the landlord is a private person. -->
+<table width="100%" border="0" class="toSearcherTable">
+      <tbody>
+        <caption>
+          <p>You have received a proposal to ad <span id="adID">#0034<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
+        </caption>
+        <tr>
+          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
+          <td width="35%" colspan="2">Name</td>
+          <td width="4%">&nbsp;</td>
+          <td width="20%">Type of accommodation</td>
+          <td width="20%">Rooms</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">$name + $familyname</td>
+          <td>&nbsp;</td>
+          <td>$accType</td>
+          <td>$rooms</td>
+        </tr>
+        <tr>
+      
+          <td width="9%">Gender</td>
+          <td width="9%">Age</td>
+          <td>&nbsp;</td>
+          <td>State</td>
+          <td>Municipality</td>
+        </tr>
+        <tr>
+      
+          <td>$gender</td>
+          <td>$age</td>
+          <td>&nbsp;</td>
+          <td>$state</td>
+          <td>$municipality</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">Occupation</td>
+          <td>&nbsp;</td>
+          <td>Area</td>
+          <td>Contract</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">$occupation</td>
+          <td>&nbsp;</td>
+          <td>$area</td>
+          <td>$contract</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">Allergic?</td>
+          <td>&nbsp;</td>
+          <td>Price (SEK)</td>
+          <td>Minimum size</td>
+        </tr>
+        <tr>
+      
+          <td colspan="2">$haveAllergy</td>
+          <td>&nbsp;</td>
+          <td>$price per $period</td>
+          <td>$minSize</td>
+        </tr>
+        <tr>
+          <td colspan="2">Against what?</td>
+          <td>&nbsp;</td>
+          <td>Access date</td>
+          <td>For how long</td>
+        </tr>
+        <tr>
+          <td colspan="2">$allergy</td>
+          <td>&nbsp;</td>
+          <td>$date</td>
+          <td>$timeRent</td>
+        </tr>
+        <tr>
+          <td colspan="3">Renting?</td>
+          <td>&nbsp;</td>
+          <td>Balcony/terrace</td>
+          <td>Floor</td>
+        </tr>
+        <tr>
+          <td colspan="3" rowspan="4">$objectDetails</td>
+          <td>&nbsp;</td>
+          <td>$balcony</td>
+          <td>$floor</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Furnished</td>
+          <td>Elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>$furnished</td>
+          <td>$elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+          <div class="tablePic"><img name="img_1" src="" width="50" height="50" alt="No img"></div>
+          <div class="tablePic"><img name="img_2" src="" width="50" height="50" alt="No img"></div>
+          <div class="tablePic"><img name="img_3" src="" width="50" height="50" alt="No img"></div>
+          </td>
+          <td>&nbsp;</td>
+          <td><form action="acceptProposal.html" name="acceptForm">
+          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
+              </form></td>
+          <td><form action="denyProposal.html" name="denyForm">
+          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
+              </form></td>
+        </tr>
+  </tbody>
+</table>
+
+<!-- This table is to be filled with data from database. It is shown for the landlord and the Searcher is a corporation. -->
+      <table width="100%" border="0" class="toLandlordTable">
+      <tbody>
+        <caption>
+          <p>You have received a proposal to ad <span id="adID">#0777<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
+        </caption>
+        <tr>
+          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
+          <td width="26%">Corporation name</td>
+          <td width="5%">&nbsp;</td>
+          <td width="24%">Type of accommodation</td>
+          <td width="24%">Rooms</td>
+        </tr>
+        <tr>
+      
+          <td>$corporationName</td>
+          <td>&nbsp;</td>
+          <td>$accType</td>
+          <td>$rooms</td>
+        </tr>
+        <tr>
+      
+          <td>Corporation ID number</td>
+          <td>&nbsp;</td>
+          <td>State</td>
+          <td>Municipality</td>
+        </tr>
+        <tr>
+      
+          <td>$corporationID</td>
+          <td>&nbsp;</td>
+          <td>$state</td>
+          <td>$municipality</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>Area</td>
+          <td>Contract</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>$area</td>
+          <td>$contract</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>Maximum price (SEK)</td>
+          <td>Minimum size</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>$maxPrice per $period</td>
+          <td>$minSize</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>Access date</td>
+          <td>For how long</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>$date</td>
+          <td>$timeRent</td>
+        </tr>
+        <tr>
+          <td colspan="2">Who is this?</td>
+          <td>&nbsp;</td>
+          <td>Balcony/terrace</td>
+          <td>Floor</td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="5">$corporationDetails</td>
+          <td>&nbsp;</td>
+          <td>$balcony</td>
+          <td>$floor</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Furnished</td>
+          <td>Elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>$furnished</td>
+          <td>$elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><form action="acceptProposal.html" name="acceptForm">
+          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
+              </form></td>
+          <td><form action="denyProposal.html" name="denyForm">
+          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
+              </form></td>
+        </tr>
+  </tbody>
+</table>
+
+
+<!-- This table is to be filled with data from database. It is shown for the Searcher and the landlord is a corporation. -->
+<table width="100%" border="0" class="toSearcherTable">
+      <tbody>
+        <caption>
+          <p>You have received a proposal to ad <span id="adID">#0078<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
+        </caption>
+        <tr>
+          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
+          <td width="26%">Corporation name</td>
+          <td width="5%">&nbsp;</td>
+          <td width="24%">Type of accommodation</td>
+          <td width="24%">Rooms</td>
+        </tr>
+        <tr>
+      
+          <td>$corporationName</td>
+          <td>&nbsp;</td>
+          <td>$accType</td>
+          <td>$rooms</td>
+        </tr>
+        <tr>
+      
+          <td>Corporation ID number</td>
+          <td>&nbsp;</td>
+          <td>State</td>
+          <td>Municipality</td>
+        </tr>
+        <tr>
+      
+          <td>$corporationID</td>
+          <td>&nbsp;</td>
+          <td>$state</td>
+          <td>$municipality</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>Area</td>
+          <td>Contract</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>$area</td>
+          <td>$contract</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>Price (SEK)</td>
+          <td>Minimum size</td>
+        </tr>
+        <tr>
+      
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>$price per $period</td>
+          <td>$minSize</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>Access date</td>
+          <td>For how long</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>$date</td>
+          <td>$timeRent</td>
+        </tr>
+        <tr>
+          <td colspan="2">Renting?</td>
+          <td>&nbsp;</td>
+          <td>Balcony/terrace</td>
+          <td>Floor</td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="4">$objectDetails</td>
+          <td>&nbsp;</td>
+          <td>$balcony</td>
+          <td>$floor</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Furnished</td>
+          <td>Elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>$furnished</td>
+          <td>$elevator</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+          <div class="tablePic"><img name="img_1" src="" width="50" height="50" alt="No img"></div>
+          <div class="tablePic"><img name="img_2" src="" width="50" height="50" alt="No img"></div>
+          <div class="tablePic"><img name="img_3" src="" width="50" height="50" alt="No img"></div>
+          </td>
+          <td>&nbsp;</td>
+          <td><form action="acceptProposal.html" name="acceptForm">
+          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
+              </form></td>
+          <td><form action="denyProposal.html" name="denyForm">
+          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
+              </form></td>
+        </tr>
+  </tbody>
+</table>
+
+<!-- This table is created and displayed for the landlord when the searcher has approved the landlords offer. It contains contact information details about the searcher. Data about the searchers should be retreived from database and displayed. Also the landlords ad id number must be retreived and displayed in the caption span tag. -->
+<table width="100%" border="0" class="approvalTable">
+  <caption>
+    <p>You have received an approval on ad <span id="adID">#</span></p>
+  </caption>
+  <tr>
+    <td width="21%" rowspan="8"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
+    <td width="35%">Name/corporation name</td>
+    <td width="44%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>$fullName or $corporationName</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>E-mail</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>$email</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Phone</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>$phone</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2">Who is this?</td>
+    <td>Reminder!</td>
+  </tr>
+  <tr>
+    <td colspan="2">$personalDetails or $corporationDetails</td>
+    <td>You have now received the applicants’ contact information and it is now your responsibility to contact him/her as quickly as possible with more information about the accommodation! :)</td>
+  </tr>
+  </table>
+
+
+    
+      <div class="clearfloat"></div>
+    </div><!-- end .subPageInnerWrapper -->
+    
+  </section><!-- end .subPageWrapper -->
+</div><!-- end .loggedInContainer -->

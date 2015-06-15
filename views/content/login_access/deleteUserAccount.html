@@ -1,0 +1,17 @@
+<section class="subPageWrapper">
+  
+  	<div class="subPageInnerWrapper">
+      <h1>Are you sure you want to delete your account?</h1>
+      <p>By clicking Confirm all your data will be erased from our database and you will no longer be able to use our services with this account.</p>
+      
+      <form name="backToProfileForm" class="fltlft">
+      	<button type="submit" name="backToProfileBtn" id="backToProfileBtn" class="formBtn" ng-click="myprofile();">No, go back to my profile</button><!-- If user pres this button he/she will be taken back to the profile page. So the se3ssion has to keep track of the profile to know if the user is a corporation or provate person. In this stage I dont know which of the two profile pages category I will send them back to. For the wireframe and flowchart sake I have set it to private person profile. -->
+      </form>
+      
+      <form name="deleteAccountForm" class="fltlft">
+      	<button type="submit" name="deleteAccountBtn" id="deleteAccountBtn" class="formBtn" ng-click="confirm_delete_profile();">Confirm</button><!-- WHen user press this button the user account should be deleted and a confirmation email shall be sent to user. User will then be redirected to index page of whole site -->
+      </form>
+      <div class="clearfloat"></div>
+    </div><!-- end .subPageInnerWrapper -->
+    
+  </section><!-- end .subPageWrapper -->

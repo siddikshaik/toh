@@ -1,6 +1,9 @@
 {
 	"name": "toh",
 	"version": "0.0.1",
+	"scripts": {
+	  "start": "supervisor server.js"
+	},
 	"main": "app.js",
 	"dependencies": {
 		"body-parser": "*",

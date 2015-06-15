@@ -1,0 +1,651 @@
+@charset "utf-8";
+
+/* paragraph font */
+@import url(http://fonts.googleapis.com/css?family=Questrial);
+
+/* headings font */
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
+
+/*Curvy font for company slogan*/
+@font-face{ 
+	font-family: 'Tangerine';
+	src: url('../fonts/tangerine_regular-webfont.eot');
+	src: url('../fonts/tangerine_regular-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/tangerine_regular-webfont.woff') format('woff'),
+	     url('../fonts/tangerine_regular-webfont.ttf') format('truetype'),
+	     url('../fonts/tangerine_regular-webfont.svg#webfont') format('svg');
+}
+* {
+	transition:all 0.5s !important;
+}
+body {
+	font: 16px 'Questrial', Calibri, sans-serif !important;
+	background-color: #C5EBBF;
+	margin: 0;
+	padding: 0;
+	color: #FFFFFF;
+}
+body.denyBckgr {
+	background-color:#FBC5AA;
+}
+
+/* ~~ Element/tag selectors ~~ */
+ul, ol, dl { /* Due to variations between browsers, it's best practices to zero padding and margin on lists. For consistency, you can either specify the amounts you want here, or on the list items (LI, DT, DD) they contain. Remember that what you do here will cascade to the .nav list unless you write a more specific selector. */
+	padding: 0;
+	margin: 0;
+}
+h1, h2, h3, h4, h5, h6, p {
+	margin-top: 0;	 /* removing the top margin gets around an issue where margins can escape from their containing div. The remaining bottom margin will hold it away from any elements that follow. */
+	padding-right: 15px;
+	padding-left: 15px; /* adding the padding to the sides of the elements within the divs, instead of the divs themselves, gets rid of any box model math. A nested div with side padding can also be used as an alternate method. */
+	letter-spacing:0.05em;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Oswald', sans-serif;
+	font-weight:400;
+	color: white;
+}
+p {
+	font-size:1.1em;
+	line-height:1.2;
+}
+a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
+	border: none;
+}
+
+/* ~~ Styling for your site's links must remain in this order - including the group of selectors that create the hover effect. ~~ */
+a:link {
+	text-decoration:none;
+	color:#FFFFFF;
+}
+a:visited {
+	color: #FFFFFF;
+}
+a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
+	color: #336600;
+}
+select, option {
+	color:#999;
+}
+#hoverMap:hover { /* cursor is set to default because its containing hotspots does not have any functionality. If functionality is implemented in future, this code can be removed */
+	cursor:default;
+}
+/* ~~ this container surrounds all other divs giving them their percentage-based width ~~ */
+.indexContainer, .publicBckgr {
+	min-width: 100%;
+	max-width: 2800px;/* a max-width may be desirable to keep this layout from getting too wide on a large monitor. This keeps line length more readable. IE6 does not respect this declaration. */
+	background:url(../img/lookingonhouses-blurred.png) no-repeat right bottom fixed;
+	background-size:cover;
+}
+
+/*Removes the default browser render style of placeholder text color*/
+::-webkit-input-placeholder, :-moz-placeholder, ::-moz-placeholder, :-ms-input-placeholder {
+	color:#999 !important;
+}
+:-moz-placeholder { /*Firefox 18-*/
+	color:#999 !important;
+}
+::-moz-placeholder { /*Firefox 19+*/
+	color:#999 !important;
+}
+:-ms-input-placeholder {
+	color:#999 !important;
+}
+/*universal style for buttons, both of type submit and button*/
+button[type="submit"], button[type="button"], button[type="reset"] {
+	height: 30px;
+	padding:0 16px;
+	margin-left:50px;
+	color:white;
+	line-height:1.5;
+	background-color:transparent;
+	border:2px solid white;
+	border-radius:3px;
+	font-family:'Questrial',sans-serif;
+}
+button[type="submit"]:hover, button[type="button"]:hover, button[type="reset"]:hover, button[type="submit"]:active, button[type="button"]:active, button[type="reset"]:active, button[type="submit"]:focus, button[type="button"]:focus, button[type="reset"]:focus {
+	background-color:white;
+	color:#360;
+}
+
+/* ~~ This is the layout information. ~~ 
+
+1) Padding is only placed on the top and/or bottom of the div. The elements within this div have padding on their sides. This saves you from any "box model math". Keep in mind, if you add any side padding or border to the div itself, it will be added to the width you define to create the *total* width. You may also choose to remove the padding on the element in the div and place a second div within it with no width and the padding necessary for your design.
+
+*/
+.indexContent {
+	width:100%;
+	padding: 0.001em 0 0 0; /* Firefox bug fix, 0.001em removes strange white space area on top of pages */
+}
+.leftBlock {
+	width:30%;
+	margin:0 0 0 18%;
+	padding:50px 0 50px;
+}
+.leftBlock img {
+	width:250px;
+}
+.rightBlock {
+	background-color: rgba(94, 172, 59, 0.9);
+	width:442px;
+	margin:0;
+	padding:0;
+}
+.rightBlock figure {
+	width:70%;
+	margin: 50px auto 10px;
+	overflow:hidden;
+}
+.rightBlock figure img {
+	width:100%;
+}
+.slogan h2 {
+	font-family: 'Tangerine', Calibri, sans-serif;
+	font-size: 2em;
+	text-align:center;
+}
+.fieldTypes {
+	width:40%;
+}
+.fieldTypes p {
+	text-align:right;
+	margin-top:5px;
+	margin-bottom:18px;
+}
+.rightBlock .loginBlock .fieldTypes p:last-child {
+	text-align:left;
+	padding-left:40px;
+	margin-bottom:0;
+}
+.rightBlock .loginBlock .fieldTypes p small a {
+	color:#360;
+	font-size:0.8em;
+}
+.rightBlock .loginBlock #loginForm {
+	float:left;
+	width:60%;
+}
+.txtInput {
+	height:22px;
+	width:200px;
+	border-radius:5px;
+	padding-left:5px;
+	background-color: white;
+	font-size:0.8em;
+	line-height:2.2;
+}
+/* to make label sit on top of text fields*/
+label { 
+	display:block;
+}
+.rightBlock .loginBlock #loginForm input:nth-of-type(2), #loginForm #loginBtn {
+	margin-top:12px;
+}
+.loginSeparator {
+	box-sizing:border-box;
+	width:85%;
+	height:2px;
+	border-top:1px solid rgba(51,102,0, 0.4);
+	border-bottom:1px solid rgba(94, 172, 59, 1);
+	margin:20px auto 30px;
+}
+.registerWrapper {
+	margin-bottom: 28px;
+	overflow:hidden;
+}
+.fieldTypes {
+	width:40%;
+}
+.fieldTypes p {
+	text-align:right;
+}
+.regBtnBox {
+	width:200px;
+}
+.formBtn {
+	margin-left:30px;
+}
+
+/* ~~ This grouped selector gives the lists in the .content area space ~~ */
+.content ul, .content ol { 
+	padding: 0 15px 15px 40px; /* this padding mirrors the right padding in the headings and paragraph rule above. Padding was placed on the bottom for space between other elements on the lists and on the left to create the indention. These may be adjusted as you wish. */
+}
+
+/* ~~ The footer ~~ */
+.footer {
+	height:100%;
+	margin-top:100px;
+	padding: 0;
+	background:url(../img/footer-tak-over-huvudet.png) no-repeat center center;
+	overflow:hidden;
+}
+.linkBoxWrapper {
+	padding-top:20px;
+	padding-bottom:20px;
+	margin-bottom:50px;
+	text-align:center;
+	overflow:hidden;
+}
+.linkBox {
+	display:inline-block;
+	padding:0 7%;
+	margin:0;
+	text-align:left;
+}
+.linkBox h2 {
+	font-size:1.8em;
+	padding-top:10px;
+	margin-bottom:10px;
+}
+.linkBox p {
+	margin-bottom:5px;
+}
+
+/* ~~ Register as private or business page. Request new password page. Uses same outer wrappers as Register page ~~ */
+.regOptionBtnWrapper, .resetPasswordWrapper {
+	width:50%;
+	margin:0 auto;
+}
+.resetPasswordWrapper p {
+	padding-top:10px;
+	padding-left:0;
+}
+/* ~~ Register page styles ~~ */
+.regContainer {
+	width:100%;
+	margin:0;
+	padding:0.001em 0 0 0; /* ~~ Removes unwanted top margin that can emerge in some browsers ~~ */
+}
+.subPageWrapper {
+	width:1100px;
+	margin: 10% auto;
+	background-color:rgba(94, 172, 59, 0.9);
+	border-radius:10px;
+	overflow:hidden;
+}
+.subPageInnerWrapper {
+	width:70%;
+	margin:50px auto;
+}
+.subPageInnerWrapper h2 {
+	margin-left:0;
+	padding-left: 0;
+}
+.subPageWrapper h1 {
+	font-size:2em;
+	padding-left:0;
+}
+label.customInputBtn {
+	margin-top:18px;
+	margin-right:50px;
+	position:relative;
+	overflow:hidden;
+	height:190px;
+}
+label.customInputBtn img {
+	border-radius:3px;
+}
+label.customInputBtn small {
+	position:absolute;
+	box-sizing:border-box;
+	width:100%;
+	border:2px solid white;
+	border-radius:3px;
+	padding: 4px 8px;
+	top:160px;
+	left:0;
+	text-align:center;
+}
+label.customInputBtn small:hover {
+	background-color: white;
+	color:#360;
+}
+p#fileName {
+	width:120px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	padding-left:0;
+	font-size:small;
+}
+p#fileName:before {
+	content:"File: ";
+	font-size:small;
+}
+#uploadPicture { /* use chosen file button */
+	margin:0;
+	font-size:0.9em;
+	padding:2px 8px;
+}
+.registerForm fieldset:nth-child(2) {
+	margin-right:50px;
+}
+.registerForm fieldset input, .selectInput {
+	margin-bottom:10px;
+}
+.selectInput {
+	height:28px;
+	width:60px;
+	border-radius:5px;
+	padding-left:5px;
+	background-color: white;
+	font-size:0.8em;
+	line-height:2.2;
+	margin-right:10px;
+}
+p#gender {
+	padding-top:11px;
+	margin-bottom:0;
+}
+#gender label:nth-child(2) {
+	margin-left:25px;
+}
+
+#registerCheckboxWrapper {
+	float:right;
+	margin:15px auto;
+	font-size:0.8em;
+}
+#registerCheckboxWrapper a {
+	text-decoration:underline;
+}
+input[type="checkbox"] {
+	margin-top:1px;
+	margin-right:5px;
+}
+#regUserBtn {
+	text-align:center;
+	margin-bottom:50px;
+}
+fieldset label#responsiblePersonLabel {
+	margin-top: 54px;	
+}
+/* ~~ fixed header menu for sub pages ~~ */
+header {
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:rgba(94, 172, 59, 0.9);
+	min-width:100%;
+	box-shadow: 0 1px 3px #000;
+}
+header nav ul {
+	margin-left:50px;
+}
+header nav ul li {
+	display:inline-block;
+	padding:20px 10px;
+}
+header nav ul a:hover {
+	color:white !important;
+}
+header nav ul a:hover > li {
+	background-color:#32B8D2;
+}
+#messageLink {
+	position:relative;
+}
+#alertContainer {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjI5LjYyNXB4IiBoZWlnaHQ9IjM1LjMxM3B4IiB2aWV3Qm94PSIwIDAgMjkuNjI1IDM1LjMxMyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjkuNjI1IDM1LjMxMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgkNCgkJPGltYWdlIG92ZXJmbG93PSJ2aXNpYmxlIiBvcGFjaXR5PSIwLjc1IiB3aWR0aD0iMzAiIGhlaWdodD0iMzciIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQjRBQUFBbENBWUFBQUJWalZuTUFBQUFDWEJJV1hNQUFBc1NBQUFMRWdIUzNYNzhBQUFBDQpHWFJGV0hSVGIyWjBkMkZ5WlFCQlpHOWlaU0JKYldGblpWSmxZV1I1Y2NsbFBBQUFBNDVKUkVGVWVOckVXR3RQMnpBVVRVejZncGF1DQowb0E5K0xKcC8vOC9UUnRzMnFDalkybWJOTFozamM2ZFRsMm55ZmhDcGFQU05yN0g1ejV0Y3U5OTloS3ZvczlEdWJ6MHo1WkhubmJ2DQovME5GMFlQTWdGRGZjOXFBSnpoWjRzRHZuMFVNMGtCMGdtY0NCdmhzSW1JTDFJSW1vTThHaWdTcGdmSHcyMGd3SVl6d3ZSSUhncDJnDQpFcFNDdFdDRDc2eUdvSk9ZbEFaMXA0S1o0SlZnRG9UdmhsQ2VRZUZXOEVld0JCNndnVXJNdGFvdUVxUUZDQUxobGVDdDRJM2dRbkF1DQpHTk82SFpUZUMyNEZYMkhEd3hzK3VEMUZIcnY2Qk82Y2dmU0Q0S1BndmVBUzM0OUlNUlBQWUs5QnZOWGRyc3ZWcW5ZQ3RlOUEra2x3DQpMWGd0T0lPckRTWFdHbUZRMGhLdTUxamJKREhjbkVmRVYxQjZqVTBzeU0yYVhCYWJHWUEwRU40SmZsQ3M2eHpCUHFaNEFPSnp4UFFTDQpTaGR3NVNBcUp3Y2JIZ292OFB3Y2R2UjUyK1pxVmF3eFBnWDVESXJHTUZKRTNVdi8xalZUckp0UUxxanRQY1VtTXFKeEhtTGhpQWhODQpvbVh5aGdlMFpuaGt6UUV4R3pMVXBjeVJIaDJ2TVZGM3kvc1NhLzFaYlg5VUVyNmxFM2xhNXhMUCt5NWlIN1hBTmJCRlhkcUVJVjVUDQo0OWtLbjV1MkdtWmlOZGhnWVNpTFgyaUJLOVJtVEs3cWRpQXNxWVlyMkdwVnpPWGtZTHdFNlRjcW96R1Z4Z2p2THVyVks5VHVJNGdkDQo1MEJjeTRVT2NJeXlCdTVkb3ZlZW9VekdsT0U2S2kyRjVEZFF3c1lKTW51SU5RZGhLcUo0cVlLdysrOGdQTVVHWmpTZDhpZ3NLeWl0DQpZWE9LSnJMbEVjblQ2aDh4cVdaM2owRzRRQmRiZ056UU1LZ0FBOEpMS09iUmFTbnJmV282ZVRwTmxGQ3l4Q1k0YVJ5NXpjQUxjeHFuDQpjNFJHVzZsbWU2T3E5NGloT2lQeUxaV1ZsZ2tuamNaU3c2RkpPc2R2RzR6TXVESU9qejdrY2syMkhaMm5lTDd5VUhIVUlqMUNGRGI5DQpFKzQvNk52SGpyZHhSMkwzNW1USVJQMWNNM2dLVDR4U2ZidnJYTjFHbmtjS05KazhQR1M2anJlbUo2bWxObWdUUnhvK2tWUnc4d1pJDQpKV1RXNVdwSFpiTWhqTWtRYjBiUFlIZkFrcXBocjRrVUhXb3RuWmtmWUdnSzBpSGVOZHQzMUZCQ1VuMFczR0NOWnJUcm8xaW56cHA2DQo5emwrVzFIYjVEclZ2bjBQMGk4Z1hxdTdEenBYb3FRMFVUWlFld3VWSldyV2tFSWRueHJieCtpQXY2RnAxVXN4RDQwTUJtNFE0NHcyDQpWdEZadXFZeHlWY2FkekNkT3NocnFISXdNcUdUcFhhNE9rcXloaTl4Y1VZL05ZSmpOOHJvMWppSUdnV1htcVdzZFZIdEorOVBlZGRWDQpsZzc3ZktETEV2ZGpucmVkRi9XODd5V2VMdXBaZkU3MnovaC9SdjVTL3dQNUs4QUE1cTN5QW5IU0pWd0FBQUFBU1VWT1JLNUNZSUk9IiB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDAuNjI1IC0wLjQzNzUpIj4NCgk8L2ltYWdlPg0KCTxnPg0KCQk8Zz4NCgkJCTxsaW5lYXJHcmFkaWVudCBpZD0iU1ZHSURfMV8iIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iNy43Mjc1IiB5MT0iMTguMDYzIiB4Mj0iMjMuMDI1NCIgeTI9IjE4LjA2MyI+DQoJCQkJPHN0b3AgIG9mZnNldD0iMCIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRkYwMCIvPg0KCQkJCTxzdG9wICBvZmZzZXQ9IjEiIHN0eWxlPSJzdG9wLWNvbG9yOiNDMUJCMTYiLz4NCgkJCTwvbGluZWFyR3JhZGllbnQ+DQoJCQk8cGF0aCBmaWxsPSJ1cmwoI1NWR0lEXzFfKSIgZD0iTTIyLjk5OCwyNi4wNTV2LTMuODUxYzAtMC41MTYtMC40OTktMC45MzMtMS4xMTYtMC45MzNIMjEuMjVjLTAuNjE2LDAtMS4xMTYsMC40MTctMS4xMTYsMC45MzMNCgkJCQl2My4wNTNoLTQuMDU5di02LjE3NmMyLjY2OS0wLjgwMiw0LjYxNC0zLjI3Niw0LjYxNC02LjIwNWMwLTMuNTc5LTIuOTAxLTYuNDgxLTYuNDgxLTYuNDgxcy02LjQ4MSwyLjkwMi02LjQ4MSw2LjQ4MQ0KCQkJCWMwLDIuOTI5LDEuOTQ1LDUuNDAzLDQuNjE0LDYuMjA1djguNzgyYzAsMS4wMywwLjgzNiwxLjg2NywxLjg2NywxLjg2N2MwLjk0LDAsMS43MDgtMC42OTYsMS44NC0xLjU5OWg2LjA0Mw0KCQkJCWMwLjUxNSwwLDAuOTM0LTAuNDE3LDAuOTM0LTAuOTMzVjI2LjE5QzIzLjAyNSwyNi4xNDMsMjMuMDA1LDI2LjEwMiwyMi45OTgsMjYuMDU1eiIvPg0KCQkJPHBhdGggZmlsbD0iI0ZGRjAxOCIgZD0iTTE0LjIwOCw2LjM5NmMzLjU4LDAsNi40ODEsMi45MDIsNi40ODEsNi40ODFjMCwyLjkyOS0xLjk0NSw1LjQwMy00LjYxNCw2LjIwNXY2LjE3Nmg0LjA1OXYtMy4wNTMNCgkJCQljMC0wLjUxNiwwLjUtMC45MzMsMS4xMTYtMC45MzNoMC42MzJjMC42MTcsMCwxLjExNiwwLjQxNywxLjExNiwwLjkzM3YzLjg1MWMwLjAwNywwLjA0NywwLjAyNywwLjA4OCwwLjAyNywwLjEzNnYxLjAwOQ0KCQkJCWMwLDAuNTE2LTAuNDE5LDAuOTMzLTAuOTM0LDAuOTMzaC02LjA0M2MtMC4xMzIsMC45MDItMC45LDEuNTk5LTEuODQsMS41OTljLTEuMDMxLDAtMS44NjctMC44MzctMS44NjctMS44Njd2LTguNzgyDQoJCQkJYy0yLjY2OS0wLjgwMi00LjYxNC0zLjI3Ni00LjYxNC02LjIwNUM3LjcyOCw5LjI5NywxMC42MjksNi4zOTYsMTQuMjA4LDYuMzk2IE0xNC4yMDgsNS42NjJjLTMuOTc4LDAtNy4yMTQsMy4yMzYtNy4yMTQsNy4yMTQNCgkJCQljMCwyLjk3MywxLjg3MSw1LjY2NSw0LjYxNCw2LjcyOHY4LjI1OWMwLDEuNDM0LDEuMTY3LDIuNjAxLDIuNjAxLDIuNjAxYzEuMDU3LDAsMS45OTQtMC42NTQsMi4zOTEtMS41OThoNS40OTINCgkJCQljMC45MTksMCwxLjY2Ny0wLjc0OCwxLjY2Ny0xLjY2N1YyNi4xOWMwLTAuMDkxLTAuMDE1LTAuMTY4LTAuMDI2LTAuMjIydi0zLjc2NWMwLTAuOTE5LTAuODMtMS42NjctMS44NTEtMS42NjdIMjEuMjUNCgkJCQljLTEuMDIsMC0xLjg1LDAuNzQ4LTEuODUsMS42Njd2Mi4zMTloLTIuNTkydi00LjkxOWMyLjc0Mi0xLjA2NCw0LjYxNC0zLjc1NSw0LjYxNC02LjcyOA0KCQkJCUMyMS40MjMsOC44OTgsMTguMTg4LDUuNjYyLDE0LjIwOCw1LjY2MkwxNC4yMDgsNS42NjJ6Ii8+DQoJCTwvZz4NCgk8L2c+DQo8L2c+DQo8Zz4NCgkNCgkJPHJhZGlhbEdyYWRpZW50IGlkPSJTVkdJRF8yXyIgY3g9IjEzLjQyNTgiIGN5PSIxMi4xODUxIiByPSI1LjY5NTgiIGZ4PSIxMi42NjUiIGZ5PSIxMi41OTM5IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDAuNjM3MyAtMC43NzA2IDAuNTcyNSAwLjQ3MzUgLTIuMTA3IDE2Ljc2MTQpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+DQoJCTxzdG9wICBvZmZzZXQ9IjAiIHN0eWxlPSJzdG9wLWNvbG9yOiNGRjQxMDAiLz4NCgkJPHN0b3AgIG9mZnNldD0iMSIgc3R5bGU9InN0b3AtY29sb3I6I0MxNDYxNiIvPg0KCTwvcmFkaWFsR3JhZGllbnQ+DQoJPHBhdGggZmlsbD0idXJsKCNTVkdJRF8yXykiIGQ9Ik0xNi4yMzQsOS43MDFjLTAuNjgzLDAtMS4yNTksMC4zMjctMS42MjEsMC45MmwtMC40MjcsMC43bC0wLjQyNy0wLjY5OQ0KCQljLTAuMzYyLTAuNTk0LTAuOTM5LTAuOTIxLTEuNjI1LTAuOTIxYy0wLjU0NywwLTEuMTA0LDAuMjA3LTEuNTI3LDAuNTY4Yy0wLjQzMywwLjM2OS0wLjY3MSwwLjg1NC0wLjY3MSwxLjM2OA0KCQljMCwyLjExNiwwLjcwMSwzLjYyOCw0LjI1LDUuMDU0YzMuOTEyLTEuNTczLDQuMjQtMy4yODgsNC4yNC01LjA1NEMxOC40MjcsMTAuNDk2LDE3LjI3MSw5LjcwMSwxNi4yMzQsOS43MDF6Ii8+DQoJPHBhdGggZmlsbD0iI0ZGNkI0OCIgZD0iTTE0LjE4NywxMC40OTRjLTEuMjktMi4xMTItNC41MjgtMC45MTctNC41MjgsMS4yMTZjMCwyLjEzMywwLjY4NCwzLjgzMSw0LjUyOCw1LjMzDQoJCWMzLjg0NC0xLjQ5OSw0LjUxOC0zLjE5Nyw0LjUxOC01LjMzQzE4LjcwNSw5LjU3NywxNS40NzUsOC4zODIsMTQuMTg3LDEwLjQ5NHogTTE0LjE4NywxNi42OWMtMy41NDgtMS40MjUtNC4yNS0yLjkzOC00LjI1LTUuMDU0DQoJCWMwLTAuNTEzLDAuMjM4LTAuOTk5LDAuNjcxLTEuMzY4YzAuNDIzLTAuMzYxLDAuOTgtMC41NjgsMS41MjctMC41NjhjMC42ODUsMCwxLjI2MiwwLjMyNywxLjYyNSwwLjkyMWwwLjQyNywwLjY5OWwwLjQyNy0wLjcNCgkJYzAuMzYyLTAuNTk0LDAuOTM4LTAuOTIsMS42MjEtMC45MmMxLjAzNywwLDIuMTkyLDAuNzk1LDIuMTkyLDEuOTM2QzE4LjQyNywxMy40MDIsMTguMDk5LDE1LjExNywxNC4xODcsMTYuNjl6Ii8+DQoJPGxpbmVhckdyYWRpZW50IGlkPSJTVkdJRF8zXyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIxNi41NjM1IiB5MT0iMTYuMjcyOSIgeDI9IjEyLjA4NzQiIHkyPSI4LjUyMDIiPg0KCQk8c3RvcCAgb2Zmc2V0PSIwIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZGRjAwIi8+DQoJCTxzdG9wICBvZmZzZXQ9IjEiIHN0eWxlPSJzdG9wLWNvbG9yOiNDMUJCMTYiLz4NCgk8L2xpbmVhckdyYWRpZW50Pg0KCTxwYXRoIGZpbGw9InVybCgjU1ZHSURfM18pIiBkPSJNMTYuMjM0LDkuMjAxYy0wLjc3OCwwLTEuNTUxLDAuMzQ1LTIuMDQ3LDEuMTZjLTAuNDk4LTAuODE0LTEuMjcxLTEuMTYtMi4wNTEtMS4xNg0KCQljLTEuMzQsMC0yLjY5OCwxLjAyMS0yLjY5OCwyLjQzNmMwLDIuMjM4LDAuNzE3LDQuMDE4LDQuNzUsNS41OTFjNC4wMzMtMS41NzIsNC43NC0zLjM1NCw0Ljc0LTUuNTkxDQoJCUMxOC45MjcsMTAuMjIyLDE3LjU3Miw5LjIwMSwxNi4yMzQsOS4yMDF6IE0xNC4xODcsMTYuNjljLTMuNTQ4LTEuNDI1LTQuMjUtMi45MzgtNC4yNS01LjA1NGMwLTAuNTEzLDAuMjM4LTAuOTk5LDAuNjcxLTEuMzY4DQoJCWMwLjQyMy0wLjM2MSwwLjk4LTAuNTY4LDEuNTI3LTAuNTY4YzAuNjg1LDAsMS4yNjIsMC4zMjcsMS42MjUsMC45MjFsMC40MjcsMC42OTlsMC40MjctMC43YzAuMzYyLTAuNTk0LDAuOTM4LTAuOTIsMS42MjEtMC45Mg0KCQljMS4wMzcsMCwyLjE5MiwwLjc5NSwyLjE5MiwxLjkzNkMxOC40MjcsMTMuNDAyLDE4LjA5OSwxNS4xMTcsMTQuMTg3LDE2LjY5eiIvPg0KPC9nPg0KPC9zdmc+DQo=");/* svg base64 encoded alert icon. Only displayed when user has an unread message */
+	position:absolute;
+	top:8px;
+	left:78px;
+	width:30px;
+	height:36px;
+}
+/* ~~ About page style ~~ */
+#aboutLogo {
+	width:20%;
+	margin:0 auto 50px;
+}
+#aboutLogo img {
+	width:100%;
+}
+.aboutTxt {
+	-webkit-column-count:2;
+	-moz-column-count:2;
+	column-count:2;
+	-webkit-column-gap:40px;
+	-moz-column-gap:40px;
+	column-gap:40px;
+	padding-bottom: 30px;
+}
+.pageDividerSpacer {
+	width:100%;
+	height:0.001px;
+}
+#aboutWrapper1, #aboutWrapper2, #aboutWrapper3 { /* overides the radius from their class .subPageWrapper */
+	border-top-left-radius:200px !important;
+	border-bottom-left-radius:0 !important;
+	border-top-right-radius:0 !important;
+	border-bottom-right-radius:200px !important;
+}
+#aboutWrapper1 {
+	background-color:#6FBF62;
+}
+#aboutWrapper2 {
+	background-color:#32B8D2;
+}
+#aboutWrapper3 {
+	background-color:#67BF9C;
+}
+
+#questionsWrapper p em {
+	color:#060;
+}
+ul#tipsList {
+	font-size:1.2em;
+	color:#060;
+}
+ul#tipsList li {
+	padding-bottom:14px;
+}
+
+/* ~~ Logged in user pages ~~ */
+/* ~~ Main logged in user page ~~ */
+.loggedInBckgr {
+	background:url(../img/dogs.jpg) no-repeat center center fixed;
+	background-size:cover;
+}
+.loggedInContainer {
+	background-color:none;
+	width:100%;
+	margin:0;
+	padding:0.001em 0 0 0;
+}
+.loggedInLeftBlock {
+	margin-top:50px !important;
+}
+.loggedInRightBlock {
+	margin-top:100px;
+	margin-left:-100px;
+	padding-bottom:50px;
+	width:600px;
+	border-bottom-right-radius:30px;
+	border-top-left-radius:30px;
+}
+.loggedInRightBlock .slogan h2 {
+	font-size:2.7em;
+	margin-top:20px;
+}
+/* ~~ Profile page ~~ */
+.profilePicture img {
+	border-radius:3px;
+	margin-right:50px;
+}
+.profileColumn {
+	margin-right:50px;
+}
+.profileColumn p {
+	margin-bottom:1.5em;
+	color:#060;
+}
+.profileColumn p span {
+	color:white;
+}
+#userSettingsBtn {
+	margin-left:50px;
+}
+/* ~~ Change user profile page ~~ */
+#saveUserSettingsBtn {
+	margin-left:150px;
+	margin-top:50px;
+}
+
+/* ~~ User profile ads page where all users object are displayed in a table ~~ */
+table.adsTable {
+	table-layout:fixed;
+	width:90%;
+	border-collapse:collapse;
+}
+table.adsTable tbody {
+	border-bottom:2px solid #569D37;
+}
+table.adsTable tbody:hover {
+	background-color:#1C9880;
+	cursor:default;
+}
+table.adsTable td, table.adsTable th {
+	padding-left:20px;
+	padding-right:20px;
+	overflow:hidden;
+	word-wrap:break-word;
+}
+table.adsTable th {
+	padding-top:20px;
+}
+table.adsTable td {
+	padding-bottom:20px;
+}
+table.adsTable th {
+	font-size: 1.2em;
+	font-weight:normal;
+	text-align:left;
+}
+table.adsTable button {
+	width:100px;
+}
+.adBtnsWrapper, .profileBtns {
+	width: 500px;
+	margin-left:50px;
+	margin-top:80px;
+	overflow:hidden;
+}
+.adBtnsWrapper h3 {
+	text-align:center;
+}
+.fixedWidthBtn {
+	width:200px;
+}
+#findBtnForm, #rentBtnForm {
+	margin:0;
+	padding:0;
+}
+
+
+/* ~~ Create search accommodation ad page ~~ */
+.adDropDown {
+	width:209px !important;
+	padding-left:5px;
+}
+.fieldsetColumnMargin {
+	margin-right:150px;
+}
+.txtAreaHeight {
+	height:76px !important;
+	margin-bottom:10px !important;
+}
+#findAdForm fieldset {
+	margin-bottom:50px;
+}
+#saveAdBtn {
+	margin-right:66px;
+}
+
+/* ~~ Create Rent out accommodation ad page ~~ */
+label.objectInputBtn {
+	float:left;
+	overflow:hidden;
+	width:50px;
+	margin-right:20px;
+}
+label.objectInputBtn img {
+	float:right;
+	border-radius:3px;
+}
+label.objectInputBtn img:hover {
+	background-color: white;
+	color:#360;
+}
+p.rentOutParagraph {
+	clear:left;
+	line-height:0.9;
+	width:200px;
+	padding-top:5px;
+	margin-left:0;
+	margin-bottom:27px;
+	padding-left:0;
+	text-wrap:normal;
+	overflow:hidden;
+}
+p.rentOutParagraph small {
+	font-size:0.8em;
+	
+}
+
+/* ~~ Message page with tables ~~ */
+/* toLandlordTable is a table containing information about the searcher, and toSearcherTable is table containing information baout the landlord */
+table.toLandlordTable, table.toSearcherTable, table.approvalTable {
+	margin-bottom:50px;
+	border-bottom:1px solid #060;
+}
+table.toLandlordTable caption, table.toSearcherTable caption, table.approvalTable caption {
+	text-align:left;
+	font-size:1.2em;
+	padding-bottom:2px;
+}
+table.toLandlordTable caption p, table.toSearcherTable caption p, table.approvalTable caption p {
+	padding-left:0;
+}
+table.toLandlordTable img, table.toSearcherTable img, table.approvalTable img {
+	border-radius:3px;
+}
+table.toLandlordTable tr:nth-child(odd), table.toSearcherTable tr:nth-child(odd), table.approvalTable tr:nth-child(odd) {
+	color:#060;
+}
+table.toLandlordTable tr:nth-child(even) td, table.toSearcherTable tr:nth-child(even) td, table.approvalTable tr:nth-child(even) {
+	padding-bottom:10px;
+}
+table.toLandlordTable tr:last-child button, table.toSearcherTable tr:last-child button {
+	margin:20px 0 20px 0;
+}
+table.toLandlordTable small span, table.toSearcherTable small span, table.approvalTable small span {
+	color:white;	
+}
+/* toSearcherTable specific styles */
+.tablePic {
+	box-sizing:border-box;
+	width:33%;
+	float:left;
+}
+/* approvalTable specific styles */
+table.approvalTable tr:last-child td:last-child {
+	padding-bottom: 20px;
+}
+
+/* ~~ miscellaneous float/clear classes ~~ */
+.fltrt {  /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+}
+.fltlft { /* this class can be used to float an element left in your page. The floated element must precede the element it should be next to on the page. */
+	float: left;
+}
+.clearfloat { /* this class can be placed on a <br /> or empty div as the final element following the last floated div (within the #container) if the #footer is removed or taken out of the #container */
+	clear:both;
+	height:0;
+	font-size: 1px;
+	line-height: 0px;
+}
+.displayNone { /* this class makes it easier to hide elements directly from your HTML */
+	display:none;
+}

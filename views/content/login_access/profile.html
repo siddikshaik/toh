@@ -1,0 +1,49 @@
+<div class="loggedInContainer">
+  <header ng-include="'/content/login_access/header.html'"></header>
+  <section class="subPageWrapper">
+  
+  	<div class="subPageInnerWrapper">
+      <h1>My profile</h1>
+      <section class="profilePicture fltlft">
+      
+        <!-- this picture is to be replaced with the picture the user uploaded upon registration found in /content/login_access/imgs/. If they did not upload a picture, then this placehold picture should be displayed -->
+        <img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"> 
+      </section>
+      
+      <section class="subContentWrapper fltlft">
+      	<div class="profileColumn fltlft"><!-- retrieve user data from database and display it inside span tags accordingly -->
+          <p>Username<br><span id="username">{{userAccount.username}}</span></p>
+          <p ng-if="userprofile.name != null">Name<br><span id="name">{{userprofile.name}}</span></p>
+          <p ng-if="userprofile.familyName != null">Family name<br><span id="familyName">{{userprofile.familyname}}</span></p>
+          <p>Postal address<br>
+            <span id="street">{{userprofile.street}}</span><br>
+            <span id="postalCode">{{userprofile.postalcode}}</span>&nbsp;<span id="city">{{userprofile.city}}</span></p>
+            <p>Birth date<br>
+            <span id="birthDate">{{userprofile.dob}}</span>
+          </p>
+        </div>
+        <div class="profileColumn fltlft">
+          <p ng-if="userprofile.phone != null">Phone<br><span id="phone">{{userprofile.phone}}</span></p>
+          <p ng-if="userprofile.gender != null">Gender<br><span id="gender">{{userprofile.gender}}</span></p>
+          <p ng-if="userprofile.occupation != null">Occupation<br><span id="occupation">{{userprofile.occupation}}</span></p>
+          <p ng-if="userprofile.allergy != null">I'm allergic to<br><span id="allergy">{{userprofile.allergy}}</span></p>
+          <p ng-if="userprofile.corporation != null">Corporation name<br><span id="corporationName">{{userprofile.corporation}}</span></p>
+          <p ng-if="userprofile.corpID != null">Corporation ID<br><span id="corporationID">{{userprofile.corpID}}</span></p>
+          <p ng-if="userprofile.responsiblePerson != null">Responsible Person<br><span id="corporationID">{{userprofile.responsiblePerson}}</span></p>
+        </div>
+        <div class="clearfloat"></div>
+        
+        <div class="profileBtns">
+            <button type="submit" class="formBtn" name="userSettingsBtn" tabindex="3" ng-click="edit_profile(userAccount.id);" value="Edit profile">Edit profile</button> 
+            <button type="submit" class="formBtn" name="deleteAccount" tabindex="3" ng-click="delete_profile(userAccount.id);" value="Delete account">Delete my account</button> <!-- delete user account link --><!-- change user settings link button -->
+          <!--form action="deleteUserAccount.html" class="fltlft">
+            
+          </form-->
+        </div>
+          
+      </section><!-- end .subContentWrapper .fltlft -->
+      <div class="clearfloat"></div>
+    </div><!-- end .subPageInnerWrapper -->
+    
+  </section><!-- end .subPageWrapper -->
+</div><!-- end .regContainer -->

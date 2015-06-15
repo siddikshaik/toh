@@ -13,5 +13,7 @@ var knex = require('knex')(dbConfig);
 var bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');
 
-module.exports.DB = bookshelf;
-module.exports.knex = knex;
+module.exports = {
+		DB : bookshelf,
+		knex: knex
+};

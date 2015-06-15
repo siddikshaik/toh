@@ -1,12 +1,9 @@
-var DB = require('./db').DB,
-	matchedAds = require('./matchedAds').matchedAds;
+var DB = require('./db').DB;
 
 //services
 var matcher = require('../services/matcher.js');
 
-var encodeConstants = {
-	adStatus:{open:0, matched: 1, closed : 2}
-}
+var adStatusConstants = { paymentAwaited : 'paymentAwaited', open: 'open', matched: 'matched', closed: 'closed' };
 
 var letting = DB.Model.extend({
 	tableName  : 'letting',
@@ -41,14 +38,6 @@ var ads = DB.Model.extend({
 					adObj['id'] = adMetaDataAdded.id;
 					if(adMetaDataAdded.adType === 'letting') {
 						return new letting(adObj).save(adObj, {method: 'insert'}).then(function(){
-							console.log('add :: '+JSON.stringify(this));
-							matcher.getMatchForLettingAd(this.toJSON()).then(function(rentingAd, lettingAd){
-								if(rentingAd && lettingAd){
-									matchedAds.addEntry(rentingAd, lettingAd);
-								}
-							}, function(error){
-								console.log('error while matching');
-							});
 							return success(this);	
 						}).catch(function(err){
 								new ads(adMetaDataAdded).destroy().then(function() {
@@ -58,13 +47,6 @@ var ads = DB.Model.extend({
 					}
 					else if(adMetaDataAdded.adType === 'renting') {
 						return new renting(adObj).save(adObj, {method: 'insert'}).then(function(){
-							matcher.getMatchForRentingAd(this.toJSON()).then(function(rentingAd, lettingAd){
-								if(rentingAd && lettingAd){
-									matchedAds.addEntry(rentingAd, lettingAd);
-								}
-							}, function(error){
-								console.log('error while matching');
-							});
 							return success(this);	
 						}).catch(function(err){
 							new ads(adMetaDataAdded).destroy().then(function() {
@@ -101,24 +83,8 @@ var ads = DB.Model.extend({
 					if(ad.adType === 'letting') {
 						console.log('updating letting adObj :: '+JSON.stringify(adObj));
 						return new letting(adObj).save(adObj, {patch:true}).then(function(){
-							if(ad.adStatus == 0){
-								var lettingAd = this.toJSON();
-								matcher.getMatchForLettingAd(lettingAd).then(function(rentingAd, lettingAd1){
-									console.log("XXXXXXXXXXXXX");
-									console.log("rentingAd :: "+JSON.stringify(rentingAd));
-									console.log("lettingAd :: "+JSON.stringify(lettingAd));
-									new matchedAds().addEntry(rentingAd, lettingAd).then(function(matchedAd){
-										matchedAd = matchedAd.toJSON();
-										console.log('matchedAd :: '+JSON.stringify(matchedAd));
-										new ads({id: matchedAd.renting_ad_id, account_id: matchedAd.renting_account_id, adType: 'renting'}).save({adStatus: 1}, {patch:true}).then(function(ad){
-											console.log("ad :: "+JSON.stringify(ad));
-										});
-									},function(error){
-										console.log('err :: '+error);
-									});
-								}, function(error){
-									console.log('error while matching');
-								});
+							if(ad.adStatus == 'open'){
+								matcher.getMatchForLettingAd(this.toJSON()).then(updateAdStatusForMatchedAd);
 							}
 							return success(this); 
 						});
@@ -126,16 +92,10 @@ var ads = DB.Model.extend({
 					else if(ad.adType === 'renting') {
 						console.log('updating renting adObj :: '+JSON.stringify(adObj));
 						return new renting(adObj).save(adObj, {patch:true}).then(function(){
-							if(ad.adStatus == 0){
-								matcher.getMatchForRentingAd(this.toJSON()).then(function(rentingAd, lettingAd){
-									if(rentingAd && lettingAd){
-										matchedAds.addEntry(rentingAd, lettingAd);
-									}
-								}, function(error){
-									console.log('error while matching');
-								});
+							if(ad.adStatus == 'open'){
+								matcher.getMatchForRentingAd(this.toJSON()).then(updateAdStatusForMatchedAd);
 							}
-							return success(this); 
+							return success(adObj);
 						});
 					}	
 				}
@@ -148,13 +108,6 @@ var ads = DB.Model.extend({
 		});
 	},
 
-	updateAdStatusForMatchedAd: function(matchedAd){
-		console.log('updating ad status ');
-		new ads({id: matchedAd.renting_ad_id, adType: 'renting'}).save({adStatus: 1}, {patch:true}).then(function(ad){
-			console.log("ad :: "+JSON.stringify(ad));
-		});
-	},
-	
 	encodeData : function(adObj){
 		if(adObj.save){
 			delete adObj['save'];
@@ -166,12 +119,44 @@ var ads = DB.Model.extend({
 			delete adObj['adType'];
 		}
 		return adObj;
+	},
+	
+	updateAdStatus : function(newAdStatus){
+		var adObj = this;
+		console.log('updating ad status {{adObj}} :: '+JSON.stringify(adObj));
+		return new Promise(function(success, failure){
+			if(adObj && adObj.toJSON().id){
+				console.log('updating ad status {{adObj}} :: '+JSON.stringify(adObj));
+				return adObj.save({adStatus: newAdStatus}, {patch: true}).then(function(updatedAdObj){
+					if(updatedAdObj.adStatus == adStatusConstants.open){
+						if(updatedAdObj.adType == 'letting'){
+							matcher.getMatchForLettingAd(updatedAdObj).then(updateAdStatusForMatchedAd);	
+						}
+						else {
+							matcher.getMatchForRentingAd(updatedAdObj).then(updateAdStatusForMatchedAd);
+						}
+					}
+					return success(updatedAdObj);
+				});
+			}
+		});
 	}
 
 });
 
+var updateAdStatusForMatchedAd = function(matchedAd, status, next){
+	console.log('updating ad status {{status}} :: '+status);
+	status = status ? status : adStatusConstants.matched ;
+	console.log('updating ad status {{status}} :: '+status);
+	new ads({id: matchedAd.renting_ad_id, adType: 'renting'}).updateAdStatus(status);
+	new ads({id: matchedAd.letting_ad_id, adType: 'letting'}).updateAdStatus(status);
+	if(next){ next(matchedAd); }
+}
+
 module.exports = {
 	ads: DB.model('ads', ads),
 	letting: DB.model('letting', letting),
-	renting: DB.model('renting', renting)
+	renting: DB.model('renting', renting),
+	updateAdStatus: updateAdStatusForMatchedAd,
+	adStatusConstants: adStatusConstants
 };

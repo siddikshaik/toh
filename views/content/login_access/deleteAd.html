@@ -1,0 +1,17 @@
+
+  <section class="subPageWrapper">
+  
+  	<div class="subPageInnerWrapper">
+      <h1>Are you sure you want to delete this ad?</h1>
+      <p>By clicking Confirm your ad will no longer be available for matching and no money will be refunded.</p>
+      <form name="toAdsForm" class="fltlft">
+      	<button type="submit" name="toAdsBtn" id="toAdsBtn" class="formBtn" ng-click="go_back_ads();">No, back to ads</button><!-- WHen user press this button the user account should be deleted and a confirmation email shall be sent to user. User will then be redirected to index page of whole site -->
+      </form>
+      
+      <form name="deleteAccountForm" class="fltlft">
+      	<button type="submit" name="deleteAccountBtn" id="deleteAccountBtn" class="formBtn" ng-click="confirm_delete_ad();">Confirm</button><!-- WHen user press this button the user account should be deleted and a confirmation email shall be sent to user. User will then be redirected to index page of whole site -->
+      </form>
+      <div class="clearfloat"></div>
+    </div><!-- end .subPageInnerWrapper -->
+    
+  </section><!-- end .subPageWrapper -->

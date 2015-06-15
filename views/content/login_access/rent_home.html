@@ -1,0 +1,525 @@
+<!-- Users can create a rent out accommodation ad. When submitting, user will be redirected to a payment page (payment.html) before any data is stored in database and available for matching. -->
+
+<div class="regContainer">
+    <header ng-include="'/content/login_access/header.html'"></header>
+  <section class="subPageWrapper">
+  
+    <div class="subPageInnerWrapper">
+      <h1>I want to rent out...</h1>
+      
+      <section class="subContentWrapper fltlft">
+      
+          <!-- Form where user can specify criterias about what type of accommodation he or she is renting out -->
+          <form ng-submit="forRentsubmit()" ng-controller="post_for_rent_ctrl" class="registerForm" name="rentAdForm" id="rent_out_accomdation" method="post" dir="ltr">
+              <input type="hidden" name="adType" value="renting"/>
+              <fieldset class="fltlft fieldsetColumnMargin">
+                <label for="state">State</label>
+                <select name="state" id="state" class="selectInput adDropDown" tabindex="1" title="State" dir="ltr" required>
+                      <option value="0" disabled selected>Choose state</option>
+                      <option value="norrbotten" id="nb">Norrbotten</option>
+                      <option value="vasterbotten" id="vb">Västerbotten</option>
+                      <option value="jamtland" id="jm">Jämtland</option>
+                      <option value="vasternorrland" id="vn">Västernorrland</option>
+                      <option value="gavleborg" id="gv">Gävleborg</option>
+                      <option value="dalarna" id="dl">Dalarna</option>
+                      <option value="varmland" id="vr">Värmland</option>
+                      <option value="orebro" id="or">Örebro</option>
+                      <option value="vastmanland" id="vs">Västmanland</option>
+                      <option value="uppsala" id="up">Uppsala</option>
+                      <option value="stockholm" id="st">Stockholm</option>
+                      <option value="sodermanland" id="so">Södermanland</option>
+                      <option value="ostergotland" id="os">Östergötland</option>
+                      <option value="vastra_gotaland" id="vg">Västra götaland</option>
+                      <option value="jonkoping" id="jn">Jönköping</option>
+                      <option value="halland" id="hl">Halland</option>
+                      <option value="kronoberg" id="kr">Kronoberg</option>
+                      <option value="skane" id="sk">Skåne</option>
+                      <option value="blekinge" id="bl">Blekinge</option>
+                      <option value="kalmar" id="kl">Kalmar</option>
+                      <option value="gotland" id="go">Gotland</option>
+                </select>
+                <label for="municipality">Municipality</label><!-- This select tag should only display municipalities according to what user selected in State. If user selected "any" in State, then this one should be disabled. Only enabled IF user did a State selection -->
+                <select name="municipality" id="municipality" class="selectInput adDropDown" tabindex="2" title="Municipality" dir="ltr" required >
+                      <option value="0" disabled selected>Choose municipality</option>
+                      <optgroup label="Norrbotten" id="norrbotten"><!-- Norrbottens kommun -->
+                        <option value="arjeplog">Arjeplogs kommun</option>
+                        <option value="arvidsjaur">Arvidsjaurs kommun</option>
+                        <option value="boden">Bodens kommun</option>
+                        <option value="gallivare">Gällivare kommun</option>
+                        <option value="haparanda">Haparanda kommun</option>
+                        <option value="jokkmokk">Jokkmokks kommun</option>
+                        <option value="kalix">Kalix kommun</option>
+                        <option value="kiruna">Kiruna kommun</option>
+                        <option value="lulea">Luleå kommun</option>
+                        <option value="pajala">Pajala kommun</option>
+                        <option value="pitea">Piteå kommun</option>
+                        <option value="alvsbyn">Älvsbyns kommun</option>
+                        <option value="overkalix">Överkalix kommun</option>
+                        <option value="overtornea">Övertorneå kommun</option>
+                      </optgroup>
+                      <optgroup label="Västerbotten" id="vasterbotten"><!-- Västerbottens kommun -->
+                        <option value="bjurholm">Bjurholms kommun</option>
+                        <option value="dorotea">Dorotea kommun</option>
+                        <option value="lycksele">Lycksele kommun</option>
+                        <option value="mala">Malå kommun</option>
+                        <option value="nordmaling">Nordmalings kommun</option>
+                        <option value="norsjo">Norsjö kommun</option>
+                        <option value="robertsfors">Robertsfors kommun</option>
+                        <option value="skelleftea">Skellefteå kommun</option>
+                        <option value="sorsele">Sorsele kommun</option>
+                        <option value="storuman">Storumans kommun</option>
+                        <option value="umea">Umeå kommun</option>
+                        <option value="vilhelmina">Vilhelmina kommun</option>
+                        <option value="vindeln">Vindelns kommun</option>
+                        <option value="vannas">Vännäs kommun</option>
+                        <option value="asele">Åsele kommun</option>
+                      </optgroup>
+                      <optgroup label="Jämtland" id="jamtland"><!-- Jämtlands län -->
+                        <option value="bergs">Bergs kommun</option>
+                        <option value="bracke">Bräcke kommun</option>
+                        <option value="harjedalen">Härjedalens kommun</option>
+                        <option value="krokom">Krokoms kommun</option>
+                        <option value="ragunda">Ragunda kommun</option>
+                        <option value="stromsund">Strömsunds kommun</option>
+                        <option value="are">Åre kommun</option>
+                        <option value="ostersund">Östersunds kommun</option>
+                      </optgroup>
+                      <optgroup label="Västernorrland" id="vasternorrland"><!-- Västernorrlands län -->
+                        <option value="harnosand">Härnösands kommun</option>
+                        <option value="kramfors">Kramfors kommun</option>
+                        <option value="solleftea">Sollefteå kommun</option>
+                        <option value="sundsvall">Sundsvalls kommun</option>
+                        <option value="timra">Timrå kommun</option>
+                        <option value="ange">Ånge kommun</option>
+                        <option value="ornskoldsvik">Örnsköldsviks kommun</option>
+                      </optgroup>
+                      <optgroup label="Gävleborg" id="gavleborg"><!-- Gävleborgs län -->
+                        <option value="bollnas">Bollnäs kommun</option>
+                        <option value="gavle">Gävle kommun</option>
+                        <option value="hofors">Hofors kommun</option>
+                        <option value="hudiksvall">Hudiksvalls kommun</option>
+                        <option value="ljusdal">Ljusdals kommun</option>
+                        <option value="nordanstig">Nordanstigs kommun</option>
+                        <option value="ockelbo">Ockelbo kommun</option>
+                        <option value="ovanaker">Ovanåkers kommun</option>
+                        <option value="sandviken">Sandvikens kommun</option>
+                         <option value="soderhamn">Söderhamns kommun</option>
+                      </optgroup>
+                      <optgroup label="Dalarna" id="dalarna"><!-- Dalarnas län -->
+                        <option value="avesta">Avesta kommun</option>
+                        <option value="borlange">Borlänge kommun</option>
+                        <option value="falu">Falu kommun</option>
+                        <option value="gagnef">Gagnefs kommun</option>
+                        <option value="hedemora">Hedemora kommun</option>
+                        <option value="leksand">Leksands kommun</option>
+                        <option value="ludvika">Ludvika kommun</option>
+                        <option value="malung-salen">Malung-Sälens kommun</option>
+                        <option value="mora">Mora kommun</option>
+                        <option value="orsa">Orsa kommun</option>
+                        <option value="rattvik">Rättviks kommun</option>
+                        <option value="smedjebacken">Smedjebackens kommun</option>
+                        <option value="sater">Säters kommun</option>
+                        <option value="vansbro">Vansbro kommun</option>
+                        <option value="alvdalen">Älvdalens kommun</option>
+                      </optgroup>
+                      <optgroup label="Värmland" id="varmland"><!-- Värmlands län -->
+                        <option value="arvika">Arvika kommun</option>
+                        <option value="eda">Eda kommun</option>
+                        <option value="filipstad">Filipstads kommun</option>
+                        <option value="forshaga">Forshaga kommun</option>
+                        <option value="grum">Grums kommun</option>
+                        <option value="hagfors">Hagfors kommun</option>
+                        <option value="hammaro">Hammarö kommun</option>
+                        <option value="karlstad">Karlstads kommun</option>
+                        <option value="kil">Kils kommun</option>
+                        <option value="kristinehamn">Kristinehamns kommun</option>
+                        <option value="munkfors">Munkfors kommun</option>
+                        <option value="storfors">Storfors kommun</option>
+                        <option value="sunne">Sunne kommun</option>
+                        <option value="saffle">Säffle kommun</option>
+                        <option value="torsby">Torsby kommun</option>
+                        <option value="arjang">Årjängs kommun</option>
+                      </optgroup>
+                      <optgroup label="Örebro" id="orebro"><!-- Örebro län -->
+                        <option value="askersund">Askersund kommun</option>
+                        <option value="degerfors">Degerfors kommun</option>
+                        <option value="hallsberg">Hallsbergs kommun</option>
+                        <option value="hallefors">Hällefors kommun</option>
+                        <option value="karlskoga">Karlskoga kommun</option>
+                        <option value="kumla">Kumla kommun</option>
+                        <option value="laxa">Laxå kommun</option>
+                        <option value="lekeberg">Lekebergs kommun</option>
+                        <option value="lindesberg">Lindesbergs kommun</option>
+                        <option value="ljusnarsberg">Ljusnarsbergs kommun</option>
+                        <option value="nora">Nora kommun</option>
+                        <option value="orebro">Örebro kommun</option>
+                      </optgroup>
+                      <optgroup label="Västmanland" id="vastmanland"><!-- Västmanlands län -->
+                        <option value="arboga">Arboga kommun</option>
+                        <option value="fagersta">Fagersta kommun</option>
+                        <option value="hallstahammar">Hallstahammars kommun</option>
+                        <option value="kungsor">Kungsörs kommun</option>
+                        <option value="koping">Köpings kommun</option>
+                        <option value="norberg">Norbergs kommun</option>
+                        <option value="sala">Sala kommun</option>
+                        <option value="skinnskatteberg">Skinnskattebergs kommun</option>
+                        <option value="surahammar">Surahammars kommun</option>
+                        <option value="vasteras">Västerås kommun</option>
+                      </optgroup>
+                      <optgroup label="Uppsala" id="uppsala"><!-- Uppsala län -->
+                        <option value="enkoping">Enköping kommun</option>
+                        <option value="heby">Heby kommun</option>
+                        <option value="haobo">Håbo kommun</option>
+                        <option value="knivsta">Knivsta kommun</option>
+                        <option value="tierp">Tierps kommun</option>
+                        <option value="uppsala">Uppsala kommun</option>
+                        <option value="alvkarleby">Älvkarleby kommun</option>
+                        <option value="osthammar">Östhammars kommun</option>
+                      </optgroup>
+                      <optgroup label="Stockholm" id="stockholm"><!-- Stockholms län -->
+                        <option value="botkyrka">Botkyrka kommun</option>
+                        <option value="danderyd">Danderyds kommun</option>
+                        <option value="ekero">Ekerö kommun</option>
+                        <option value="haninge">Haninge kommun</option>
+                        <option value="huddinge">Huddinge kommun</option>
+                        <option value="jarfalla">Järfälla kommun</option>
+                        <option value="lidingo">Lidingö kommun</option>
+                        <option value="nacka">Nacka kommun</option>
+                        <option value="norrtalje">Norrtälje kommun</option>
+                        <option value="nykvarn">Nykvarns kommun</option>
+                        <option value="nynashamn">Nynäshamns kommun</option>
+                        <option value="salem">Salems kommun</option>
+                        <option value="sigtuna">Sigtuna kommun</option>
+                        <option value="sollentuna">Sollentuna kommun</option>
+                        <option value="solna">Solna kommun</option>
+                        <option value="stockholm">Stockholms kommun</option>
+                        <option value="sundbyberg">Sundbybergs kommun</option>
+                        <option value="sodertalje">Södertälje kommun</option>
+                        <option value="tyreso">Tyresö kommun</option>
+                        <option value="taby">Täby kommun</option>
+                        <option value="upplands-bro">Upplands-Bro kommun</option>
+                        <option value="upplands-vasby">Upplands Väsby kommun</option>
+                        <option value="vallentuna">Vallentuna kommun</option>
+                        <option value="vaxholm">Vaxholms kommun</option>
+                        <option value="varmdo">Värmdö kommun</option>
+                        <option value="osteraker">Österåkers kommun</option>
+                      </optgroup>
+                      <optgroup label="Södermanland" id="sodermanland"><!-- Södermanlands län -->
+                        <option value="eskilstuna">Eskilstuna kommun</option>
+                        <option value="flen">Flens kommun</option>
+                        <option value="gnesta">Gnesta kommun</option>
+                        <option value="katrineholm">Katrineholms kommun</option>
+                        <option value="nykoping">Nyköpings kommun</option>
+                        <option value="oxelosund">Oxelösunds kommun</option>
+                        <option value="strangnas">Strängnäs kommun</option>
+                        <option value="trosa">Trosa kommun</option>
+                        <option value="vingaker">Vingåkers kommun</option>
+                      </optgroup>
+                      <optgroup label="Östergötland" id="ostergotland"><!-- Östergötlands län -->
+                        <option value="boxholm">Boxholms kommun</option>
+                        <option value="finspang">Finspångs kommun</option>
+                        <option value="kinda">Kinda kommun</option>
+                        <option value="linkoping">Linköpings kommun</option>
+                        <option value="mjolby">Mjölby kommun</option>
+                        <option value="motala">Motala kommun</option>
+                        <option value="norrkoping">Norrköpings kommun</option>
+                        <option value="soderkoping">Söderköpings kommun</option>
+                        <option value="vadstena">Vadstena kommun</option>
+                        <option value="valdemarsvik">Valdemarsviks kommun</option>
+                        <option value="ydre">Ydre kommun</option>
+                        <option value="atvidaberg">Åtvidabergs kommun</option>
+                        <option value="odeshog">Ödeshögs kommun</option>
+                      </optgroup>
+                      <optgroup label="Västra götaland" id="vastra_gotaland"><!-- Västra Götalands län -->
+                        <option value="ale">Ale kommun</option>
+                        <option value="alingsas">Alingsås kommun</option>
+                        <option value="bengtsfors">Bengtsfors kommun</option>
+                        <option value="bollebygd">Bollebygds kommun</option>
+                        <option value="boras">Borås kommun</option>
+                        <option value="dals-ed">Dals-Eds kommun</option>
+                        <option value="essunga">Essunga kommun</option>
+                        <option value="falkoping">Falkopings kommun</option>
+                        <option value="fargelanda">Färgelanda kommun</option>
+                        <option value="grastorp">Grästorps kommun</option>
+                        <option value="gullspang">Gullspångs kommun</option>
+                        <option value="goteborg">Göteborgs kommun</option>
+                        <option value="gotene">Götene kommun</option>
+                        <option value="herrljunga">Herrljunga kommun</option>
+                        <option value="hjo">Hjo kommun</option>
+                        <option value="harryda">Härryda kommun</option>
+                        <option value="karlsborg">Karlsborgs kommun</option>
+                        <option value="kungalv">Kungälvs kommun</option>
+                        <option value="lerum">Lerums kommun</option>
+                        <option value="lidkoping">Lidköpings kommun</option>
+                        <option value="lilla-edet">Lilla Edets kommun</option>
+                        <option value="lysekil">Lysekils kommun</option>
+                        <option value="mariestad">Mariestads kommun</option>
+                        <option value="mark">Marks kommun</option>
+                        <option value="mellerud">Melleruds kommun</option>
+                        <option value="munkedal">Munkedals kommun</option>
+                        <option value="molndal">Mölndals kommun</option>
+                        <option value="orust">Orusts kommun</option>
+                        <option value="partille">Partille kommun</option>
+                        <option value="skara">Skara kommun</option>
+                        <option value="skovde">Skövde kommun</option>
+                        <option value="sotenas">Sotenäs kommun</option>
+                        <option value="stenungsund">Stenungsunds kommun</option>
+                        <option value="stromstad">Strömstads kommun</option>
+                        <option value="svenljunga">Svenljunga kommun</option>
+                        <option value="tanum">Tanums kommun</option>
+                        <option value="tibro">Tibro kommun</option>
+                        <option value="tidaholm">Tidaholms kommun</option>
+                        <option value="tjorn">Tjörns kommun</option>
+                        <option value="tranemo">Tranemo kommun</option>
+                        <option value="trollhattan">Trollhättans kommun</option>
+                        <option value="toreboda">Töreboda kommun</option>
+                        <option value="uddevalla">Uddevalla kommun</option>
+                        <option value="ulricehamn">Ulricehamns kommun</option>
+                        <option value="vara">Vara kommun</option>
+                        <option value="vargarda">Vårgårda kommun</option>
+                        <option value="vanersborg">Vänersborgs kommun</option>
+                        <option value="amal">Åmåls kommun</option>
+                        <option value="ockero">Öckerö kommun</option>
+                      </optgroup>
+                      <optgroup label="Jönköping" id="jonkoping"><!-- Jönköpings län -->
+                        <option value="aneby">Aneby kommun</option>
+                        <option value="eksjo">Eksjo kommun</option>
+                        <option value="gislaved">Gislaveds kommun</option>
+                        <option value="gnosjo">Gnosjö kommun</option>
+                        <option value="habo">Habo kommun</option>
+                        <option value="jonkoping">Jönköpings kommun</option>
+                        <option value="mullsjo">Mullsjö kommun</option>
+                        <option value="nassjo">Nässjö kommun</option>
+                        <option value="savsjo">Sävsjö kommun</option>
+                        <option value="tranas">Tranås kommun</option>
+                        <option value="vaggeryd">Vaggeryds kommun</option>
+                        <option value="vetlanda">Vetlanda kommun</option>
+                        <option value="varnamo">Värnamo kommun</option>
+                      </optgroup>
+                      <optgroup label="Halland" id="halland"><!-- Hallands län -->
+                        <option value="falkenberg">Falkenbergs kommun</option>
+                        <option value="halmstad">Halmstads kommun</option>
+                        <option value="hylte">Hylte kommun</option>
+                        <option value="kungsbacka">Kungsbacka kommun</option>
+                        <option value="laholm">Laholm kommun</option>
+                        <option value="varberg">Varbergs kommun</option>
+                      </optgroup>
+                      <optgroup label="Kronoberg" id="kronoberg"><!-- Kronobergs län -->
+                        <option value="alvesta">Alvesta kommun</option>
+                        <option value="lessebo">Lessebo kommun</option>
+                        <option value="ljungby">Ljungby kommun</option>
+                        <option value="markaryd">Markaryds kommun</option>
+                        <option value="tingsryd">Tingsryds kommun</option>
+                        <option value="uppvidinge">Uppvidinge kommun</option>
+                        <option value="vaxjo">Växjö kommun</option>
+                        <option value="almhult">Älmhults kommun</option>
+                      </optgroup>
+                      <optgroup label="Skåne" id="skane"><!-- Skåne län -->
+                        <option value="bjuv">Bjuvs kommun</option>
+                        <option value="bromolla">Bromölla kommun</option>
+                        <option value="burlov">Burlövs kommun</option>
+                        <option value="bastad">Båstads kommun</option>
+                        <option value="eslov">Eslöv kommun</option>
+                        <option value="helsingborg">Helsingborgs kommun</option>
+                        <option value="hassleholm">Hässleholms kommun</option>
+                        <option value="hoganas">Höganäs kommun</option>
+                        <option value="horby">Hörby kommun</option>
+                        <option value="hoor">Höörs kommun</option>
+                        <option value="klippan">Klippans kommun</option>
+                        <option value="kristianstad">Kristianstads kommun</option>
+                        <option value="kavlinge">Kävlinge kommun</option>
+                        <option value="landskrona">Landskrona kommun</option>
+                        <option value="lomma">Lomma kommun</option>
+                        <option value="lund">Lunds kommun</option>
+                        <option value="malmo">Malmö kommun</option>
+                        <option value="osby">Osby kommun</option>
+                        <option value="perstorp">Perstorps kommun</option>
+                        <option value="simrishamn">Simrishamns kommun</option>
+                        <option value="sjobo">Sjöbo kommun</option>
+                        <option value="skurup">Skurups kommun</option>
+                        <option value="staffanstorp">Staffanstorps kommun</option>
+                        <option value="svalov">Svalövs kommun</option>
+                        <option value="svedala">Svedala kommun</option>
+                        <option value="tomelilla">Tomelilla kommun</option>
+                        <option value="trelleborg">Trelleborgs kommun</option>
+                        <option value="vellinge">Vellinge kommun</option>
+                        <option value="ystad">Ystads kommun</option>
+                        <option value="astorp">Åstorps kommun</option>
+                        <option value="angelholm">Ängelholms kommun</option>
+                        <option value="orkelljunga">Örkelljunga kommun</option>
+                        <option value="ostra-goinge">Östra-Göinge kommun</option>
+                      </optgroup>
+                      <optgroup label="Blekinge" id="blekinge"><!-- Blekinge län -->
+                        <option value="karlshamn">Karlshamns kommun</option>
+                        <option value="karlskrona">Karlskrona kommun</option>
+                        <option value="olofstrom">Olofströms kommun</option>
+                        <option value="ronneby">Ronneby kommun</option>
+                        <option value="solvesborg">Sölvesborgs kommun</option>
+                      </optgroup>
+                      <optgroup label="Kalmar" id="kalmar"><!-- Kalmar län -->
+                        <option value="borgholm">Borgholms kommun</option>
+                        <option value="emmaboda">Emmaboda kommun</option>
+                        <option value="hultsfred">Hultsfreds kommun</option>
+                        <option value="hogsby">Högsby kommun</option>
+                        <option value="kalmar">Kalmar kommun</option>
+                        <option value="monsteras">Mönsterås kommun</option>
+                        <option value="morbylanga">Mörbylånga kommun</option>
+                        <option value="nybro">Nybro kommun</option>
+                        <option value="oskarshamn">Oskarshamns kommun</option>
+                        <option value="torsas">Torsås kommun</option>
+                        <option value="vimmerby">Vimmerby kommun</option>
+                        <option value="vastervik">Västerviks kommun</option>
+                      </optgroup>
+                      <optgroup label="Gotland" id="gotland"><!-- Gotlands län -->
+                        <option value="gotland">Gotlands kommun</option>
+                      </optgroup>
+                </select>
+                <label for="localArea">Local area</label>
+                <input type="text" name="area" id="localArea" class="txtInput" placeholder="Area" tabindex="3" maxlength="100" required>
+                <br><br><br><br>
+                <label for="datepicker">Access date</label>
+                <input type="text" name="accessDate" id="datepicker" placeholder="Pick a date" class="txtInput" tabindex="4" required>
+                <label for="minTimeToRent">For how long?</label>
+                <input  type="text" id="minTimeToRent" class="txtInput" name="minTimeToRent" placeholder="E.g. 3 months or 3 days" maxlength="20" tabindex="5" required><!-- This is required but not a part of the criterias for the matching between ads. -->
+                <br><br><br><br>
+                <label for="accommodationType">Type of accommodation</label>
+                <select name="accommodationType" id="accommodationType" class="selectInput adDropDown" tabindex="6" title="Type of accommodation" dir="ltr" required >
+                  <option value="" disabled selected>Choose type</option>
+                    <option value="rentalApartment">Rental apartment</option>
+                    <option value="studentApartment">Student apartment</option>
+                    <option value="studentRoom">Student room</option>
+                    <option value="room">Room in house/apartment</option>
+                    <option value="house">House</option>
+                    <option value="cottage">Cottage</option>
+                </select>
+                <label for="size">Size (choose closest value)</label>
+                <select name="size" id="size" class="selectInput adDropDown" tabindex="7" title="Size" dir="ltr" required >
+                  <option value="" disabled selected>Size</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
+                    <option value="110">110</option>
+                    <option value="120">120</option>
+                    <option value="130">130</option>
+                    <option value="140">140</option>
+                    <option value="150">150</option>
+                </select>
+                <label for="numOfRooms">Rooms</label>
+                <select name="numOfRooms" id="numOfRooms" class="selectInput adDropDown" tabindex="8" title="Number of rooms" dir="ltr" required >
+                  <option value="" disabled selected>Rooms</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7_">>7</option>
+                </select>
+                <br><br><br><br>
+                <label for="contractType">Contract</label>
+                <select name="contract" id="contractType" class="selectInput adDropDown" tabindex="9" title="Type of contract" dir="ltr" required >
+                  <option value="" disabled selected>Contract</option>
+                  <option value="primarily">Primarily</option>
+                  <option value="sublease">Sublease</option>
+                  <option value="other">Other</option>
+                </select>
+                
+                <label for="balcony">Balcony/terrace</label>
+                <select name="balcony" id="balcony" class="selectInput adDropDown" tabindex="10" title="Balcony/terrace" dir="ltr" required >
+                  <option value="" disabled selected>Is there a balcony/terrace?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                
+                <label for="furniture">Furnished</label>
+                <select name="furnished" id="furniture" class="selectInput adDropDown" tabindex="11" title="Furnished" dir="ltr" required >
+                  <option value="" disabled selected>Furnished or not?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+              </fieldset>
+              
+              <fieldset class="fltrt">
+                <label for="floor">Floor</label>
+                <select name="floor" id="floor" class="selectInput adDropDown" tabindex="12" title="Floor" dir="ltr" required >
+                  <option value="" disabled selected>Which floor?</option>
+                    <option value="basement">Basement</option>
+                    <option value="groundFloor">Ground floor</option>
+                    <option value="aboveGround">Higher floor</option>
+                </select>
+                <label for="elevator">Elevator</label>
+                <select name="elevator" id="elevator" class="selectInput adDropDown" tabindex="13" title="Elevator" dir="ltr" required >
+                  <option value="" disabled selected>Elevator?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <label for="price">Price (SEK)</label>
+                <input type="text" name="price" id="price" class="txtInput" title="Price in SEK" tabindex="14" placeholder="Only numbers (e.g. 3600)" required ><!-- must be typecast checked so that user only enters numeric values. -->
+                <label for="period">Price per</label>
+                <select name="period" id="period" class="selectInput adDropDown" tabindex="15" title="Per period" dir="ltr" required>
+                  <option value="" disabled selected>Choose price period</option>
+                    <option value="day">Day</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                </select>
+                <br><br><br><br>
+                
+                <!-- Here users can browse for pictures from their computer. The placeholder should be exchanged with the picture they have browsed for. Each picture must be named with a unique id connected to the user and this ad so that the correct pictures are displayed when looking at the published ad -->
+                <label for="moreInfo">More info</label>
+                <textarea name="moreInfo" id="moreInfo" class="txtInput txtAreaHeight" tabindex="16" placeholder="Any additional information.." required></textarea>
+                <br><br><br><br>
+                <label for="picBrowser" class="objectInputBtn">Pics
+                <img src="imgs/object-placeholder.png" id="imgObjectPlaceholder" width="50" height="50" alt="object picture"  tabindex="16">
+                </label>
+                <input type="file" name="picBrowser" id="picBrowser" class="displayNone">
+                <label for="picBrowser" class="objectInputBtn">&nbsp;
+                <img src="imgs/object-placeholder.png" id="imgObjectPlaceholder" width="50" height="50" alt="object picture" tabindex="17">
+                </label>
+                <input type="file" name="picBrowser" id="picBrowser" class="displayNone">
+                <label for="picBrowser" class="objectInputBtn">&nbsp;
+                <img src="imgs/object-placeholder.png" id="imgObjectPlaceholder" width="50" height="50" alt="object picture" tabindex="18">
+                </label>
+                <input type="file" name="picBrowser" id="picBrowser" class="displayNone">
+                <br>
+                <p class="rentOutParagraph"><small>Tip! Ads with images will be more likely to get an accepted response.</small></p>
+                <br><br><br><br>
+                
+                <!-- If user selects corporation in "forWhom", the next drop-down list "Gender" will be disabled. -->
+                <label for="forWhom">To who?</label>
+                <select name="forWhom" id="forWhom" class="selectInput adDropDown" tabindex="17" required>
+                  <option value="" disabled selected>For whom</option>
+                    <option value="any">Any</option>
+                    <option value="private">Private person</option>
+                    <option value="corporation">Corporation</option>
+                </select>
+                
+                <!-- Should be disabled if user has selected Corporation in drop down list above -->
+                <label for="gender">Gender</label>
+                <select name="gender" id="gender" class="selectInput adDropDown" tabindex="18" required>
+                  <option value="" disabled selected>Gender</option>
+                    <option value="any">Any</option>
+                    <option value="man">Man</option>
+                    <option value="woman">Woman</option>
+                </select> 
+              </fieldset>
+              
+              
+      <div class="clearfloat"></div>
+            <button type="submit" class="formBtn fltrt" name="save" id="saveAdBtn" tabindex="20" value="Publish and pay">Publish and pay</button>
+            <button type="reset" class="formBtn fltrt" name="clearAdFormBtn" id="clearAdFormBtn" tabindex="19" value="Clear">Clear</button> <!-- Clear form -->
+            
+          </form>
+          
+      </section><!-- end .subContentWrapper .fltlft -->
+      <div class="clearfloat"></div>
+    </div><!-- end .subPageInnerWrapper -->
+    
+  </section><!-- end .subPageWrapper -->
+</div><!-- end .regContainer -->

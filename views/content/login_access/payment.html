@@ -1,0 +1,13 @@
+<!-- This is where users make their payment for ads they have created. When payment is performed and verified, an email with receipt is automatically sent to both user and admin (kvitto@takoverhuvudet.se). The ad must not be published until payment is done. If payment cant be performed, user will be redirected to payment_denied.html.-->
+<div class="loggedInContainer">
+   <header ng-include="'/content/login_access/header.html'"></header>
+  <section class="subPageWrapper">
+  	<div class="subPageInnerWrapper">
+      <h1>Register payment</h1>
+      <p>Here is the place where payment through a secure DIBS system is done.</p>
+      <form action="ad_success.html" name="paySuccessForm">
+      	<button type="submit" name="paySuccessBtn" id="paySuccessBtn" class="formBtn">Confirm</button><!-- When user confirm payment, all neccessary procedures is done to perform online payment. If everything works out fine, user will be redirected to ad_success.html, so user gets verified that the payment was done. If payment out of any reason could not be done, user should be redirected to payment_denied.html. All information user has entered in the form fields in the page before should be temporarily stored in case the payment could not be done out of technical reasons. -->
+      </form>
+    </div><!-- end .subPageInnerWrapper -->
+  </section><!-- end .subPageWrapper -->
+</div><!-- end .regContainer -->

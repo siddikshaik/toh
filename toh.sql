@@ -8,15 +8,15 @@ create table account (
 	id bigint not null auto_increment, 
 	username varchar(128), 
 	password varchar(128), 
-	accountKey varchar(128),
+	accountKey varchar(512),
 	signupdate varchar(128),
-	status int,
+	status enum('confirmationAwaiting', 'active', 'deleted') NOT NULL DEFAULT 'confirmationAwaiting',
 	PRIMARY KEY(id)
 );
 
 CREATE TABLE profile (
 	account_id bigint not null,
-	accountType int, 
+	accountType enum('private', 'corporate') NOT NULL DEFAULT 'private', 
 	name varchar(128), 
 	corporation varchar(128),
 	corpID varchar(64),
@@ -37,8 +37,8 @@ CREATE TABLE profile (
 CREATE TABLE ads (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	account_id BIGINT NOT NULL,
-	adType varchar(10),
-	adStatus int DEFAULT 0,
+	adType enum('letting', 'renting') NOT NULL,
+	adStatus enum('paymentAwaited', 'open', 'matched', 'closed') NOT NULL default 'paymentAwaited',
 	PRIMARY KEY(id),
 	FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE
 );
@@ -105,7 +105,7 @@ CREATE TABLE matchedAds (
 	matched_time BIGINT,
 	last_updated_time BIGINT,
 	close_time BIGINT,
-	status enum('','renterAccepted', 'denied', 'close') NOT NULL default '',
+	status enum('awaiting','renterAccepted', 'letterAccepted', 'renterDenied', 'letterDenied', 'approved') NOT NULL default 'awaiting',
 	PRIMARY KEY(renting_ad_id, letting_ad_id),
 	FOREIGN KEY (renting_account_id) REFERENCES account(id) ON DELETE CASCADE,
 	FOREIGN KEY (renting_ad_id) REFERENCES renting(id) ON DELETE CASCADE,
