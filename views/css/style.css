@@ -71,11 +71,13 @@ select, option {
 	cursor:default;
 }
 /* ~~ this container surrounds all other divs giving them their percentage-based width ~~ */
-.indexContainer, .publicBckgr {
+.indexContainer {
 	min-width: 100%;
 	max-width: 2800px;/* a max-width may be desirable to keep this layout from getting too wide on a large monitor. This keeps line length more readable. IE6 does not respect this declaration. */
+}
+.publicBckr {
 	background:url(../img/lookingonhouses-blurred.png) no-repeat right bottom fixed;
-	background-size:cover;
+	background-size:cover;	
 }
 
 /*Removes the default browser render style of placeholder text color*/
@@ -151,6 +153,10 @@ button[type="submit"]:hover, button[type="button"]:hover, button[type="reset"]:h
 	text-align:right;
 	margin-top:5px;
 	margin-bottom:18px;
+	color:white;
+}
+.loginBlock {
+	overflow:hidden;
 }
 .rightBlock .loginBlock .fieldTypes p:last-child {
 	text-align:left;
@@ -165,6 +171,9 @@ button[type="submit"]:hover, button[type="button"]:hover, button[type="reset"]:h
 	float:left;
 	width:60%;
 }
+.loginBlock .fieldTypes #loginForm label {
+	display:none;
+}
 .txtInput {
 	height:22px;
 	width:200px;
@@ -177,6 +186,12 @@ button[type="submit"]:hover, button[type="button"]:hover, button[type="reset"]:h
 /* to make label sit on top of text fields*/
 label { 
 	display:block;
+	color:white;
+}
+@media only screen and (min-width:1156px) {
+	#loginForm label {
+		display:none;	
+	}
 }
 .rightBlock .loginBlock #loginForm input:nth-of-type(2), #loginForm #loginBtn {
 	margin-top:12px;
@@ -215,12 +230,11 @@ label {
 .footer {
 	height:100%;
 	margin-top:100px;
-	padding: 0;
+	padding: 20px 0 0;
 	background:url(../img/footer-tak-over-huvudet.png) no-repeat center center;
 	overflow:hidden;
 }
 .linkBoxWrapper {
-	padding-top:20px;
 	padding-bottom:20px;
 	margin-bottom:50px;
 	text-align:center;
@@ -240,15 +254,26 @@ label {
 .linkBox p {
 	margin-bottom:5px;
 }
+.linkBox p a:hover {
+	color:#060;	
+}
 
 /* ~~ Register as private or business page. Request new password page. Uses same outer wrappers as Register page ~~ */
 .regOptionBtnWrapper, .resetPasswordWrapper {
-	width:50%;
+	width:80%;
 	margin:0 auto;
+}
+.regOptionBtnWrapper .formBtn, .resetPasswordWrapper .formBtn {
+	width:94px;
+	margin-left:0;
+	margin-right:30px;	
 }
 .resetPasswordWrapper p {
 	padding-top:10px;
 	padding-left:0;
+}
+#newPassword {
+	margin-bottom:10px;	
 }
 /* ~~ Register page styles ~~ */
 .regContainer {
@@ -257,7 +282,7 @@ label {
 	padding:0.001em 0 0 0; /* ~~ Removes unwanted top margin that can emerge in some browsers ~~ */
 }
 .subPageWrapper {
-	width:1100px;
+	width:60%; /* 1100px originally set */
 	margin: 10% auto;
 	background-color:rgba(94, 172, 59, 0.9);
 	border-radius:10px;
@@ -266,6 +291,7 @@ label {
 .subPageInnerWrapper {
 	width:70%;
 	margin:50px auto;
+	overflow:hidden;
 }
 .subPageInnerWrapper h2 {
 	margin-left:0;
@@ -275,12 +301,21 @@ label {
 	font-size:2em;
 	padding-left:0;
 }
+
+/* register new account styles */
+#registerAccountWrapper {
+	width:869px;	
+}
+#registerAccountWrapper .subPageInnerWrapper {
+	width:85%;	
+}
 label.customInputBtn {
 	margin-top:18px;
 	margin-right:50px;
 	position:relative;
 	overflow:hidden;
 	height:190px;
+	
 }
 label.customInputBtn img {
 	border-radius:3px;
@@ -295,6 +330,7 @@ label.customInputBtn small {
 	top:160px;
 	left:0;
 	text-align:center;
+	z-index:999;
 }
 label.customInputBtn small:hover {
 	background-color: white;
@@ -333,11 +369,11 @@ p#fileName:before {
 	line-height:2.2;
 	margin-right:10px;
 }
-p#gender {
+p#genderRadioBtns {
 	padding-top:11px;
 	margin-bottom:0;
 }
-#gender label:nth-child(2) {
+#genderRadioBtns label:nth-child(2) {
 	margin-left:25px;
 }
 
@@ -368,6 +404,7 @@ header {
 	background-color:rgba(94, 172, 59, 0.9);
 	min-width:100%;
 	box-shadow: 0 1px 3px #000;
+	z-index:9999;
 }
 header nav ul {
 	margin-left:50px;
@@ -376,11 +413,50 @@ header nav ul li {
 	display:inline-block;
 	padding:20px 10px;
 }
-header nav ul a:hover {
+@media only screen and (min-width:1157px) { /* prevents small screen menu to display at larger screen sizes than specified in each responsive stylesheet. */
+  #collapsedMenuIcon, #smallScreenMenu {
+	  display:none !important;	
+  }
+}
+#collapsedMenuIcon nav ul {
+	margin:0;
+	width:100%;
+}
+#collapsedMenuIcon nav ul li {
+	width:100%;
+}
+#collapsedMenuIcon nav ul img {
+	margin-left:10px;
+}
+#smallScreenMenu { /* this menu is only visible in phone screen sizes */
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:rgba(94, 172, 59, 0.9);
+	min-width:100%;
+	margin:0;
+	padding:0;
+	
+}
+#smallScreenMenu nav ul {
+	margin:0;	
+}
+#smallScreenMenu nav ul a li {
+	padding:20px;
+	border-bottom:1px solid white;
+	width:100%;
+	margin:0;	
+}
+#smallScreenMenu nav ul a {
+	margin:0;
+	padding:0;	
+}
+header nav ul a:hover, #smallScreenMenu nav ul a:hover {
 	color:white !important;
 }
-header nav ul a:hover > li {
+header nav ul a:hover > li, #smallScreenMenu nav ul a:hover li, #collapsedMenuIcon li:hover {
 	background-color:#32B8D2;
+	cursor:pointer;
 }
 #messageLink {
 	position:relative;
@@ -430,12 +506,45 @@ header nav ul a:hover > li {
 	background-color:#67BF9C;
 }
 
+/* How it work page style */
+#howItWorksPage {
+	width:1080px !important;	
+}
+figure.howItWorks {
+	padding:20px 30px;
+	float:left;
+	
+}
+#howItWorksPage figure img {
+	width:100%;	
+}
+
+/* COntact page style */
+#contactWrapper p a {
+	color:#060 !important;
+	text-decoration:underline;	
+}
+#contactWrapper p a:hover {
+	color:white !important;	
+}
+#emailBtn {
+	margin-left:15px;	
+}
+
+
 #questionsWrapper p em {
 	color:#060;
 }
+#questionsWrapper p em a, #tipsPageWrapper p a {
+	color:#060 !important;
+	text-decoration:underline;
+}
+#questionsWrapper p em a:hover, #tipsPageWrapper p a:hover {
+	color:white !important;
+}
 ul#tipsList {
-	font-size:1.2em;
-	color:#060;
+	list-style-type:none !important;
+	color:white;
 }
 ul#tipsList li {
 	padding-bottom:14px;
@@ -444,7 +553,7 @@ ul#tipsList li {
 /* ~~ Logged in user pages ~~ */
 /* ~~ Main logged in user page ~~ */
 .loggedInBckgr {
-	background:url(../img/dogs.jpg) no-repeat center center fixed;
+	background:url(../img/livingroom.jpg) no-repeat center center fixed;
 	background-size:cover;
 }
 .loggedInContainer {
@@ -492,50 +601,57 @@ ul#tipsList li {
 	margin-top:50px;
 }
 
-/* ~~ User profile ads page where all users object are displayed in a table ~~ */
-table.adsTable {
-	table-layout:fixed;
-	width:90%;
-	border-collapse:collapse;
+/* ~~ User profile ads page where all users object are displayed ~~ */
+.adWrapper {
+	width:100%;
+	overflow:hidden;	
 }
-table.adsTable tbody {
-	border-bottom:2px solid #569D37;
-}
-table.adsTable tbody:hover {
+.adWrapper:hover {
 	background-color:#1C9880;
-	cursor:default;
 }
-table.adsTable td, table.adsTable th {
-	padding-left:20px;
-	padding-right:20px;
-	overflow:hidden;
-	word-wrap:break-word;
+.adHeader {
+	width:100%;	
 }
-table.adsTable th {
-	padding-top:20px;
+.adHeader h3 {
+	display:inline-block;
+	padding-left:10px;
+	margin-right:50px;	
 }
-table.adsTable td {
-	padding-bottom:20px;
+.adPicturesWrapper {
+	width:170px;
+	float:left;
+	padding:0 10px;	
 }
-table.adsTable th {
-	font-size: 1.2em;
-	font-weight:normal;
-	text-align:left;
+.adFig {
+	padding-bottom:10px;	
 }
-table.adsTable button {
-	width:100px;
+.adFig img {
+	border-radius:5px;	
 }
-.adBtnsWrapper, .profileBtns {
+.adObjectDetails {
+	float:left;
+	padding:0 10px;	
+}
+.adButtons {
+	float:right;
+	padding-right:10px;	
+}
+.adButtons .adBtn {
+	float:right;
+	width:100%;
+	margin-bottom:20px;	
+}
+.NewAdBtnsWrapper, .profileBtns {
 	width: 500px;
 	margin-left:50px;
 	margin-top:80px;
 	overflow:hidden;
 }
-.adBtnsWrapper h3 {
+.NewAdBtnsWrapper h3 {
 	text-align:center;
 }
 .fixedWidthBtn {
-	width:200px;
+	width:180px;
 }
 #findBtnForm, #rentBtnForm {
 	margin:0;
@@ -594,43 +710,65 @@ p.rentOutParagraph small {
 }
 
 /* ~~ Message page with tables ~~ */
-/* toLandlordTable is a table containing information about the searcher, and toSearcherTable is table containing information baout the landlord */
-table.toLandlordTable, table.toSearcherTable, table.approvalTable {
-	margin-bottom:50px;
+#messagesWrapper {
+	width:1080px !important;	
+}
+#subMessagesWrapper {
+	width:867px !important;	
+}
+.messageWrapper {
+	width:100%;
+	overflow:hidden;
 	border-bottom:1px solid #060;
+	padding-top:30px;	
 }
-table.toLandlordTable caption, table.toSearcherTable caption, table.approvalTable caption {
-	text-align:left;
-	font-size:1.2em;
-	padding-bottom:2px;
+.messageWrapper p {
+	font-size:0.9em;	
 }
-table.toLandlordTable caption p, table.toSearcherTable caption p, table.approvalTable caption p {
-	padding-left:0;
+.messageWrapper h3 {
+	padding-left:10px;	
 }
-table.toLandlordTable img, table.toSearcherTable img, table.approvalTable img {
+.m-infoBlock, .ms-infoBlock, .mlc-infoBlock, .msc-infoBlock, .ma-infoBlock {
+	float:left;
+	width:31%;
+	padding:0 10px;	
+}
+#m-infoBlockProfilePic, #ms-infoBlockProfilePic, #mlc-infoBlockProfilePic, #msc-infoBlockProfilePic, #ma-infoBlockProfilePic {
+	margin-bottom:10px;	
+}
+#m-infoBlockProfilePic img, #ms-infoBlockProfilePic img, #mlc-infoBlockProfilePic img, #msc-infoBlockProfilePic img, #ma-infoBlockProfilePic img {
 	border-radius:3px;
 }
-table.toLandlordTable tr:nth-child(odd), table.toSearcherTable tr:nth-child(odd), table.approvalTable tr:nth-child(odd) {
-	color:#060;
+.m-infoBlock p, .ms-infoBlock p, .mlc-infoBlock p, .msc-infoBlock p, .ma-infoBlock p, .messageFooterBlock p small {
+	padding-left:0;
+	color:#060;	
 }
-table.toLandlordTable tr:nth-child(even) td, table.toSearcherTable tr:nth-child(even) td, table.approvalTable tr:nth-child(even) {
-	padding-bottom:10px;
-}
-table.toLandlordTable tr:last-child button, table.toSearcherTable tr:last-child button {
-	margin:20px 0 20px 0;
-}
-table.toLandlordTable small span, table.toSearcherTable small span, table.approvalTable small span {
+.m-infoBlock p span, .ms-infoBlock p span, .mlc-infoBlock p span, .msc-infoBlock p span, .ma-infoBlock p span, .messageFooterBlock p small span {
 	color:white;	
 }
-/* toSearcherTable specific styles */
-.tablePic {
-	box-sizing:border-box;
-	width:33%;
-	float:left;
+.messageFooterBlock {
+	width:100%;
+	overflow:hidden;
+	padding-top:30px;	
 }
-/* approvalTable specific styles */
-table.approvalTable tr:last-child td:last-child {
-	padding-bottom: 20px;
+.messageFig {
+	display:inline-block;
+	padding:10px;	
+}
+.messageFig img {
+	border-radius:3px;	
+}
+.proposalInfo {
+	width:50%;
+	float:left;	
+}
+.messageFooterBtns {
+	width:40%;
+	float:right;	
+}
+.messageFooterBtns .formBtn {
+	width:50%;
+	margin-bottom:20px;	
 }
 
 /* ~~ miscellaneous float/clear classes ~~ */

@@ -4,7 +4,7 @@
 	"scripts": {
 	  "start": "supervisor server.js"
 	},
-	"main": "app.js",
+	"main": "server.js",
 	"dependencies": {
 		"body-parser": "*",
 		"cookie-parser": "*",
@@ -21,6 +21,7 @@
 		"connect-multiparty":"*",
 		"promise": "*",
 		"nodemailer":"*",
-		"nodemailer-smtp-transport":"*"
+		"nodemailer-smtp-transport":"*",
+		"node-schedule": "0.2.9"
 	}
 }

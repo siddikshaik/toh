@@ -1,48 +1,14 @@
-<!-- This page is displayed when a user wants to accept a given proposal. It declares what the premises are when you accepts an offer -->
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Accept proposal | Tak Över Huvudet</title>
-<link href="../../css/boilerplate.css" rel="stylesheet" type="text/css">
-<link href="../../css/style.css" rel="stylesheet" type="text/css">
 
-<script src="../../js/respond.min.js" type="text/javascript"></script>
-<script src="../../js/prefixfree.min.js" type="text/javascript"></script>
-
-<script src="/js/jquery-1.11.2.js"></script>
-
-<script src="/js/takoverhuvudet.js" type="text/javascript"></script>
-
-
-</head>
-
-<body class="loggedInBckgr">
 
 <div class="loggedInContainer">
-  <header>
-     <nav>
-     	<ul>
-        	<a href="home.html" title="Back to my home"><li>My home</li></a> <!-- link to logged in index page (access_index)--> 
-            <a href="privateProfile.html" title="My profile"><li>My profile</li></a> <!-- link to this user profile page -->
-            <a href="ads.html" title="My ads"><li>Ads</li></a> <!-- link to this user ad page -->
-            <a href="messages.html" title="My messages"><li id="messageLink">Messages<div id="alertContainer"><!-- this container holds the alert icon (key) that will be displayed when the user got a new message/new match. Should be set to display:block on all logged in pages for the user seesion until the user visits the Message page --></div></li></a> <!-- link to this user messages page -->
-            <a href="../../index.html" title="Log out" class="fltrt"><li>Log out</li></a> <!-- log out user. The user will be redirected to index page after successfully logged out -->
-        </ul>
-     </nav>
-  </header><!-- end .header -->
+        <header ng-include="'/content/login_access/header.html'"></header>
   <section class="subPageWrapper">
   
   	<div class="subPageInnerWrapper">
       <h1>Accepting a proposal</h1>
       <p>Remember if you accept this offer and the other person also accepts your offer, then you have used your ad. Check the offer again, just to be sure that it is the right one for you! :)</p>
-      <form action="" name="acceptProposalForm">
-      	<button type="submit" name="acceptProposalBtn" id="acceptProposalBtn" class="formBtn">Accept the proposal</button><!-- When user press accept, the ad they payed for is now used and if they want to make another ad they have to create a new one and pay for it. But there is one circumstance that can give the user back the ad, and that is if a landlord accepts the searcher, but the searcher then deny the offer. In that case, the landlord will be given back the ad and it should be activated automatically. -->
-      </form>
+      	<button type="submit" name="acceptProposalBtn" id="acceptProposalBtn" class="formBtn" ng-click="confirm_accept();">Accept the proposal</button><!-- When user press accept, the ad they payed for is now used and if they want to make another ad they have to create a new one and pay for it. But there is one circumstance that can give the user back the ad, and that is if a landlord accepts the searcher, but the searcher then deny the offer. In that case, the landlord will be given back the ad and it should be activated automatically. -->
     </div><!-- end .subPageInnerWrapper -->
     
   </section><!-- end .subPageWrapper -->
 </div><!-- end .regContainer -->
-
-</body>
-</html>

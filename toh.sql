@@ -105,7 +105,7 @@ CREATE TABLE matchedAds (
 	matched_time BIGINT,
 	last_updated_time BIGINT,
 	close_time BIGINT,
-	status enum('awaiting','renterAccepted', 'letterAccepted', 'renterDenied', 'letterDenied', 'approved') NOT NULL default 'awaiting',
+	status enum('awaiting','renterAccepted', 'letterAccepted', 'renterDenied', 'letterDenied', 'autoDenied', 'approved') NOT NULL default 'awaiting',
 	PRIMARY KEY(renting_ad_id, letting_ad_id),
 	FOREIGN KEY (renting_account_id) REFERENCES account(id) ON DELETE CASCADE,
 	FOREIGN KEY (renting_ad_id) REFERENCES renting(id) ON DELETE CASCADE,

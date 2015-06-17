@@ -28,9 +28,11 @@ var matchedAds = DB.Model.extend({
 	},
 	
 	addEntry: function(rentingAd, lettingAd){
+		console.log('adding matched Ad entry');
 		rentingAd = rentingAd ? rentingAd : rentingAd.toJSON();
-		console.log('lettingAd :: '+JSON.stringify(lettingAd));
 		lettingAd = lettingAd ? lettingAd : lettingAd.toJSON();
+		console.log('lettingAd :: '+JSON.stringify(lettingAd));
+
 		var newEntry = { renting_ad_id: rentingAd.id, renting_account_id: rentingAd.account_id
 						, letting_ad_id: lettingAd.id, letting_account_id: lettingAd.account_id
 						, matched_time: moment().valueOf(), last_updated_time: moment().valueOf() };
@@ -58,11 +60,14 @@ var matchedAds = DB.Model.extend({
 					return matchedEntryObj.fetch().then(function(matchedEntryObj){
 						console.log('matchedEntryObj :: '+JSON.stringify(matchedEntryObj));
 						var matchedEntryJSON = (matchedEntryObj && matchedEntryObj.status) ? matchedEntryObj : matchedEntryObj.toJSON();
+						console.log('matchedEntryJSON && matchedEntryJSON.status :: '+ matchedEntryJSON.status );
 						if(matchedEntryJSON && matchedEntryJSON.status) {
 							var adStatus = adStatusCodes.matched;
 							if(matchedEntryJSON.status == matchedAdStatusCodes.approved){
 								adStatus = adStatusCodes.closed;
-							} else if (matchedEntryJSON.status == matchedAdStatusCodes.renterDenied || matchedEntryJSON.status == matchedAdStatusCodes.letterDenied){
+							} else if (matchedEntryJSON.status == matchedAdStatusCodes.renterDenied 
+									|| matchedEntryJSON.status == matchedAdStatusCodes.letterDenied
+									|| matchedEntryJSON.status == matchedAdStatusCodes.autoDenied){
 								adStatus = adStatusCodes.open;
 							}
 							return success(adStatus);
@@ -78,6 +83,38 @@ var matchedAds = DB.Model.extend({
 			}
 		});
 	}
+	
 });
 
+var matchedAdExpiryDuration = 1000 * 60 * 60;
+
+var autoDenyMatchedEntries = function(){
+	console.log('Auto deny schedule triggered');
+	matchedAds.query('where', 'matched_time', '<', moment().valueOf() - matchedAdExpiryDuration)
+	.where('status', 'in', ['awaiting', 'letterAccepted', 'renterAccepted'])
+	.fetchAll().then(function(matchedAdEntries){
+		matchedAdEntries.mapThen(function(matchedEntry){
+			console.log('matchedEntry ::' +JSON.stringify(matchedEntry));
+			matchedEntry.updateEntryStatus(matchedAdStatusCodes.autoDenied)
+			.then(function(adStatus) {
+				if(adStatus) {
+					ads.updateAdStatus(matchedEntry.toJSON(), adStatus);
+				}
+			});
+		});
+	});
+}
+
+var addMatchedAdEntry = function(rentingAd, lettingAd, next){
+	return new matchedAds().addEntry(rentingAd, lettingAd).then(function(matchedAd){
+		matchedAd = matchedAd.toJSON();
+		console.log('matchedAd :: '+JSON.stringify(matchedAd));
+		if(next){
+			return next(matchedAd);	
+		}
+	});
+}
+
 module.exports.matchedAds = matchedAds;
+module.exports.addMatchedAdEntry = addMatchedAdEntry;
+module.exports.autoDenyMatchedEntries = autoDenyMatchedEntries;

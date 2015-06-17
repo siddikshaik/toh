@@ -8,522 +8,170 @@ Cells with $value is where data from database is to be insertet
 When a user clicks Accept on a message, that message should still be left in the message stack and visible to the user. But one of the buttons should change text to saying Delete, so that the user can delete a message whenever they want. When they delete a message, then it should be completely removed from the site. Same thing should happen if a user clicks Deny, the message is still there but with one Delete button. -->
 
 <div class="loggedInContainer">
-    <header ng-include="'/content/login_access/header.html'"></header>
-  <section class="subPageWrapper">
-  
-  	<div class="subPageInnerWrapper">
+      <header ng-include="'/content/login_access/header.html'"></header>
+  <section class="subPageWrapper" id="messagesWrapper">
+    <div class="subPageInnerWrapper" id="subMessagesWrapper">
       <h1>My messages</h1>
+      <!-- This message block is shown for the landlord when the searcher is a private person. -->
+      <div class="messageWrapper" id="toLandlordFromPrivateMessage" ng-repeat="msg in rent_msgs">
+        <h3>You have received a proposal to ad <span id="adID">#{{msg.lettingAdData.id}}</span></h3>
+        <div class="m-infoBlock">
+          <figure id="m-infoBlockProfilePic">
+              <img src="/img/profile-picture-placeholder.svg" id="imgUserPlaceholder" width="150" height="150" alt="profile picture"><!-- replace with user profile picture if there is one. Otherwise the placeholder.svg will be used -->
+            </figure>
+            <div class="m-userDetails">
+              <p>
+                <span id="m-fullName" ng-if="msg.letterProfile.name != null">{{msg.letterProfile.name}}&nbsp;</span><span id="m-familyName">{{msg.letterProfile.familyname}}</span><br>
+                <span id="m-age">DOB : {{msg.letterProfile.dob}}<br>
+                <span id="m-gender" ng-if="msg.letterProfile.gender != null">{{msg.letterProfile.gender}}</span><br>
+                <span id="m-occupation" ng-if="msg.letterProfile.occupation != null">{{msg.letterProfile.occupation}}</span><br>
+                <span id="m-allergicAgainst" ng-if="msg.letterProfile.allergy != null">I am allergic against : {{msg.letterProfile.allergy}}</span><br><br>
+                </p>
+            </div><!-- end .m-userDetails -->
+        </div><!-- end .infoBlock -->
+        
+        <div class="m-infoBlock">
+          <p>Type of accomodation<br>
+            <span id="m-type">{{msg.lettingAdData.accommodationType}}</span><br>
+            <p>Type of contract<br>
+            <span id="m-contract">{{msg.lettingAdData.contract}}</span><br>
+            <p>Rooms<br>
+            <span id="m-rooms">{{msg.lettingAdData.minRooms}}</span><br>
+            <p>Minimum size<br>
+            <span id="m-minSize">{{msg.lettingAdData.minSize}}</span><br>
+            <p>State<br>
+            <span id="m-state">{{msg.lettingAdData.state}}</span><br>
+            <p>Municipality<br>
+            <span id="m-municipality">{{msg.lettingAdData.municipality}}</span><br>
+            <p>Local area<br>
+            <span id="m-localArea">{{msg.lettingAdData.area}}</span><br>
+            </p>
+        </div><!-- end .infoBlock -->
+        
+        <div class="m-infoBlock">
+          <p>Maximum price<br>
+            <span id="m-maxPrice">{{msg.lettingAdData.maxPrice}}</span> SEK / <span id="m-period">{{msg.lettingAdData.period}}</span><br>
+            <p>Access date<br>
+            <span id="m-accessDate">{{msg.lettingAdData.accessDate}}</span><br>
+            <p>For how long<br>
+            <span id="m-timeRent">{{msg.lettingAdData.duration}}</span><br>
+            <p>Floor<br>
+            <span id="m-floor">{{msg.lettingAdData.floor}}</span><br>
+            <p>Elevator<br>
+            <span id="m-elevator">{{msg.lettingAdData.elevator}}</span><br>
+            <p>Furnished<br>
+            <span id="m-furnished">{{msg.lettingAdData.furnished}}</span><br>
+            <p>Balcony/terrace<br>
+            <span id="m-balcony">{{msg.lettingAdData.balcony}}</span><br>
+            </p>
+        </div><!-- end .infoBlock -->
+        <div class="messageFooterBlock">
+          <div class="proposalInfo">
+              <p><small>The proposal came at <span id="m-proposalTime">{{msg.matched_time}}</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.</small></p>
+            </div>
+            <div class="messageFooterBtns">
+                <button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn" ng-click="accept_msg(msg.lettingAdData.id,'letting');">Accept</button>
+                <button type="submit" name="denyBtn" id="denyBtn" class="formBtn" ng-click="deny_msg(msg.lettingAdData.id,'letting');">Deny</button>
+            </div>
+        </div><!-- end .messageFooterBlock -->
+      </div><!-- end .messageWrapper -->
       
-      <!-- This table is to be filled with data from database. It is shown for the landlord and the searcher is a private person. -->
-      <table width="100%" border="0" class="toLandlordTable">
-      <tbody>
-        <caption>
-          <p>You have received a proposal to ad <span id="adID">#0001<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
-        </caption>
-        <tr>
-          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
-          <td width="35%" colspan="2">Name</td>
-          <td width="4%">&nbsp;</td>
-          <td width="20%">Type of accommodation</td>
-          <td width="20%">Rooms</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">$name + $familyname</td>
-          <td>&nbsp;</td>
-          <td>$accType</td>
-          <td>$rooms</td>
-        </tr>
-        <tr>
-      
-          <td width="9%">Gender</td>
-          <td width="9%">Age</td>
-          <td>&nbsp;</td>
-          <td>State</td>
-          <td>Municipality</td>
-        </tr>
-        <tr>
-      
-          <td>$gender</td>
-          <td>$age</td>
-          <td>&nbsp;</td>
-          <td>$state</td>
-          <td>$municipality</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">Occupation</td>
-          <td>&nbsp;</td>
-          <td>Area</td>
-          <td>Contract</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">$occupation</td>
-          <td>&nbsp;</td>
-          <td>$area</td>
-          <td>$contract</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">Allergic?</td>
-          <td>&nbsp;</td>
-          <td>Maximum price (SEK)</td>
-          <td>Minimum size</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">$haveAllergy</td>
-          <td>&nbsp;</td>
-          <td>$maxPrice per $period</td>
-          <td>$minSize</td>
-        </tr>
-        <tr>
-          <td colspan="2">Against what?</td>
-          <td>&nbsp;</td>
-          <td>Access date</td>
-          <td>For how long</td>
-        </tr>
-        <tr>
-          <td colspan="2">$allergy</td>
-          <td>&nbsp;</td>
-          <td>$date</td>
-          <td>$timeRent</td>
-        </tr>
-        <tr>
-          <td colspan="3">Who is this?</td>
-          <td>&nbsp;</td>
-          <td>Balcony/terrace</td>
-          <td>Floor</td>
-        </tr>
-        <tr>
-          <td colspan="3" rowspan="5">$personalDetails</td>
-          <td>&nbsp;</td>
-          <td>$balcony</td>
-          <td>$floor</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Furnished</td>
-          <td>Elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>$furnished</td>
-          <td>$elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td><form action="acceptProposal.html" name="acceptForm">
-          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
-              </form></td>
-          <td><form action="denyProposal.html" name="denyForm">
-          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
-              </form></td>
-        </tr>
-  </tbody>
-</table>
+      <!-- This message block is shown for the Searcher when the Landlord is a private person. -->
+      <div class="messageWrapper" id="toSearcherFromPrivateLandlordMessage" ng-repeat="msg in let_msgs">
+        <h3>You have received a proposal to ad <span id="adID">$adID</span></h3>
+        <div class="ms-infoBlock">
+          <figure id="ms-infoBlockProfilePic">
+              <img src="/img/profile-picture-placeholder.svg" id="imgUserPlaceholder" width="150" height="150" alt="profile picture"><!-- replace with user profile picture if there is one. Otherwise the placeholder.svg will be used -->
+            </figure>
+            <div class="ms-userDetails">
+              <p>
+                <span id="mlc-corporation" ng-if="msg.renterProfile.corporation != null">{{msg.renterProfile.corporation}}</span><br>
+                <span id="mlc-corporationID" ng-if="msg.renterProfile.corpID != null">{{msg.renterProfile.corpID}}</span><br>
+                About us:<br>
+                <span id="mlc-corporationID" ng-if="msg.renterProfile.corpID != null">{{msg.rentingAdData.moreInfo}}</span><br>
 
-<!-- This table is to be filled with data from database. It is shown for the Searcher and the landlord is a private person. -->
-<table width="100%" border="0" class="toSearcherTable">
-      <tbody>
-        <caption>
-          <p>You have received a proposal to ad <span id="adID">#0034<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
-        </caption>
-        <tr>
-          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
-          <td width="35%" colspan="2">Name</td>
-          <td width="4%">&nbsp;</td>
-          <td width="20%">Type of accommodation</td>
-          <td width="20%">Rooms</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">$name + $familyname</td>
-          <td>&nbsp;</td>
-          <td>$accType</td>
-          <td>$rooms</td>
-        </tr>
-        <tr>
-      
-          <td width="9%">Gender</td>
-          <td width="9%">Age</td>
-          <td>&nbsp;</td>
-          <td>State</td>
-          <td>Municipality</td>
-        </tr>
-        <tr>
-      
-          <td>$gender</td>
-          <td>$age</td>
-          <td>&nbsp;</td>
-          <td>$state</td>
-          <td>$municipality</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">Occupation</td>
-          <td>&nbsp;</td>
-          <td>Area</td>
-          <td>Contract</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">$occupation</td>
-          <td>&nbsp;</td>
-          <td>$area</td>
-          <td>$contract</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">Allergic?</td>
-          <td>&nbsp;</td>
-          <td>Price (SEK)</td>
-          <td>Minimum size</td>
-        </tr>
-        <tr>
-      
-          <td colspan="2">$haveAllergy</td>
-          <td>&nbsp;</td>
-          <td>$price per $period</td>
-          <td>$minSize</td>
-        </tr>
-        <tr>
-          <td colspan="2">Against what?</td>
-          <td>&nbsp;</td>
-          <td>Access date</td>
-          <td>For how long</td>
-        </tr>
-        <tr>
-          <td colspan="2">$allergy</td>
-          <td>&nbsp;</td>
-          <td>$date</td>
-          <td>$timeRent</td>
-        </tr>
-        <tr>
-          <td colspan="3">Renting?</td>
-          <td>&nbsp;</td>
-          <td>Balcony/terrace</td>
-          <td>Floor</td>
-        </tr>
-        <tr>
-          <td colspan="3" rowspan="4">$objectDetails</td>
-          <td>&nbsp;</td>
-          <td>$balcony</td>
-          <td>$floor</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Furnished</td>
-          <td>Elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>$furnished</td>
-          <td>$elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
-        </tr>
-        <tr>
-          <td colspan="3">
-          <div class="tablePic"><img name="img_1" src="" width="50" height="50" alt="No img"></div>
-          <div class="tablePic"><img name="img_2" src="" width="50" height="50" alt="No img"></div>
-          <div class="tablePic"><img name="img_3" src="" width="50" height="50" alt="No img"></div>
-          </td>
-          <td>&nbsp;</td>
-          <td><form action="acceptProposal.html" name="acceptForm">
-          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
-              </form></td>
-          <td><form action="denyProposal.html" name="denyForm">
-          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
-              </form></td>
-        </tr>
-  </tbody>
-</table>
+                </p>
+            </div><!-- end .ms-userDetails -->
+        </div><!-- end .infoBlock -->
+        
+        <div class="m-infoBlock">
+          <p>Type of accomodation<br>
+            <span id="m-type">{{msg.rentingAdData.accommodationType}}</span><br>
+            <p>Type of contract<br>
+            <span id="m-contract">{{msg.rentingAdData.contract}}</span><br>
+            <p>Rooms<br>
+            <span id="m-rooms">{{msg.rentingAdData.numOfRooms}}</span><br>
+            <p>Minimum size<br>
+            <span id="m-minSize">{{msg.rentingAdData.size}}</span><br>
+            <p>State<br>
+            <span id="m-state">{{msg.rentingAdData.state}}</span><br>
+            <p>Municipality<br>
+            <span id="m-municipality">{{msg.rentingAdData.municipality}}</span><br>
+            <p>Local area<br>
+            <span id="m-localArea">{{msg.rentingAdData.area}}</span><br>
+            </p>
+        </div><!-- end .infoBlock -->
+        
+        <div class="m-infoBlock">
+          <p>Price<br>
+            <span id="m-maxPrice">{{msg.rentingAdData.price}}</span> SEK / <span id="m-period">{{msg.rentingAdData.period}}</span><br>
+            <p>Access date<br>
+            <span id="m-accessDate">{{msg.rentingAdData.accessDate}}</span><br>
+            <p>For how long<br>
+            <span id="m-timeRent">{{msg.rentingAdData.minTimeToRent}}</span><br>
+            <p>Floor<br>
+            <span id="m-floor">{{msg.rentingAdData.floor}}</span><br>
+            <p>Elevator<br>
+            <span id="m-elevator">{{msg.rentingAdData.elevator}}</span><br>
+            <p>Furnished<br>
+            <span id="m-furnished">{{msg.rentingAdData.furnished}}</span><br>
+            <p>Balcony/terrace<br>
+            <span id="m-balcony">{{msg.rentingAdData.balcony}}</span><br>
+            </p>
+        </div><!-- end .infoBlock -->
+        <div class="messageFooterBlock">
+          <div class="messagePictureWrapper">
+              <figure class="messageFig" id="objectPic1"><!-- create dynamically and fill with pictures if there is any -->
+                  <img src="imgs/objects/dummy1.jpg" width="150" alt="object picture"><!-- If there is no image to show, leave it empty/remove img tag -->
+                </figure>
+                <figure class="messageFig" id="objectPic2">
+                  <img src="imgs/objects/dummy1.jpg" width="150" alt="object picture"><!-- Show only if there is more than one images -->
+                </figure>
+                <figure class="messageFig" id="objectPic3">
+                  <img src="imgs/objects/dummy1.jpg" width="150" alt="object picture"><!-- Show only if there is more than two images -->
+                </figure>
+            </div>
+          <div class="proposalInfo">
+              <p><small>The proposal came at <span id="ms-proposalTime">{{msg.matched_time}}</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.</small></p>
+            </div>
+            <div class="messageFooterBtns">
+              <button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn" ng-click="accept_msg(msg.rentingAdData.id,'renting');">Accept</button>
+                <button type="submit" name="denyBtn" id="denyBtn" class="formBtn" ng-click="deny_msg(msg.rentingAdData.id,'renting');">Deny</button>
+            </div>
+        </div><!-- end .messageFooterBlock -->
+      </div><!-- end .messageWrapper -->
 
-<!-- This table is to be filled with data from database. It is shown for the landlord and the Searcher is a corporation. -->
-      <table width="100%" border="0" class="toLandlordTable">
-      <tbody>
-        <caption>
-          <p>You have received a proposal to ad <span id="adID">#0777<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
-        </caption>
-        <tr>
-          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
-          <td width="26%">Corporation name</td>
-          <td width="5%">&nbsp;</td>
-          <td width="24%">Type of accommodation</td>
-          <td width="24%">Rooms</td>
-        </tr>
-        <tr>
-      
-          <td>$corporationName</td>
-          <td>&nbsp;</td>
-          <td>$accType</td>
-          <td>$rooms</td>
-        </tr>
-        <tr>
-      
-          <td>Corporation ID number</td>
-          <td>&nbsp;</td>
-          <td>State</td>
-          <td>Municipality</td>
-        </tr>
-        <tr>
-      
-          <td>$corporationID</td>
-          <td>&nbsp;</td>
-          <td>$state</td>
-          <td>$municipality</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>Area</td>
-          <td>Contract</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>$area</td>
-          <td>$contract</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>Maximum price (SEK)</td>
-          <td>Minimum size</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>$maxPrice per $period</td>
-          <td>$minSize</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>Access date</td>
-          <td>For how long</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>$date</td>
-          <td>$timeRent</td>
-        </tr>
-        <tr>
-          <td colspan="2">Who is this?</td>
-          <td>&nbsp;</td>
-          <td>Balcony/terrace</td>
-          <td>Floor</td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="5">$corporationDetails</td>
-          <td>&nbsp;</td>
-          <td>$balcony</td>
-          <td>$floor</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Furnished</td>
-          <td>Elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>$furnished</td>
-          <td>$elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td><form action="acceptProposal.html" name="acceptForm">
-          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
-              </form></td>
-          <td><form action="denyProposal.html" name="denyForm">
-          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
-              </form></td>
-        </tr>
-  </tbody>
-</table>
+      <!-- This block message is presented to the Landlord when a searcher has accepted his/her offer -->
+      <!--div class="messageWrapper" id="approvedOfferMessage">
+        <h3>You have received an approval on ad <span id="adID">$adID</span></h3>
+        <div class="ma-infoBlock">
+          <figure id="ma-infoBlockProfilePic">
+              <img src="/img/profile-picture-placeholder.svg" id="imgUserPlaceholder" width="150" height="150" alt="profile picture">
+            </figure>
+            <div class="ma-userDetails">
+              <p><span id="ma-user">$user</span><br>
+                <span id="ma-email">$email</span><br>
+                <span id="ma-phone">$phone</span><br>
+                Additional info:<br>
+                <span id="ma-about">$about</span></p>
+            </div>
+        </div>
+        <div class="ma-info-block">
+          <p><strong>Reminder!</strong><br>
+            You have now received the applicants’ contact information and it is now your responsibility to contact him/her as quickly as possible with more information about the accommodation! :)</p>
+        </div>
+      </div-->
 
-
-<!-- This table is to be filled with data from database. It is shown for the Searcher and the landlord is a corporation. -->
-<table width="100%" border="0" class="toSearcherTable">
-      <tbody>
-        <caption>
-          <p>You have received a proposal to ad <span id="adID">#0078<!-- replace, retreive and display the ad ID number that generated this match --></span></p>
-        </caption>
-        <tr>
-          <td width="21%" rowspan="10"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
-          <td width="26%">Corporation name</td>
-          <td width="5%">&nbsp;</td>
-          <td width="24%">Type of accommodation</td>
-          <td width="24%">Rooms</td>
-        </tr>
-        <tr>
-      
-          <td>$corporationName</td>
-          <td>&nbsp;</td>
-          <td>$accType</td>
-          <td>$rooms</td>
-        </tr>
-        <tr>
-      
-          <td>Corporation ID number</td>
-          <td>&nbsp;</td>
-          <td>State</td>
-          <td>Municipality</td>
-        </tr>
-        <tr>
-      
-          <td>$corporationID</td>
-          <td>&nbsp;</td>
-          <td>$state</td>
-          <td>$municipality</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>Area</td>
-          <td>Contract</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>$area</td>
-          <td>$contract</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>Price (SEK)</td>
-          <td>Minimum size</td>
-        </tr>
-        <tr>
-      
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>$price per $period</td>
-          <td>$minSize</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>Access date</td>
-          <td>For how long</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>$date</td>
-          <td>$timeRent</td>
-        </tr>
-        <tr>
-          <td colspan="2">Renting?</td>
-          <td>&nbsp;</td>
-          <td>Balcony/terrace</td>
-          <td>Floor</td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="4">$objectDetails</td>
-          <td>&nbsp;</td>
-          <td>$balcony</td>
-          <td>$floor</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Furnished</td>
-          <td>Elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>$furnished</td>
-          <td>$elevator</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td colspan="2"><small>The proposal came at <span>$matchTime + $matchDate</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.<small></td>
-        </tr>
-        <tr>
-          <td colspan="2">
-          <div class="tablePic"><img name="img_1" src="" width="50" height="50" alt="No img"></div>
-          <div class="tablePic"><img name="img_2" src="" width="50" height="50" alt="No img"></div>
-          <div class="tablePic"><img name="img_3" src="" width="50" height="50" alt="No img"></div>
-          </td>
-          <td>&nbsp;</td>
-          <td><form action="acceptProposal.html" name="acceptForm">
-          		<button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn">Accept</button>
-              </form></td>
-          <td><form action="denyProposal.html" name="denyForm">
-          		<button type="submit" name="denyBtn" id="denyBtn" class="formBtn">Deny</button>
-              </form></td>
-        </tr>
-  </tbody>
-</table>
-
-<!-- This table is created and displayed for the landlord when the searcher has approved the landlords offer. It contains contact information details about the searcher. Data about the searchers should be retreived from database and displayed. Also the landlords ad id number must be retreived and displayed in the caption span tag. -->
-<table width="100%" border="0" class="approvalTable">
-  <caption>
-    <p>You have received an approval on ad <span id="adID">#</span></p>
-  </caption>
-  <tr>
-    <td width="21%" rowspan="8"><img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder"></td>
-    <td width="35%">Name/corporation name</td>
-    <td width="44%">&nbsp;</td>
-  </tr>
-  <tr>
-    <td>$fullName or $corporationName</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>E-mail</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>$email</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>Phone</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>$phone</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="2">Who is this?</td>
-    <td>Reminder!</td>
-  </tr>
-  <tr>
-    <td colspan="2">$personalDetails or $corporationDetails</td>
-    <td>You have now received the applicants’ contact information and it is now your responsibility to contact him/her as quickly as possible with more information about the accommodation! :)</td>
-  </tr>
-  </table>
 
 
     

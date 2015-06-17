@@ -1,5 +1,5 @@
 var knex = require('../model/db').knex
-, matchedAds = require('../model/matchedAds').matchedAds;
+, matchedAds = require('../model/matchedAds');
 
 var getMatchForRentingAd = function(adObj){
 	adObj = adObj ? adObj : adObj.toJSON();
@@ -30,11 +30,7 @@ var getMatchForRentingAd = function(adObj){
 	return new Promise(function(success, failure){
 		return query.then(function(rows){
 			if(rows && rows[0]){
-				return new matchedAds().addEntry(adObj, rows[0]).then(function(matchedAd){
-					matchedAd = matchedAd.toJSON();
-					console.log('matchedAd :: '+JSON.stringify(matchedAd));
-					return success(matchedAd);
-				});	
+				matchedAds.addMatchedAdEntry(adObj, rows[0], success);
 			}
 			else {
 				return failure();
@@ -44,6 +40,7 @@ var getMatchForRentingAd = function(adObj){
 }
 
 var getMatchForLettingAd = function(adObj){
+	adObj = adObj ? adObj : adObj.toJSON();
 	console.log('adObj :: '+JSON.stringify(adObj));
 	var subQueryForRejectedAdIds = knex.select('letting_ad_id').from('matchedAds').where('renting_ad_id', adObj.id);
 	console.log('subQueryForRejectedAdIds :: '+subQueryForRejectedAdIds);
@@ -90,19 +87,16 @@ var getMatchForLettingAd = function(adObj){
 	
 	return new Promise(function(success, error){
 		return matchedRentingAdQuery.then(function(rows){
-			if(rows){
-				return new matchedAds().addEntry(rows[0], adObj).then(function(matchedAd){
-					matchedAd = matchedAd.toJSON();
-					console.log('matchedAd :: '+JSON.stringify(matchedAd));
-					return success(matchedAd);
-				});
+			if(rows && rows[0]){
+				matchedAds.addMatchedAdEntry(rows[0], adObj, success);
 			}
-		}).catch(function(err){
-			console.log('error');
-			return error(err);
+			else {
+				return error();
+			}
 		});
 	});
 }
+
 var getMatchedAd = function(adObj){
 	adObj = adObj.toJSON();
 	if(adObj.adType === 'letting'){

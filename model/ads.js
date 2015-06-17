@@ -128,13 +128,18 @@ var ads = DB.Model.extend({
 			if(adObj && adObj.toJSON().id){
 				console.log('updating ad status {{adObj}} :: '+JSON.stringify(adObj));
 				return adObj.save({adStatus: newAdStatus}, {patch: true}).then(function(updatedAdObj){
-					if(updatedAdObj.adStatus == adStatusConstants.open){
-						if(updatedAdObj.adType == 'letting'){
-							matcher.getMatchForLettingAd(updatedAdObj).then(updateAdStatusForMatchedAd);	
-						}
-						else {
-							matcher.getMatchForRentingAd(updatedAdObj).then(updateAdStatusForMatchedAd);
-						}
+					console.log('updatedAdObj :: '+JSON.stringify(updatedAdObj));
+					if(updatedAdObj.toJSON().adStatus == adStatusConstants.open){
+						updatedAdObj.fetch({withRelated:['adData']}).then(function(updatedAd){
+							var adData = updatedAd.toJSON().adData;
+							console.log('adData :: '+JSON.stringify(adData));
+							if(updatedAdObj.adType == 'letting'){
+								matcher.getMatchForLettingAd(adData).then(updateAdStatusForMatchedAd);	
+							}
+							else {
+								matcher.getMatchForRentingAd(adData).then(updateAdStatusForMatchedAd);
+							}
+						});
 					}
 					return success(updatedAdObj);
 				});
@@ -145,7 +150,6 @@ var ads = DB.Model.extend({
 });
 
 var updateAdStatusForMatchedAd = function(matchedAd, status, next){
-	console.log('updating ad status {{status}} :: '+status);
 	status = status ? status : adStatusConstants.matched ;
 	console.log('updating ad status {{status}} :: '+status);
 	new ads({id: matchedAd.renting_ad_id, adType: 'renting'}).updateAdStatus(status);

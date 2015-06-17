@@ -131,9 +131,49 @@ tohControllers.controller('delete_ad_ctrl', ['$scope','$http','$routeParams',
     };
   }
 ]);
-tohControllers.controller('messages_ctrl', ['$scope','$http',
-  function($scope, $http) {
-
+tohControllers.controller('messages_ctrl', ['$scope','$http','$routeParams',
+  function($scope, $http,$routeParams) {
+    $http.get('/api/messages').success(function(data) {
+      console.log(data);
+      $scope.let_msgs  = data.data.lettingAdObjs;
+      $scope.rent_msgs  = data.data.rentingAdObjs;
+    });
+    $scope.accept_msg = function(ad_id,ad_type) {
+      window.location.hash = "#/messages/accept/"+ad_type+"/"+ad_id;
+    };
+    $scope.deny_msg = function(ad_id,ad_type) {
+      window.location.hash = "#/messages/deny/"+ad_type+"/"+ad_id;
+    };
+    $scope.confirm_accept = function() {
+      var ad_id = $routeParams.ad_id, ad_type = $routeParams.ad_type;
+      jQuery.ajax({
+          url: '/api/match/accept/'+ad_type+'/'+ad_id,
+          type: 'PUT',
+          success: function(data) {
+              if(data.message != 'success'){
+                  alert('Unable to accept. Please contact Takoverhuvudet Support');
+              }
+              window.location.hash = "#/messages";
+          }
+      });
+    };
+    $scope.confirm_deny = function() {
+      var ad_id = $routeParams.ad_id,  ad_type = $routeParams.ad_type;
+      jQuery.ajax({
+          url: '/api/match/deny/'+ad_type+'/'+ad_id,
+          type: 'PUT',
+          success: function(data) {
+              if(data.message != 'success'){
+                  alert('Unable to deny. Please contact Takoverhuvudet Support');
+              }
+              window.location.hash = "#/messages";
+          }
+      });
+    };
+    $scope.invoke_msg = function() {
+      window.location.hash = "#/messages";
+    };
+    
   }
 ]);
 tohControllers.controller('find_home_ctrl', ['$scope','$http',

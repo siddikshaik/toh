@@ -42,6 +42,14 @@ tohApp.config(['$routeProvider',
         templateUrl: '/content/login_access/messages.html',
         controller: 'messages_ctrl'
       }).
+      when('/messages/accept/:ad_type/:ad_id', {
+        templateUrl: '/content/login_access/acceptProposal.html',
+        controller: 'messages_ctrl'
+      }).
+      when('/messages/deny/:ad_type/:ad_id', {
+        templateUrl: '/content/login_access/denyProposal.html',
+        controller: 'messages_ctrl'
+      }).
       when('/find_home', {
         templateUrl: '/content/login_access/find_home.html',
         controller: 'find_home_ctrl'
