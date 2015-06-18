@@ -14,12 +14,11 @@
 		"mysql": "*",
 		"bookshelf": "*",
 		"knex": "*",
+		"promise": "*",
 		"passport": "*",
 		"passport-local": "*",
-		"bcrypt-nodejs": "*",
 		"moment":"*",
 		"connect-multiparty":"*",
-		"promise": "*",
 		"nodemailer":"*",
 		"nodemailer-smtp-transport":"*",
 		"node-schedule": "0.2.9"

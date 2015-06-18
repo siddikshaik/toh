@@ -1,5 +1,5 @@
-
-var bcrypt = require('bcrypt-nodejs');
+var crypto = require('crypto');
+var promise = require('promise')
 
 var DB = require('./db').DB
 , profileTable = require('../model/profile');
@@ -13,7 +13,7 @@ var user = DB.Model.extend({
 
 	, add: function(formData) {
 		var userObj = this;
-		return new Promise(function(success, failure){
+		return new promise(function(success, failure){
 			console.log('add user :: '+JSON.stringify(userObj));
 			return userObj.save().then(function(userAccount) {
 				userAccount = userAccount.toJSON()
@@ -28,7 +28,7 @@ var user = DB.Model.extend({
 	
 	, updateStatus: function(accountStatus) {
 		var userObj = this;
-		return new Promise(function(success, failure){
+		return new promise(function(success, failure){
 			return userObj.fetch().then(function(){
 				if(this && this.toJSON().username){
 					return this.save({status: accountStatus}, {patch: true}).then(success(), failure());
@@ -40,8 +40,8 @@ var user = DB.Model.extend({
 	
 	, changePassword: function(newPassword) {
 		var userObj = this;
-		var hash = bcrypt.hashSync(newPassword);
-		return new Promise(function(success, failure){
+		var hash = crypto.createHash('sha256').update(newPassword).digest("hex");
+		return new promise(function(success, failure){
 			return userObj.fetch().then(function(){
 				if(this && this.toJSON().username){
 					return userObj.save({password: hash}, {patch: true}).then(success(), failure());

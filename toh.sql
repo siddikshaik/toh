@@ -8,8 +8,8 @@ create table account (
 	id bigint not null auto_increment, 
 	username varchar(128), 
 	password varchar(128), 
-	accountKey varchar(512),
-	signupdate varchar(128),
+	accountKey varchar(128),
+	signupdate varchar(32),
 	status enum('confirmationAwaiting', 'active', 'deleted') NOT NULL DEFAULT 'confirmationAwaiting',
 	PRIMARY KEY(id)
 );
@@ -50,7 +50,7 @@ CREATE TABLE letting (
 	municipality varchar(128),
 	area varchar(128),
 	accessDate varchar(32),
-	duration int,
+	duration varchar(64),
 	accommodationType enum('any', 'rentalApartment', 'studentApartment', 'studentRoom', 'room', 'house', 'cottage') NOT NULL default 'any',
 	minSize int,
 	minRooms int,
@@ -76,7 +76,7 @@ CREATE TABLE renting (
 	municipality varchar(128),
 	area varchar(128),
 	accessDate varchar(32),
-	minTimeToRent int,
+	minTimeToRent varchar(64),
 	accommodationType enum('rentalApartment', 'studentApartment', 'studentRoom', 'room', 'house', 'cottage') NOT NULL,
 	size int,
 	numOfRooms int,

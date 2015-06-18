@@ -1,5 +1,6 @@
 //vendor library
 var moment = require('moment');
+var promise = require('promise');
 
 var DB = require('./db').DB;
 var profileTable = require('../model/profile');
@@ -37,7 +38,7 @@ var matchedAds = DB.Model.extend({
 						, letting_ad_id: lettingAd.id, letting_account_id: lettingAd.account_id
 						, matched_time: moment().valueOf(), last_updated_time: moment().valueOf() };
 		
-		return new Promise(function(success, failure) {
+		return new promise(function(success, failure) {
 			return new matchedAds({ renting_ad_id: rentingAd.id, letting_ad_id: lettingAd.id,}).save(newEntry, {method: 'insert'})
 			.then(function(entry){
 				console.log("newEntry :: "+JSON.stringify(entry));
@@ -51,7 +52,7 @@ var matchedAds = DB.Model.extend({
 		var matchedEntryObj = this;
 		var matchedEntry = this.toJSON();
 		console.log('matchedEntry :: '+JSON.stringify(matchedEntry));
-		return new Promise(function(success, failure){
+		return new promise(function(success, failure){
 			if(matchedEntry){
 				var criteria = {renting_ad_id: matchedEntry.renting_ad_id, letting_ad_id: matchedEntry.letting_ad_id};
 				matchedEntryObj.where(criteria).save({status: matchStatus, last_updated_time:moment().valueOf()}, {method:'update', patch:true})
@@ -86,7 +87,8 @@ var matchedAds = DB.Model.extend({
 	
 });
 
-var matchedAdExpiryDuration = 1000 * 60 * 60;
+var matchedAdExpiryDuration = 1000 * 60; // testing purpose
+//var matchedAdExpiryDuration = 1000 * 60 * 60 * 24 * 3; // For production
 
 var autoDenyMatchedEntries = function(){
 	console.log('Auto deny schedule triggered');

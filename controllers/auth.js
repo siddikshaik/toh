@@ -1,6 +1,5 @@
 //vendor library
 var passport = require('passport');
-var bcrypt = require('bcrypt-nodejs'),
 	moment = require('moment');
 var crypto = require('crypto');
 
@@ -61,11 +60,12 @@ var registerPost = function(req, res, next) {
 			// MORE VALIDATION GOES HERE(E.G. PASSWORD VALIDATION)
 			//****************************************************//
 			var password = user.passw;
-			var hash = bcrypt.hashSync(password);
+//			var hash = bcrypt.hashSync(password);
 			var signupdate = moment().valueOf();
+			var hash = crypto.createHash('sha256').update(user.passw).digest("hex");
 			var accountKey = crypto.createHash('sha256').update(user.username).digest("hex");
 			var signUpUser = new account.user({username: user.username, password: hash, accountKey: accountKey, signupdate: signupdate })
-				.add(user).then(function(){
+				.add(user).then(function(userAccount){
 					req.body.password = user.passw;
 					loginPost(req, res, next);
 					//Sending Mail for Registered User

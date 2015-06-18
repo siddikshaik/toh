@@ -1,4 +1,5 @@
 var DB = require('./db').DB;
+var promise = require('promise');
 
 var userProfile = DB.Model.extend({
 	tableName: 'profile'
@@ -7,7 +8,7 @@ var userProfile = DB.Model.extend({
 	, updateProfile: function(profileData, userAccount){
 		console.log('userAccount')
 		var profileObj = getProfileObj(profileData, userAccount);
-		return new Promise(function(success, error){
+		return new promise(function(success, error){
 			return userProfile.where({account_id: userAccount.id}).fetch().then(function(userprofileObj){
 				if(!userprofileObj){
 					new userProfile(profileObj).save(profileObj, {method: 'insert'}).then(function(userprofileObj){

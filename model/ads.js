@@ -1,4 +1,5 @@
 var DB = require('./db').DB;
+var promise = require('promise');
 
 //services
 var matcher = require('../services/matcher.js');
@@ -31,7 +32,7 @@ var ads = DB.Model.extend({
 		var adMetaData = {account_id : adData.account_id};
 		adMetaData['adType'] = adData.adType;
 		adObj = this.encodeData(adData);
-		return new Promise(function(success, error){
+		return new promise(function(success, error){
 			return new ads(adMetaData).save().then(function(adMetaDataAdded){
 				if(adMetaDataAdded){
 					adMetaDataAdded = adMetaDataAdded.toJSON();
@@ -71,7 +72,7 @@ var ads = DB.Model.extend({
 		adMetaData['id'] = adData.id;
 		
 		var ad = new ads(adMetaData).fetch();
-		return new Promise(function(success, error){
+		return new promise(function(success, error){
 			return ad.then(function(ad){
 				if(ad){
 					ad = ad.toJSON();
@@ -124,7 +125,7 @@ var ads = DB.Model.extend({
 	updateAdStatus : function(newAdStatus){
 		var adObj = this;
 		console.log('updating ad status {{adObj}} :: '+JSON.stringify(adObj));
-		return new Promise(function(success, failure){
+		return new promise(function(success, failure){
 			if(adObj && adObj.toJSON().id){
 				console.log('updating ad status {{adObj}} :: '+JSON.stringify(adObj));
 				return adObj.save({adStatus: newAdStatus}, {patch: true}).then(function(updatedAdObj){
@@ -133,7 +134,7 @@ var ads = DB.Model.extend({
 						updatedAdObj.fetch({withRelated:['adData']}).then(function(updatedAd){
 							var adData = updatedAd.toJSON().adData;
 							console.log('adData :: '+JSON.stringify(adData));
-							if(updatedAdObj.adType == 'letting'){
+							if(updatedAdObj.toJSON().adType == 'letting'){
 								matcher.getMatchForLettingAd(adData).then(updateAdStatusForMatchedAd);	
 							}
 							else {

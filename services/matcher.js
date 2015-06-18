@@ -1,3 +1,4 @@
+var promise = require('promise');
 var knex = require('../model/db').knex
 , matchedAds = require('../model/matchedAds');
 
@@ -11,8 +12,8 @@ var getMatchForRentingAd = function(adObj){
 		.andWhere('ads.adStatus', 'open')
 		.andWhere('letting.state', 'in', ['any', adObj.state])
 		.andWhere('letting.municipality', 'in', ['any', adObj.municipality])
-		.andWhere('letting.area', adObj.area)
-		.andWhere('letting.duration', '<=', adObj.minTimeToRent)
+//		.andWhere('letting.area', adObj.area)
+//		.andWhere('letting.duration', '<=', adObj.minTimeToRent)
 		.andWhere('letting.accommodationType', 'in', ['any', adObj.accommodationType])
 		.andWhere('letting.minSize', '<=', adObj.size)
 		.andWhere('letting.minRooms', '<=', adObj.numOfRooms)
@@ -27,7 +28,7 @@ var getMatchForRentingAd = function(adObj){
 		.limit(1);
 	console.log('query :: '+query);
 	
-	return new Promise(function(success, failure){
+	return new promise(function(success, failure){
 		return query.then(function(rows){
 			if(rows && rows[0]){
 				matchedAds.addMatchedAdEntry(adObj, rows[0], success);
@@ -42,50 +43,50 @@ var getMatchForRentingAd = function(adObj){
 var getMatchForLettingAd = function(adObj){
 	adObj = adObj ? adObj : adObj.toJSON();
 	console.log('adObj :: '+JSON.stringify(adObj));
-	var subQueryForRejectedAdIds = knex.select('letting_ad_id').from('matchedAds').where('renting_ad_id', adObj.id);
+	var subQueryForRejectedAdIds = knex.select('renting_ad_id').from('matchedAds').where('letting_ad_id', adObj.id);
 	console.log('subQueryForRejectedAdIds :: '+subQueryForRejectedAdIds);
 	var matchedRentingAdQuery = knex.select('*').from('renting').innerJoin('ads', 'renting.id', 'ads.id')
 		.whereNotIn('renting.id', subQueryForRejectedAdIds)
 		.andWhere('renting.account_id', '!=', adObj.account_id)
 		.andWhere('ads.adStatus', 'open')
-		.andWhere('renting.minTimeToRent', '>=', adObj.duration)
+//		.andWhere('renting.minTimeToRent', '>=', adObj.duration)
 		.andWhere('renting.size', '>=', adObj.minSize)
 		.andWhere('renting.numOfRooms', '>=', adObj.minRooms)
 		.andWhere('renting.price', '<=', adObj.maxPrice);
 	if(adObj.state && adObj.state !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.state', adObj.state);	
+		matchedRentingAdQuery.andWhere('renting.state', adObj.state);	
 	}
 	if(adObj.municipality && adObj.municipality !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.municipality', adObj.municipality);
+		matchedRentingAdQuery.andWhere('renting.municipality', adObj.municipality);
 	}
-	if(adObj.area && adObj.area !== ''){
-	matchedRentingAdQuery.andWhere('renting.area', adObj.area);
-	}
+//	if(adObj.area && adObj.area !== ''){
+//		matchedRentingAdQuery.andWhere('renting.area', adObj.area);
+//	}
 	if(adObj.accommodationType && adObj.accommodationType !== 0){
-	matchedRentingAdQuery.andWhere('renting.accommodationType', adObj.accommodationType);
+		matchedRentingAdQuery.andWhere('renting.accommodationType', adObj.accommodationType);
 	}
 	if(adObj.contract && adObj.contract !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.contract', adObj.contract);
+		matchedRentingAdQuery.andWhere('renting.contract', adObj.contract);
 	}
 	if(adObj.balcony && adObj.balcony !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.balcony', adObj.balcony);
+		matchedRentingAdQuery.andWhere('renting.balcony', adObj.balcony);
 	}
 	if(adObj.furnished && adObj.furnished !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.furnished', adObj.furnished);
+		matchedRentingAdQuery.andWhere('renting.furnished', adObj.furnished);
 	}
 	if(adObj.floor && adObj.floor !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.floor', adObj.floor);
+		matchedRentingAdQuery.andWhere('renting.floor', adObj.floor);
 	}
 	if(adObj.elevator && adObj.elevator !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.elevator', adObj.elevator);
+		matchedRentingAdQuery.andWhere('renting.elevator', adObj.elevator);
 	}
 	if(adObj.period && adObj.period !== 'any'){
-	matchedRentingAdQuery.andWhere('renting.period', adObj.period);
+		matchedRentingAdQuery.andWhere('renting.period', adObj.period);
 	}
 	matchedRentingAdQuery.orderBy('creationtime', 'asc').limit(1);
 	console.log('query :: '+matchedRentingAdQuery);
 	
-	return new Promise(function(success, error){
+	return new promise(function(success, error){
 		return matchedRentingAdQuery.then(function(rows){
 			if(rows && rows[0]){
 				matchedAds.addMatchedAdEntry(rows[0], adObj, success);
