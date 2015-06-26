@@ -1,0 +1,9 @@
+{
+    "any" :"Any",
+    "rentalApartment":"Rental apartment",
+    "studentApartment":"Student apartment",
+    "studentRoom":"Student room",
+    "room":"Room in house/apartment",
+    "house":"House",
+    "cottage":"Cottage"
+}

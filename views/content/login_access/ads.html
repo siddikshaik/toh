@@ -15,11 +15,11 @@
         </div><!-- end .adHeader -->
         <div class="adPicturesWrapper">
           <figure class="adFig" id="adFig1"> <!-- figure should be created dynamically (max 3). If no picture was uploaded during creation of the ad, only one figure will be created and filled with the placeholder img (ad-placeholder.svg) -->
-              <img src="/img/placeholder.svg" width="150" height="150" alt="Apartment placeholder"><!-- Retreive picture from database and replace. If no picture is found, use the default placeholder img. -->
+              <img src="{{ad.adImages[0].image_path || 'imgs/object-placeholder.png'}}" width="150" height="150" alt="Apartment placeholder"><!-- Retreive picture from database and replace. If no picture is found, use the default placeholder img. -->
             </figure>
         </div><!-- end .adPicturesWrapper -->
         <div class="adObjectDetails">
-          <p><span id="city">{{ad.adData.state}}</span><br><!-- City -->
+          <p><span id="city">{{g_json.states[ad.adData.state]}}</span><br><!-- City -->
             <span id="type">{{ad.adData.accommodationType}}</span><br><!-- object type (e.g apartment, student room, etc.) -->
             <span id="size">{{ad.adData.minSize}}</span>&nbsp;Sqm<br><!-- object size -->
             <span id="price">{{ad.adData.maxPrice}}</span>&nbsp;SEK / <span id="pricePeriod">{{ad.adData.period}}</span></p><!-- defines the time intervall for price eg. month, week or day. -->
@@ -31,6 +31,9 @@
             <br><br>
             <form name="editAdForm"><!-- redirected to the edit page where data should be retreived from database. If ad is a Searching type, then redirect to editFindAd.html. If type is Rent out, then redirect to editRentOutAd.html -->
               <button name="editAdBtn" id="editAdBtn" type="submit" value="Edit" class="adTableBtn" ng-click="edit_ad(ad.adType,ad.adData.id);">Edit</button></td><!-- Edit ad -->
+            </form>
+            <form name="payAdForm" ng-if="ad.adStatus == 'paymentAwaited'"><!-- redirected to the edit page where data should be retreived from database. If ad is a Searching type, then redirect to editFindAd.html. If type is Rent out, then redirect to editRentOutAd.html -->
+              <button name="payAdBtn" id="payAdBtn" type="submit" value="Pay" class="adTableBtn" ng-click="pay_ad(ad.adData.id);">Pay Now</button></td><!-- Edit ad -->
             </form>
         </div><!-- end .adButtons -->
         <div class="clearfloat"></div>

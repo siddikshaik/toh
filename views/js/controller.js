@@ -11,6 +11,7 @@ tohControllers.controller('profile_ctrl', ['$scope','$http',
       console.log(data);
       $scope.userAccount = data.data.userAccount;
       $scope.userprofile = data.data.userAccount.profile;
+      $scope.random = Math.random();
     });
     $scope.edit_profile = function(user_id) {
       window.location.hash = "#/edit_profile";
@@ -32,13 +33,13 @@ tohControllers.controller('edit_profile_ctrl', ['$scope','$http',
       $scope.s_date = b_date.getDate();
       $scope.update_profile = function() {
         console.log(jQuery('#edit_profile_form').serialize());
-        jQuery.ajax({
-          url: '/api/profile',
-          type: 'PUT',
-          data: jQuery('#edit_profile_form').serialize(),
-          success: function(data) {
+        jQuery('#edit_profile_form').ajaxSubmit({
+      	  url: '/api/profile',
+            type: 'PUT',
+            contentType: 'multipart/form-data',
+            success: function(data) {
               if(data.message === 'success'){
-                  window.location.hash = "#/myprofile";
+            	  window.location.hash = "#/myprofile";
               }
           }
         });
@@ -64,8 +65,29 @@ tohControllers.controller('delete_profile_ctrl', ['$scope','$http',
     };
   }
 ]);
+tohControllers.controller('change_password_ctrl', ['$scope','$http',
+  function($scope, $http) {
+      $scope.confirm_change_password = function() {
+          var newPass = jQuery('#newPassword').val(), verifyPass = jQuery('#verifyNewPassword').val();
+          if(newPass === verifyPass){
+            jQuery.ajax({
+                url: '/api/account/password',
+                type: 'PUT',
+                success: function(data) {
+                    if(data.message === 'success'){
+                        window.location = "/logout";
+                    }
+                }
+            });
+          }else{
+            alert('Password does not match');
+          }
+      };
+  }
+]);
 tohControllers.controller('ads_ctrl', ['$scope','$http',
   function($scope, $http) {
+    $scope.g_json = g_json;
     $http.get('/api/ads').success(function(data) {
       $scope.ads  = data.data;
       console.log(data.data);
@@ -83,6 +105,18 @@ tohControllers.controller('ads_ctrl', ['$scope','$http',
 
       window.location.hash = "#/delete_ad/"+ad_id;
     };
+    $scope.pay_ad = function(ad_id) {
+      var url = '/api/ads/payment/'+ad_id;
+      jQuery.ajax({
+          url: url,
+          type: 'POST',
+          success: function(data) {
+              if(data.message === 'success'){
+                  window.location.hash = "#/ads";
+              }
+          }
+      });
+    };
   }
 ]);
 
@@ -97,16 +131,17 @@ tohControllers.controller('edit_ad_ctrl', ['$scope','$http','$routeParams',
     setTimeout(function(){dependencyFields();}, 1000);
 
     $scope.edit_ad_submit = function(ad_id) {
+	console.log(jQuery('#edit_ad_form').serialize());
       var url = '/api/ads/'+jQuery('#edit_ad_form').find('[name=adType]').val()+'/'+ad_id;
-      jQuery.ajax({
-          url: url,
+      jQuery('#edit_ad_form').ajaxSubmit({
+    	  url: url,
           type: 'PUT',
-          data: jQuery('#edit_ad_form').serialize(),
+          contentType: 'multipart/form-data',
           success: function(data) {
-              if(data.message === 'success'){
-                  window.location.hash = "#/ads";
-              }
-          }
+            if(data.message === 'success'){
+                window.location.hash = "#/ads";
+            }
+        }
       });
     };
   }
@@ -133,6 +168,7 @@ tohControllers.controller('delete_ad_ctrl', ['$scope','$http','$routeParams',
 ]);
 tohControllers.controller('messages_ctrl', ['$scope','$http','$routeParams',
   function($scope, $http,$routeParams) {
+    $scope.g_json = g_json;
     $http.get('/api/messages').success(function(data) {
       console.log(data);
       $scope.let_msgs  = data.data.lettingAdObjs;
@@ -178,12 +214,14 @@ tohControllers.controller('messages_ctrl', ['$scope','$http','$routeParams',
 ]);
 tohControllers.controller('find_home_ctrl', ['$scope','$http',
   function($scope, $http) {
+	$scope.random = Math.random();
     loadDatePicker();
     dependencyFields();
   }
 ]);
 tohControllers.controller('rent_home_ctrl', ['$scope','$http',
   function($scope, $http) {
+	$scope.random = Math.random();
     loadDatePicker();
     dependencyFields();
   }
@@ -206,20 +244,38 @@ tohControllers.controller('find_for_rent_ctrl', ['$scope','$http',
 ]);
 tohControllers.controller('post_for_rent_ctrl', ['$scope','$http',
   function($scope, $http) {
-    $scope.forRentsubmit = function() {
-      jQuery.ajax({
-          url: '/api/ads/renting',
-          type: 'POST',
-          data: jQuery('#rent_out_accomdation').serialize(),
-          success: function(data) {
-              if(data.message === 'success'){
-                  window.location.hash = "#/ads";
-              }
-          }
-      });
-    };
+	$scope.forRentsubmit = function() {
+		jQuery('#rent_out_accomdation').ajaxSubmit({
+			url: '/api/ads/renting',
+			type: 'POST',
+			contentType: 'multipart/form-data',
+			success: function(data) {
+				if(data.message === 'success'){
+					window.location.hash = "#/ads";
+				}
+			}
+		});
+	};
   }
 ]);
+
+function previewImage(elem) {
+	var fileInput = jQuery(elem)[0];
+	var file = fileInput.files[0];
+	if(file.size < 2097152 && (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg')) {
+		var oFReader = new FileReader();
+		oFReader.readAsDataURL(file);
+		oFReader.onload = function(oFREvent) {
+			jQuery('label[for="'+fileInput.id+'"]').find('img').each(function(){
+				jQuery(this)[0].src = oFREvent.target.result;
+			});
+		};		
+	}
+	else {
+		alert('Choose image with size less than 2MB');
+	}
+}
+
 function loadDatePicker(){
   $("#datepicker").datepicker({
     changeMonth: true,//this option for allowing user to select month
@@ -240,9 +296,25 @@ function dependencyFields(){
       }
   });*/
 }
+function forWhomChange() {
+    var forWhom  = jQuery('#forWhom').val();
+    var g_th = jQuery('#gender');
+    g_th.val('any');
+    if(forWhom === 'corporation'){
+      g_th.hide().prev().hide();
+    }else{
+      g_th.show().prev().show();
+    }
+};
 $(document).ready(function() {
-  $(this).off('change', '#state').on('change', '#state', function(e) {
+	jQuery(document).on('change', 'input[type="file"]', function(){
+		previewImage(jQuery(this));
+	});
+	
+	$(this).off('change', '#state').on('change', '#state', function(e) {
       dependencyFields();
       jQuery('#municipality').val('0');
   });
 });
+
+

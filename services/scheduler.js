@@ -5,7 +5,7 @@ var matchedAds = require('../model/matchedAds');
 
 var startAutoDenyScheduler = function(){
 //	scheduler.scheduleJob('0 0 * * *', function(){ // for production
-	scheduler.scheduleJob('* * * * *', function(){
+	scheduler.scheduleJob('0 * * * *', function(){
 		matchedAds.autoDenyMatchedEntries();
 	});
 }

@@ -17,6 +17,7 @@ create table account (
 CREATE TABLE profile (
 	account_id bigint not null,
 	accountType enum('private', 'corporate') NOT NULL DEFAULT 'private', 
+	imagePath varchar(256),
 	name varchar(128), 
 	corporation varchar(128),
 	corpID varchar(64),
@@ -38,6 +39,7 @@ CREATE TABLE ads (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	account_id BIGINT NOT NULL,
 	adType enum('letting', 'renting') NOT NULL,
+	payment_receipt varchar(128),
 	adStatus enum('paymentAwaited', 'open', 'matched', 'closed') NOT NULL default 'paymentAwaited',
 	PRIMARY KEY(id),
 	FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE
@@ -49,7 +51,7 @@ CREATE TABLE letting (
 	state varchar(128),
 	municipality varchar(128),
 	area varchar(128),
-	accessDate varchar(32),
+	accessDate BIGINT,
 	duration varchar(64),
 	accommodationType enum('any', 'rentalApartment', 'studentApartment', 'studentRoom', 'room', 'house', 'cottage') NOT NULL default 'any',
 	minSize int,
@@ -75,7 +77,7 @@ CREATE TABLE renting (
 	state varchar(128),
 	municipality varchar(128),
 	area varchar(128),
-	accessDate varchar(32),
+	accessDate BIGINT,
 	minTimeToRent varchar(64),
 	accommodationType enum('rentalApartment', 'studentApartment', 'studentRoom', 'room', 'house', 'cottage') NOT NULL,
 	size int,
@@ -95,6 +97,14 @@ CREATE TABLE renting (
 	PRIMARY KEY(id),
 	FOREIGN KEY (id) REFERENCES ads(id) ON DELETE CASCADE,
 	FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE
+);
+
+CREATE TABLE renting_ad_images (
+	renting_ad_id BIGINT NOT NULL,
+	field_name varchar(32),
+	image_path varchar(256),
+	PRIMARY KEY(renting_ad_id, field_name),
+	FOREIGN KEY (renting_ad_id) REFERENCES renting(id) ON DELETE CASCADE
 );
 
 CREATE TABLE matchedAds (

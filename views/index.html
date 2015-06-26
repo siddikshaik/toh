@@ -12,6 +12,8 @@
 
 <script src="/js/jquery-1.11.2.js"></script>
 
+<script src="/js/common.js"></script>
+
 </head>
 
 <body>
@@ -65,7 +67,7 @@
             </div>
             
             <!-- Log in form -->
-            <form action="/login" method="POST" name="loginForm" target="_self" id="loginForm" dir="ltr" lang="en">
+            <form name="loginForm" id="loginForm" method="post" onSubmit="javascript: return post_login();">
               <fieldset>
                 <input type="email" class="txtInput" name="username" id="username" placeholder="E-mail" autocomplete="off" required tabindex="1"><br>
                 <input type="password" class="txtInput" name="password" id="password" placeholder="Password" autocomplete="off" required tabindex="2"><br>
@@ -114,4 +116,14 @@
 </div><!-- end .indexContainer -->
 
 </body>
+<script>
+$(document).ready(function() {
+  jQuery.get('/api/profile').success(function(data) {
+    if(data.message === 'success'){
+      setWindowLocation('/home');
+    }
+  });
+});
+
+</script>
 </html>

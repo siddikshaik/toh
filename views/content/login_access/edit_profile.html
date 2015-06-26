@@ -14,13 +14,13 @@
             <label for="input-user-pic" class="customInputBtn"><!-- this label is designed to function as a browse for file -->
             
               <!-- user can change profile picture and when user submits a new file, the old one should be deleted out of physical memory reasons -->
-              <img src="../../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder">
+              <img src="{{ userprofile.imagePath || tempPath || '../../img/placeholder.png'}}" id="imgUserPlaceholder" width="150" height="150" alt="profile picture placeholder">
               <small>Browse for file</small>     
             </label>
-            <input type="file" name="input-user-pic" id="input-user-pic" class="displayNone">
+            <input type="file" name="input-user-pic" id="input-user-pic" class="displayNone"  />
             
             <!-- Display the name of the selected file (jpg or png) in this paragraph -->
-            <p id="fileName"></p>
+<!--             <p id="fileName"></p> -->
             
           </fieldset>
               <fieldset class="fltlft">

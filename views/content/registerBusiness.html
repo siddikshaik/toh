@@ -12,7 +12,7 @@
 
 <script src="/js/jquery-1.11.2.js"></script>
 
-<script src="/js/takoverhuvudet.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
 
 
 </head>
@@ -23,7 +23,7 @@
   <header>
      <nav>
      	<ul>
-        	<a href="../index.html" title="Back to home"><li>Home</li></a> <!-- Link back to index page -->
+        	<a href="/home" title="Back to home"><li>Home</li></a> <!-- Link back to index page -->
         </ul>
      </nav>
   </header><!-- end .header -->
@@ -33,22 +33,7 @@
       <h1>Register new corporate user account</h1>
       <section class="subContentWrapper fltlft">
       
-          <form action="/register" class="registerForm" name="regForm" method="post" id="corporate_reg_form" dir="ltr">
-          
-              <!-- User can choose to upload a logotype -->
-              <fieldset class="fltlft">
-                <label for="input-user-pic" class="customInputBtn"><!-- this label is designed to function as a browse for file -->
-                
-                  <!-- when user has selected a picture (jpg/png) from their computer, that picture is to be shown directly and scaled/cropped down to 150x150px, but is not saved until user press submit button. The files should be saved in /content/login_access/imgs/. A script must generate a unique filename that acts like an ID that is connected to the specific user (preferrably users company name following by a unique number, in case there is two users with identical company names. -->
-                  <img src="../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="corporate picture">
-                  <small>Browse for file</small>     
-                </label>
-                <!-- <input type="file" name="input-user-pic" id="input-user-pic" class="displayNone"> -->
-                
-                <!-- Display the name of the selected file (jpg or png) in this paragraph -->
-                <!-- <p id="fileName"></p> -->
-                
-              </fieldset>
+          <form name="regForm" class="registerForm" id="corporate_reg_form" method="post" onSubmit="javascript: return register_submit('corporate_reg_form');">
               <input type="hidden" name="accountType" value="corporate" />
               <!-- User details --> 
               <fieldset class="fltlft">

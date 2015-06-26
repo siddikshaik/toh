@@ -380,7 +380,7 @@ When user press save changes button, some kind of "text" information should be d
                 <input type="text" name="area" id="localArea" class="txtInput" placeholder="Area" tabindex="3" maxlength="100" value={{ad_data.adData.area}}>
                 <br><br><br><br>
                 <label for="datepicker">Access date</label>
-                <input type="text" name="accessDate" id="datepicker" placeholder="Pick a date" class="txtInput" tabindex="4" value={{ad_data.adData.accessDate}}>
+                <input type="text" name="accessDate" id="datepicker" placeholder="Pick a date" class="txtInput" tabindex="4" value= "{{ad_data.adData.accessDate | date:'MM/dd/yyyy'}}">
                 <label for="minTimeToRent">For how long?</label>
                 <input  type="text" id="minTimeToRent" class="txtInput" name="minTimeToRent" placeholder="E.g. 3 months or 3 days" maxlength="20" tabindex="5" value={{ad_data.adData.minTimeToRent}}>
                 <br><br><br><br>
@@ -477,25 +477,25 @@ When user press save changes button, some kind of "text" information should be d
                 <label for="moreInfo">More info</label>
                 <textarea name="moreInfo" id="moreInfo" class="txtInput txtAreaHeight" tabindex="16" placeholder="Any additional information..">{{ad_data.adData.moreInfo}}</textarea>
                 <br><br><br><br>
-                <label for="picBrowser" class="objectInputBtn">Pics
-                <img src="imgs/object-placeholder.png" id="imgObjectPlaceholder" width="50" height="50" alt="object picture"  tabindex="16">
+                <label for="image-1" class="objectInputBtn">Pics
+                	<img src="{{ad_data.adImages[0].image_path || 'content/login_access/imgs/object-placeholder.png'}}" id="imgObjectPlaceholder" width="50" height="50" alt="object picture"  tabindex="16">
                 </label>
-                <input type="file" name="picBrowser" id="picBrowser" class="displayNone">
-                <label for="picBrowser" class="objectInputBtn">&nbsp;
-                <img src="imgs/object-placeholder.png" id="imgObjectPlaceholder" width="50" height="50" alt="object picture" tabindex="17">
+                <input type="file" name="image-1" id="image-1" class="displayNone">
+                <label for="image-2" class="objectInputBtn">&nbsp;
+                <img src="{{ad_data.adImages[1].image_path || 'content/login_access/imgs/object-placeholder.png'}}" id="imgObjectPlaceholder" width="50" height="50" alt="object picture" tabindex="17">
                 </label>
-                <input type="file" name="picBrowser" id="picBrowser" class="displayNone">
-                <label for="picBrowser" class="objectInputBtn">&nbsp;
-                <img src="imgs/object-placeholder.png" id="imgObjectPlaceholder" width="50" height="50" alt="object picture" tabindex="18">
+                <input type="file" name="image-2" id="image-2" class="displayNone">
+                <label for="image-3" class="objectInputBtn">&nbsp;
+                <img src="{{ad_data.adImages[2].image_path || 'content/login_access/imgs/object-placeholder.png'}}" id="imgObjectPlaceholder" width="50" height="50" alt="object picture" tabindex="18">
                 </label>
-                <input type="file" name="picBrowser" id="picBrowser" class="displayNone">
+                <input type="file" name="image-3" id="image-3" class="displayNone">
                 <br>
                 <p class="rentOutParagraph"><small>Tip! Ads with images will be more likely to get an accepted response.</small></p>
                 <br><br><br><br>
                 
                 <!-- If user selects corporation in "forWhom", the next drop-down list "Gender" will be disabled. -->
                 <label for="forWhom">To who?</label>
-                <select name="forWhom" id="forWhom" class="selectInput adDropDown" tabindex="17" ng-model=ad_data.adData.forWhom>
+                <select name="forWhom" id="forWhom" class="selectInput adDropDown" onChange="forWhomChange()" tabindex="17" ng-model=ad_data.adData.forWhom>
                 	<option value="" disabled selected>For whom</option>
                     <option value="any">Any</option>
                     <option value="private">Private person</option>
@@ -505,7 +505,6 @@ When user press save changes button, some kind of "text" information should be d
                 <!-- Should be disabled if user has selected Corporation in drop down list above -->
                 <label for="gender">Gender</label>
                 <select name="gender" id="gender" class="selectInput adDropDown" tabindex="18" ng-model=ad_data.adData.gender>
-                	<option value="" disabled selected>Gender</option>
                     <option value="any">Any</option>
                     <option value="man">Man</option>
                     <option value="woman">Woman</option>

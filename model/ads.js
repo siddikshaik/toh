@@ -1,6 +1,10 @@
 var DB = require('./db').DB;
 var promise = require('promise');
 
+var fs = require('fs');
+var path = require("path");
+var moment = require('moment');
+
 //services
 var matcher = require('../services/matcher.js');
 
@@ -17,6 +21,25 @@ var renting = DB.Model.extend({
 	tableName: 'renting',
 	adMetaData : function(){
 		return this.morphOne(ads, 'adData', ['adType', 'id']);
+	},
+	adImages : function(){
+		return this.hasMany('renting_ad_images', 'renting_ad_id');
+	}
+});
+
+var renting_ad_images = DB.Model.extend({
+	tableName: 'renting_ad_images',
+	
+	addOrupdateImagePath : function(fileObj, newPathString, adId){
+		new renting_ad_images({field_name: fileObj.fieldname, renting_ad_id: adId})
+		.fetch().then(function(imageObj){
+			if(!imageObj){
+				this.save({image_path: newPathString }, {method: 'insert'});
+			}
+			else {
+				imageObj.where({field_name: fileObj.fieldname, renting_ad_id: adId}).save({'image_path': newPathString }, {method:'update', patch: true});
+			}
+		});
 	}
 });
 
@@ -25,6 +48,10 @@ var ads = DB.Model.extend({
 	
 	adData : function(){
 		return this.morphTo('adData', ['adType','id'], letting, renting);
+	},
+	
+	adImages : function(){
+		return this.hasMany('renting_ad_images', 'renting_ad_id');
 	},
 
 	add : function(adData){
@@ -119,6 +146,9 @@ var ads = DB.Model.extend({
 		if(adObj.adType){
 			delete adObj['adType'];
 		}
+		if(adObj.accessDate){
+			adObj['accessDate'] = moment(adObj.accessDate).valueOf();
+		}
 		return adObj;
 	},
 	
@@ -132,13 +162,15 @@ var ads = DB.Model.extend({
 					console.log('updatedAdObj :: '+JSON.stringify(updatedAdObj));
 					if(updatedAdObj.toJSON().adStatus == adStatusConstants.open){
 						updatedAdObj.fetch({withRelated:['adData']}).then(function(updatedAd){
-							var adData = updatedAd.toJSON().adData;
-							console.log('adData :: '+JSON.stringify(adData));
-							if(updatedAdObj.toJSON().adType == 'letting'){
-								matcher.getMatchForLettingAd(adData).then(updateAdStatusForMatchedAd);	
-							}
-							else {
-								matcher.getMatchForRentingAd(adData).then(updateAdStatusForMatchedAd);
+							if(updatedAd && updatedAd.toJSON().adData){
+								var adData = updatedAd.toJSON().adData;
+								console.log('adData :: '+JSON.stringify(adData));
+								if(updatedAdObj.toJSON().adType == 'letting'){
+									matcher.getMatchForLettingAd(adData).then(updateAdStatusForMatchedAd);	
+								}
+								else {
+									matcher.getMatchForRentingAd(adData).then(updateAdStatusForMatchedAd);
+								}	
 							}
 						});
 					}
@@ -158,10 +190,25 @@ var updateAdStatusForMatchedAd = function(matchedAd, status, next){
 	if(next){ next(matchedAd); }
 }
 
+var addOrUpdateImagesToAd = function(files, accountKey, adId){
+	var newPathPrefix = 'uploads/images/'+accountKey+"/ads/"+adId+'-';
+	for(file in files){
+		var eachFile = files[file];
+		
+		fs.rename(eachFile.path, path.join(__dirname, '../views/'+newPathPrefix + eachFile.fieldname+'.jpg'), function (err) {
+			if (err) throw err;
+		});
+		
+		new renting_ad_images().addOrupdateImagePath(eachFile, newPathPrefix + eachFile.fieldname+'.jpg', adObj.id);
+	}
+}
+
 module.exports = {
 	ads: DB.model('ads', ads),
 	letting: DB.model('letting', letting),
 	renting: DB.model('renting', renting),
+	renting_ad_images: DB.model('renting_ad_images', renting_ad_images),
 	updateAdStatus: updateAdStatusForMatchedAd,
+	addOrUpdateImagesToAd: addOrUpdateImagesToAd,
 	adStatusConstants: adStatusConstants
 };

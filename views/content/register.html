@@ -13,7 +13,7 @@ Upon submit, a user account is created and values in form fields is stored in da
 
 <script src="/js/jquery-1.11.2.js"></script>
 
-<script src="/js/takoverhuvudet.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
 
 </head>
 
@@ -23,7 +23,7 @@ Upon submit, a user account is created and values in form fields is stored in da
   <header>
      <nav>
      	<ul>
-        	<a href="../index.html" title="Back to home"><li>Home</li></a> <!-- Link back to index page -->
+        	<a href="/home" title="Back to home"><li>Home</li></a> <!-- Link back to index page -->
         </ul>
      </nav>
   </header><!-- end .header -->
@@ -33,20 +33,7 @@ Upon submit, a user account is created and values in form fields is stored in da
       <h1>Register new private account</h1>
       
       <section class="subContentWrapper fltlft">
-          <form action="/register" class="registerForm" id="private_reg_form" name="regForm" method="POST">
-              <fieldset class="fltlft">
-                <label for="input-user-pic" class="customInputBtn"><!-- this label is designed to function as a browse for file -->
-                
-                <!-- when user has selected a picture (jpg/png) from their computer, that picture is to be shown directly and scaled/cropped down to 150x150px, but is not saved until user press submit button. The files should be saved in /content/login_access/imgs/. A script must generate a unique filename that acts like an ID that is connected to the specific user (preferrably user name and familyname following by a unique number, in case there is two users with identical names. -->
-                  <img src="../img/placeholder.png" id="imgUserPlaceholder" width="150" height="150" alt="private profile picture">
-                  <small>Browse for file</small>     
-                </label>
-                <input type="file" name="input-user-pic" id="input-user-pic" class="displayNone">
-                
-                <!-- Display the name of the selected file (jpg or png) in this paragraph -->
-                <p id="fileName"></p>
-                
-              </fieldset>
+          <form name="regForm" class="registerForm" id="private_reg_form" method="post" onSubmit="javascript: return register_submit('private_reg_form');">
               <input type="hidden" name="accountType" value="private" />
               <fieldset class="fltlft">
                   <label for="username">Username</label>
@@ -224,7 +211,7 @@ Upon submit, a user account is created and values in form fields is stored in da
                   <label for="phone" id="telLabel">Phone</label>
                   <input id="phone" class="txtInput" name="phone" type="text" placeholder="Phone" maxlength="20" tabindex="14" required>
                   <label for="occupation">Occupation</label>
-                  <input id="occupation" class="txtInput" name="occupation" type="text" placeholder="Occupation" maxlength="30" tabindex="15" required>
+                  <input id="occupation" class="txtInput" name="occupation" type="text" placeholder="Parttime Worker.." maxlength="30" tabindex="15" required>
                   <label for="allergy">Allergy?</label>
                   <input id="allergy" class="txtInput" name="allergy" type="text" placeholder="I'm allergic to..." maxlength="50" tabindex="16">
               </fieldset>
@@ -235,7 +222,7 @@ Upon submit, a user account is created and values in form fields is stored in da
                   
               </div>
               <div class="clearfloat"></div>
-              <button type="submit" class="formBtn fltrt" name="regUserBtn" id="regUserBtn" tabindex="18" value="Create user" formtarget="_self">Create user</button> <!-- Submit/create user account -->
+              <button type="submit" class="formBtn fltrt" name="regUserBtn" id="regUserBtn" tabindex="18" value="Create user">Create user</button> <!-- Submit/create user account -->
               <button type="reset" class="formBtn fltrt" name="clearRegisterFormBtn" id="clearRegisterFormBtn" tabindex="19" value="Clear">Clear</button> <!-- Clear form -->
           </form>
           

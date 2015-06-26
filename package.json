@@ -1,9 +1,6 @@
 {
 	"name": "toh",
 	"version": "0.0.1",
-	"scripts": {
-	  "start": "supervisor server.js"
-	},
 	"main": "server.js",
 	"dependencies": {
 		"body-parser": "*",
@@ -21,6 +18,8 @@
 		"connect-multiparty":"*",
 		"nodemailer":"*",
 		"nodemailer-smtp-transport":"*",
-		"node-schedule": "0.2.9"
+		"node-schedule": "0.2.9",
+		"multer": "~0.1.6",
+		"mkdirp" :"0.5.1"
 	}
 }

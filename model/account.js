@@ -11,14 +11,14 @@ var user = DB.Model.extend({
 		return this.hasOne('userProfile');
 	}
 
-	, add: function(formData) {
+	, add: function(formData, files) {
 		var userObj = this;
 		return new promise(function(success, failure){
 			console.log('add user :: '+JSON.stringify(userObj));
 			return userObj.save().then(function(userAccount) {
-				userAccount = userAccount.toJSON()
-				return new profileTable.userProfile({account_id: userAccount.id}).updateProfile(formData, userAccount).then(function(){
-					return success();
+//				userAccount = userAccount.toJSON()
+				return new profileTable.userProfile({account_id: userAccount.get('id')}).updateProfile(formData, files, userAccount).then(function(){
+					return success(userAccount);
 				},function(){
 					return failure();
 				});

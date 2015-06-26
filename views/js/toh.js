@@ -22,6 +22,10 @@ tohApp.config(['$routeProvider',
         templateUrl: '/content/login_access/deleteUserAccount.html',
         controller: 'delete_profile_ctrl'
       }).
+      when('/change_password', {
+        templateUrl: '/content/login_access/setNewPassword.html',
+        controller: 'change_password_ctrl'
+      }).
       when('/ads', {
         templateUrl: '/content/login_access/ads.html',
         controller: 'ads_ctrl'

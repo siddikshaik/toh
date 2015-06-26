@@ -87,8 +87,8 @@ var matchedAds = DB.Model.extend({
 	
 });
 
-var matchedAdExpiryDuration = 1000 * 60; // testing purpose
-//var matchedAdExpiryDuration = 1000 * 60 * 60 * 24 * 3; // For production
+//var matchedAdExpiryDuration = 1000 * 60; // testing purpose
+var matchedAdExpiryDuration = 1000 * 60 * 60 * 24 * 3; // For production
 
 var autoDenyMatchedEntries = function(){
 	console.log('Auto deny schedule triggered');

@@ -1,13 +1,17 @@
 var promise = require('promise');
 var knex = require('../model/db').knex
-, matchedAds = require('../model/matchedAds');
+, matchedAds = require('../model/matchedAds')
+, profile = require('../model/profile');
 
 var getMatchForRentingAd = function(adObj){
 	adObj = adObj ? adObj : adObj.toJSON();
 	console.log('adObj inside matcher :: '+JSON.stringify(adObj));
 	var subQueryForRejectedAdIds = knex.select('letting_ad_id').from('matchedAds').where('renting_ad_id', adObj.id);
-	var query = knex.select('*').from('letting').innerJoin('ads', 'letting.id', 'ads.id')
-		.whereNotIn('letting.id', subQueryForRejectedAdIds)
+	var query = knex.select('letting.*').from('letting').innerJoin('ads', 'letting.id', 'ads.id');
+	if(adObj.forWhom != 'any' || adObj.gender != 'any'){
+		query = query.innerJoin('profile', 'letting.account_id', 'profile.account_id');
+	}
+	query = query.whereNotIn('letting.id', subQueryForRejectedAdIds)
 		.andWhere('letting.account_id', '!=', adObj.account_id)
 		.andWhere('ads.adStatus', 'open')
 		.andWhere('letting.state', 'in', ['any', adObj.state])
@@ -23,9 +27,14 @@ var getMatchForRentingAd = function(adObj){
 		.andWhere('letting.floor', 'in', ['any', adObj.floor])
 		.andWhere('letting.elevator', 'in', ['any', adObj.elevator])
 		.andWhere('letting.maxPrice', '>=', adObj.price)
-		.andWhere('letting.period', 'in', ['any', adObj.period])
-		.orderBy('creationtime', 'asc')
-		.limit(1);
+		.andWhere('letting.period', 'in', ['any', adObj.period]);
+		if(adObj.forWhom != 'any'){
+			query = query.where('profile.accountType', adObj.forWhom);
+		}
+		if(adObj.gender != 'any'){
+			query = query.where('profile.gender', adObj.gender);
+		}
+		query = query.orderBy('creationtime', 'asc').limit(1);
 	console.log('query :: '+query);
 	
 	return new promise(function(success, failure){
@@ -45,7 +54,7 @@ var getMatchForLettingAd = function(adObj){
 	console.log('adObj :: '+JSON.stringify(adObj));
 	var subQueryForRejectedAdIds = knex.select('renting_ad_id').from('matchedAds').where('letting_ad_id', adObj.id);
 	console.log('subQueryForRejectedAdIds :: '+subQueryForRejectedAdIds);
-	var matchedRentingAdQuery = knex.select('*').from('renting').innerJoin('ads', 'renting.id', 'ads.id')
+	var matchedRentingAdQuery = knex.select('renting.*').from('renting').innerJoin('ads', 'renting.id', 'ads.id')
 		.whereNotIn('renting.id', subQueryForRejectedAdIds)
 		.andWhere('renting.account_id', '!=', adObj.account_id)
 		.andWhere('ads.adStatus', 'open')
@@ -83,15 +92,30 @@ var getMatchForLettingAd = function(adObj){
 	if(adObj.period && adObj.period !== 'any'){
 		matchedRentingAdQuery.andWhere('renting.period', adObj.period);
 	}
-	matchedRentingAdQuery.orderBy('creationtime', 'asc').limit(1);
-	console.log('query :: '+matchedRentingAdQuery);
 	
 	return new promise(function(success, error){
-		return matchedRentingAdQuery.then(function(rows){
-			if(rows && rows[0]){
-				matchedAds.addMatchedAdEntry(rows[0], adObj, success);
+		return profile.userProfile.where({account_id: adObj.account_id}).fetch().then(function(userData){
+			if(userData){
+				userData = userData.toJSON();
+				matchedRentingAdQuery.andWhere('renting.forWhom', 'in', ['any', userData.accountType]);
+				if(userData.accountType == 'private'){
+					matchedRentingAdQuery.andWhere('renting.gender', 'in', ['any', userData.gender]);	
+				}
+				console.log('query :: '+matchedRentingAdQuery);	
+				
+				matchedRentingAdQuery.orderBy('creationtime', 'asc').limit(1);
+				console.log('query :: '+matchedRentingAdQuery);
+				
+				return matchedRentingAdQuery.then(function(rows){
+					if(rows && rows[0]){
+						matchedAds.addMatchedAdEntry(rows[0], adObj, success);
+					}
+					else {
+						return error();
+					}
+				});	
 			}
-			else {
+			else{
 				return error();
 			}
 		});

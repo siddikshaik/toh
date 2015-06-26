@@ -13,36 +13,42 @@ When a user clicks Accept on a message, that message should still be left in the
     <div class="subPageInnerWrapper" id="subMessagesWrapper">
       <h1>My messages</h1>
       <!-- This message block is shown for the landlord when the searcher is a private person. -->
-      <div class="messageWrapper" id="toLandlordFromPrivateMessage" ng-repeat="msg in rent_msgs">
+      <div id="toLandlordFromPrivateMessage" ng-repeat="msg in rent_msgs">
+        <div class="messageWrapper"  ng-if="msg.status != 'autoDenied'" >
         <h3>You have received a proposal to ad <span id="adID">#{{msg.lettingAdData.id}}</span></h3>
         <div class="m-infoBlock">
           <figure id="m-infoBlockProfilePic">
-              <img src="/img/profile-picture-placeholder.svg" id="imgUserPlaceholder" width="150" height="150" alt="profile picture"><!-- replace with user profile picture if there is one. Otherwise the placeholder.svg will be used -->
+              <img src="{{ msg.letterProfile.imagePath || '/img/placeholder.png'}}" id="imgUserPlaceholder" width="150" height="150" alt="profile picture"><!-- replace with user profile picture if there is one. Otherwise the placeholder.svg will be used -->
             </figure>
             <div class="m-userDetails">
               <p>
+                <span id="mlc-corporation" ng-if="msg.letterProfile.corporation != null">{{msg.letterProfile.corporation}}</span><br>
+                <span id="mlc-corporationID" ng-if="msg.letterProfile.corpID != null">{{msg.letterProfile.corpID}}</span><br>
+                
                 <span id="m-fullName" ng-if="msg.letterProfile.name != null">{{msg.letterProfile.name}}&nbsp;</span><span id="m-familyName">{{msg.letterProfile.familyname}}</span><br>
                 <span id="m-age">DOB : {{msg.letterProfile.dob}}<br>
                 <span id="m-gender" ng-if="msg.letterProfile.gender != null">{{msg.letterProfile.gender}}</span><br>
                 <span id="m-occupation" ng-if="msg.letterProfile.occupation != null">{{msg.letterProfile.occupation}}</span><br>
                 <span id="m-allergicAgainst" ng-if="msg.letterProfile.allergy != null">I am allergic against : {{msg.letterProfile.allergy}}</span><br><br>
+                About us:<br>
+                <span ng-if="msg.letterProfile.corpID != null">{{msg.lettingAdData.aboutMe}}</span><br>
                 </p>
             </div><!-- end .m-userDetails -->
         </div><!-- end .infoBlock -->
         
         <div class="m-infoBlock">
           <p>Type of accomodation<br>
-            <span id="m-type">{{msg.lettingAdData.accommodationType}}</span><br>
+            <span id="m-type">{{g_json.accomodation[msg.lettingAdData.accommodationType]}}</span><br>
             <p>Type of contract<br>
-            <span id="m-contract">{{msg.lettingAdData.contract}}</span><br>
+            <span id="m-contract">{{g_json.contract[msg.lettingAdData.contract]}}</span><br>
             <p>Rooms<br>
             <span id="m-rooms">{{msg.lettingAdData.minRooms}}</span><br>
             <p>Minimum size<br>
             <span id="m-minSize">{{msg.lettingAdData.minSize}}</span><br>
             <p>State<br>
-            <span id="m-state">{{msg.lettingAdData.state}}</span><br>
+            <span id="m-state">{{g_json.states[msg.lettingAdData.state]}}</span><br>
             <p>Municipality<br>
-            <span id="m-municipality">{{msg.lettingAdData.municipality}}</span><br>
+            <span id="m-municipality">{{g_json.municipality[msg.lettingAdData.municipality]}}</span><br>
             <p>Local area<br>
             <span id="m-localArea">{{msg.lettingAdData.area}}</span><br>
             </p>
@@ -52,17 +58,17 @@ When a user clicks Accept on a message, that message should still be left in the
           <p>Maximum price<br>
             <span id="m-maxPrice">{{msg.lettingAdData.maxPrice}}</span> SEK / <span id="m-period">{{msg.lettingAdData.period}}</span><br>
             <p>Access date<br>
-            <span id="m-accessDate">{{msg.lettingAdData.accessDate}}</span><br>
+            <span id="m-accessDate">{{msg.lettingAdData.accessDate | date:'dd/MM/yyyy'}}</span><br>
             <p>For how long<br>
             <span id="m-timeRent">{{msg.lettingAdData.duration}}</span><br>
             <p>Floor<br>
-            <span id="m-floor">{{msg.lettingAdData.floor}}</span><br>
+            <span id="m-floor">{{g_json.floor[msg.lettingAdData.floor]}}</span><br>
             <p>Elevator<br>
-            <span id="m-elevator">{{msg.lettingAdData.elevator}}</span><br>
+            <span id="m-elevator">{{g_json.yes_or_no[msg.lettingAdData.elevator]}}</span><br>
             <p>Furnished<br>
-            <span id="m-furnished">{{msg.lettingAdData.furnished}}</span><br>
+            <span id="m-furnished">{{g_json.yes_or_no[msg.lettingAdData.furnished]}}</span><br>
             <p>Balcony/terrace<br>
-            <span id="m-balcony">{{msg.lettingAdData.balcony}}</span><br>
+            <span id="m-balcony">{{g_json.yes_or_no[msg.lettingAdData.balcony]}}</span><br>
             </p>
         </div><!-- end .infoBlock -->
         <div class="messageFooterBlock">
@@ -74,39 +80,45 @@ When a user clicks Accept on a message, that message should still be left in the
                 <button type="submit" name="denyBtn" id="denyBtn" class="formBtn" ng-click="deny_msg(msg.lettingAdData.id,'letting');">Deny</button>
             </div>
         </div><!-- end .messageFooterBlock -->
+        </div>
       </div><!-- end .messageWrapper -->
       
       <!-- This message block is shown for the Searcher when the Landlord is a private person. -->
-      <div class="messageWrapper" id="toSearcherFromPrivateLandlordMessage" ng-repeat="msg in let_msgs">
-        <h3>You have received a proposal to ad <span id="adID">$adID</span></h3>
+      <div id="toSearcherFromPrivateLandlordMessage" ng-repeat="msg in let_msgs">
+      <div class="messageWrapper" ng-if="msg.status != 'autoDenied'" >
+        <h3>You have received a proposal to ad <span id="adID">#{{msg.rentingAdData.id}}</span></h3>
         <div class="ms-infoBlock">
           <figure id="ms-infoBlockProfilePic">
-              <img src="/img/profile-picture-placeholder.svg" id="imgUserPlaceholder" width="150" height="150" alt="profile picture"><!-- replace with user profile picture if there is one. Otherwise the placeholder.svg will be used -->
+              <img src="{{ msg.renterProfile.imagePath || '/img/placeholder.png'}}" id="imgUserPlaceholder" width="150" height="150" alt="profile picture"><!-- replace with user profile picture if there is one. Otherwise the placeholder.svg will be used -->
             </figure>
             <div class="ms-userDetails">
               <p>
-                <span id="mlc-corporation" ng-if="msg.renterProfile.corporation != null">{{msg.renterProfile.corporation}}</span><br>
-                <span id="mlc-corporationID" ng-if="msg.renterProfile.corpID != null">{{msg.renterProfile.corpID}}</span><br>
+                <span id="mlc-corporation" ng-if="msg.renterProfile.corporation != null">{{msg.renterProfile.corporation}}<br></span>
+                <span id="mlc-corporationID" ng-if="msg.renterProfile.corpID != null">{{msg.renterProfile.corpID}}<br></span>
+                <span id="m-fullName" ng-if="msg.renterProfile.name != null">{{msg.renterProfile.name}}&nbsp;</span><span id="m-familyName">{{msg.renterProfile.familyname}}</span><br>
+                <span id="m-age">DOB : {{msg.renterProfile.dob}}<br>
+                <span id="m-gender" ng-if="msg.renterProfile.gender != null">{{msg.renterProfile.gender}}</span><br>
+                <span id="m-occupation" ng-if="msg.renterProfile.occupation != null">{{msg.renterProfile.occupation}}</span><br>
+                <span id="m-allergicAgainst" ng-if="msg.renterProfile.allergy != null">I am allergic against : {{msg.renterProfile.allergy}}</span><br><br>
                 About us:<br>
-                <span id="mlc-corporationID" ng-if="msg.renterProfile.corpID != null">{{msg.rentingAdData.moreInfo}}</span><br>
-
+                <span ng-if="msg.renterProfile.corpID != null">{{msg.rentingAdData.aboutMe}}</span><br>
                 </p>
             </div><!-- end .ms-userDetails -->
         </div><!-- end .infoBlock -->
         
         <div class="m-infoBlock">
           <p>Type of accomodation<br>
-            <span id="m-type">{{msg.rentingAdData.accommodationType}}</span><br>
+            <span id="m-type">{{g_json.accomodation[msg.rentingAdData.accommodationType]}}</span><br>
             <p>Type of contract<br>
-            <span id="m-contract">{{msg.rentingAdData.contract}}</span><br>
+            <span id="m-contract">{{g_json.contract[msg.rentingAdData.contract]}}</span><br>
             <p>Rooms<br>
             <span id="m-rooms">{{msg.rentingAdData.numOfRooms}}</span><br>
             <p>Minimum size<br>
             <span id="m-minSize">{{msg.rentingAdData.size}}</span><br>
             <p>State<br>
-            <span id="m-state">{{msg.rentingAdData.state}}</span><br>
+            <span id="m-state">{{g_json.states[msg.rentingAdData.state]}}</span><br>
             <p>Municipality<br>
-            <span id="m-municipality">{{msg.rentingAdData.municipality}}</span><br>
+            <span id="m-municipality">{{g_json.municipality[msg.rentingAdData.municipality]}}</span><br>
             <p>Local area<br>
             <span id="m-localArea">{{msg.rentingAdData.area}}</span><br>
             </p>
@@ -116,39 +128,40 @@ When a user clicks Accept on a message, that message should still be left in the
           <p>Price<br>
             <span id="m-maxPrice">{{msg.rentingAdData.price}}</span> SEK / <span id="m-period">{{msg.rentingAdData.period}}</span><br>
             <p>Access date<br>
-            <span id="m-accessDate">{{msg.rentingAdData.accessDate}}</span><br>
+            <span id="m-accessDate">{{msg.rentingAdData.accessDate | date:'dd/MM/yyyy'}}</span><br>
             <p>For how long<br>
             <span id="m-timeRent">{{msg.rentingAdData.minTimeToRent}}</span><br>
             <p>Floor<br>
-            <span id="m-floor">{{msg.rentingAdData.floor}}</span><br>
+            <span id="m-floor">{{g_json.floor[msg.rentingAdData.floor]}}</span><br>
             <p>Elevator<br>
-            <span id="m-elevator">{{msg.rentingAdData.elevator}}</span><br>
+            <span id="m-elevator">{{g_json.yes_or_no[msg.rentingAdData.elevator]}}</span><br>
             <p>Furnished<br>
-            <span id="m-furnished">{{msg.rentingAdData.furnished}}</span><br>
+            <span id="m-furnished">{{g_json.yes_or_no[msg.rentingAdData.furnished]}}</span><br>
             <p>Balcony/terrace<br>
-            <span id="m-balcony">{{msg.rentingAdData.balcony}}</span><br>
+            <span id="m-balcony">{{g_json.yes_or_no[msg.rentingAdData.balcony]}}</span><br>
             </p>
         </div><!-- end .infoBlock -->
         <div class="messageFooterBlock">
           <div class="messagePictureWrapper">
               <figure class="messageFig" id="objectPic1"><!-- create dynamically and fill with pictures if there is any -->
-                  <img src="imgs/objects/dummy1.jpg" width="150" alt="object picture"><!-- If there is no image to show, leave it empty/remove img tag -->
+                  <img src="{{msg.rentingAdData.adImages[0].image_path || 'content/login_access/imgs/object-placeholder.png'}}" width="150" alt="object picture"><!-- If there is no image to show, leave it empty/remove img tag -->
                 </figure>
                 <figure class="messageFig" id="objectPic2">
-                  <img src="imgs/objects/dummy1.jpg" width="150" alt="object picture"><!-- Show only if there is more than one images -->
+                  <img src="{{msg.rentingAdData.adImages[1].image_path || 'content/login_access/imgs/object-placeholder.png'}}" width="150" alt="object picture"><!-- Show only if there is more than one images -->
                 </figure>
                 <figure class="messageFig" id="objectPic3">
-                  <img src="imgs/objects/dummy1.jpg" width="150" alt="object picture"><!-- Show only if there is more than two images -->
+                  <img src="{{msg.rentingAdData.adImages[2].image_path || 'content/login_access/imgs/object-placeholder.png'}}" width="150" alt="object picture"><!-- Show only if there is more than two images -->
                 </figure>
             </div>
           <div class="proposalInfo">
-              <p><small>The proposal came at <span id="ms-proposalTime">{{msg.matched_time}}</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.</small></p>
+              <p><small>The proposal came at <span id="ms-proposalTime">{{msg.matched_time | date:'dd/MM/yyyy HH:mm:ss'}}</span>. You have 3 days to respond from that the proposal arrived, or else it will going to be denied automatically.</small></p>
             </div>
             <div class="messageFooterBtns">
               <button type="submit" name="acceptBtn" id="acceptBtn" class="formBtn" ng-click="accept_msg(msg.rentingAdData.id,'renting');">Accept</button>
                 <button type="submit" name="denyBtn" id="denyBtn" class="formBtn" ng-click="deny_msg(msg.rentingAdData.id,'renting');">Deny</button>
             </div>
         </div><!-- end .messageFooterBlock -->
+        </div>
       </div><!-- end .messageWrapper -->
 
       <!-- This block message is presented to the Landlord when a searcher has accepted his/her offer -->

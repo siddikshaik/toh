@@ -1,14 +1,33 @@
 var DB = require('./db').DB;
 var promise = require('promise');
+var fs = require('fs');
+var path = require("path");
+var moment = require('moment');
+var mkdirp = require('mkdirp');
+
+var profileImagesPrefix = 'uploads/images/';
 
 var userProfile = DB.Model.extend({
 	tableName: 'profile'
 	, idAttribute: 'account_id'
 	
-	, updateProfile: function(profileData, userAccount){
+	, updateProfile: function(profileData, files, userAccount){
 		console.log('userAccount')
+		userAccount = userAccount.accountKey ? userAccount : userAccount.toJSON();
 		var profileObj = getProfileObj(profileData, userAccount);
 		return new promise(function(success, error){
+			mkdirp('views/'+profileImagesPrefix+userAccount.accountKey+"/ads", function(){
+				if(files && files['input-user-pic']){
+					console.log(files['input-user-pic']);
+					var newfilePath= profileImagesPrefix+userAccount.accountKey+'/profile.jpg';
+					console.log(newfilePath);
+					fs.rename(files['input-user-pic'].path, 'views/'+newfilePath, function (err) {
+						if (!err) profileObj['imagePath'] = newfilePath; 
+					});
+				}	
+			});
+			
+			console.log(profileObj);
 			return userProfile.where({account_id: userAccount.id}).fetch().then(function(userprofileObj){
 				if(!userprofileObj){
 					new userProfile(profileObj).save(profileObj, {method: 'insert'}).then(function(userprofileObj){
